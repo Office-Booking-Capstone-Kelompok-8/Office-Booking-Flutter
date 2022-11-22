@@ -47,7 +47,11 @@ class _LoginPageState extends State<LoginPage> {
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     hintText: 'Email',
-                    prefixIcon: const Icon(Icons.mail_outline),
+                    hintStyle: TextStyle(fontSize: 12.sp),
+                    prefixIcon: Icon(
+                      Icons.mail_outline,
+                      size: 24.h,
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16.r),
                       borderSide: const BorderSide(
@@ -67,7 +71,11 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: true,
                   decoration: InputDecoration(
                     hintText: 'Password',
-                    prefixIcon: const Icon(Icons.lock_outline),
+                    hintStyle: TextStyle(fontSize: 12.sp),
+                    prefixIcon: Icon(
+                      Icons.lock_outline,
+                      size: 24.h,
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16.r),
                       borderSide: const BorderSide(
@@ -117,23 +125,23 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Container(
                 padding: EdgeInsets.only(right: 10.w, top: 10.h),
-                child: TextButton(
-                  onPressed: () {},
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        'Belum punya akun?',
-                        style: TextStyle(color: Color(0xFF7D8797)),
-                      ),
-                      Text(
-                        ' Daftar',
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Belum punya akun?',
+                      style: TextStyle(color: Color(0xFF7D8797)),
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: const Text(
+                        'Daftar',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             color: Color(0xFF5B5A5A)),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],
