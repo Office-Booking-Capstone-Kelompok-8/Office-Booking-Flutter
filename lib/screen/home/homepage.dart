@@ -21,7 +21,7 @@ class _HomepageState extends State<Homepage> {
         child: Column(
           children: [
             ButtonComponent(
-              isMessage: true,
+              isMessage: false,
               buttonHeight: 40.h,
               buttonWidth: 240.w,
               onPress: () {},
