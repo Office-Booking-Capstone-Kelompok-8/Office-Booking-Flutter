@@ -6,30 +6,40 @@ class FormComponent extends StatelessWidget {
       {super.key,
       required this.formHeight,
       required this.formWidth,
-      this.buttonController,
+      this.controller,
       this.initialValue,
       this.isNumber,
       this.isPassword,
       this.isAuth,
       this.prefixIcon,
-      this.hint});
+      this.hint,
+      this.validation});
 
   final double formHeight;
   final double formWidth;
-  final TextEditingController? buttonController;
+  final TextEditingController? controller;
   final String? initialValue;
   final bool? isNumber;
   final bool? isPassword;
   final bool? isAuth;
   final IconData? prefixIcon;
   final String? hint;
+  final Function()? validation;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: formHeight,
       width: formWidth,
       child: TextFormField(
-        controller: buttonController,
+        controller: controller,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          } else if (value.length < 4) {
+            return 'Text must have more than 4 character length';
+          }
+          return null;
+        },
         initialValue: initialValue,
         keyboardType:
             isNumber == true ? TextInputType.number : TextInputType.text,
