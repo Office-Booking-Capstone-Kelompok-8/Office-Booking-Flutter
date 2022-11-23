@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:office_booking_app/screen/onboard/onboard_page.dart';
+import 'provider/onboard_provider.dart';
+import 'screen/navbar/navbar.dart';
 import 'utils/constant/app_colors.dart';
 import 'provider/navbar_provider.dart';
 import 'screen/form_reservation_page/form_reservation_page.dart';
-import 'package:office_booking_app/screen/login/login_page.dart';
-import 'package:office_booking_app/screen/login/register_page.dart';
+import 'screen/login/login_page.dart';
+import 'screen/login/register_page.dart';
 import 'package:provider/provider.dart';
 
-import 'screen/home/homepage.dart';
+import 'screen/navbar/homepage.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +27,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => NavbarProvider()),
+        ChangeNotifierProvider(create: (context) => OnboardProvider()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 831),
@@ -35,8 +39,10 @@ class MyApp extends StatelessWidget {
             '/form-page': (context) => const FormReservationPage(),
             '/login': (context) => const LoginPage(),
             '/register': (context) => const RegisterPage(),
+            '/navbar': (context) => const Navbar(),
+            '/onboard': (context) => const OnboardPage(),
           },
-          initialRoute: '/login',
+          initialRoute: '/onboard',
           theme: ThemeData(
             canvasColor: AppColors.white,
             fontFamily: 'Inter',

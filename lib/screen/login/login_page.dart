@@ -117,7 +117,9 @@ class _LoginPageState extends State<LoginPage> {
                       shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.r)))),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/navbar');
+                  },
                   child: Text(
                     'MASUK',
                     style: TextStyle(fontSize: 14.sp, color: Colors.black),

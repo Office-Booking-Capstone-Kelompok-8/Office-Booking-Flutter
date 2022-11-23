@@ -27,3 +27,13 @@ TextStyle detailFormGrey = TextStyle(
   fontSize: 12.sp,
   fontWeight: FontWeight.w400,
 );
+TextStyle onboardSkip = TextStyle(
+  color: AppColors.blackAuthColor,
+  fontSize: 14.sp,
+  fontWeight: FontWeight.w700,
+);
+TextStyle onboardTitle = TextStyle(
+  color: AppColors.blackAuthColor,
+  fontSize: 16.sp,
+  fontWeight: FontWeight.w700,
+);
