@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../utils/constant/app_text_style.dart';
+import '../../utils/constant/app_colors.dart';
 
 class ButtonComponent extends StatelessWidget {
   const ButtonComponent(
@@ -20,8 +22,9 @@ class ButtonComponent extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
           elevation: 0,
+          backgroundColor: AppColors.buttonColor,
           alignment: Alignment.center,
-          textStyle: TextStyle(fontSize: 14.sp),
+          textStyle: buttonStyle,
           minimumSize: Size(buttonWidth, buttonHeight),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.w))),
@@ -33,6 +36,7 @@ class ButtonComponent extends StatelessWidget {
             )
           : Text(
               textButton,
+              style: buttonStyle,
             ),
     );
   }

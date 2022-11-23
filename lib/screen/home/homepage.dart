@@ -24,7 +24,9 @@ class _HomepageState extends State<Homepage> {
               isMessage: false,
               buttonHeight: 40.h,
               buttonWidth: 240.w,
-              onPress: () {},
+              onPress: () {
+                Navigator.pushNamed(context, '/form-page');
+              },
               textButton: 'Login',
             ),
             SizedBox(

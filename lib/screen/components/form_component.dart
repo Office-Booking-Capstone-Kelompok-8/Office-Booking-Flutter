@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:office_booking_app/utils/constant/app_colors.dart';
 
 class FormComponent extends StatelessWidget {
   const FormComponent(
@@ -43,7 +44,7 @@ class FormComponent extends StatelessWidget {
         initialValue: initialValue,
         keyboardType:
             isNumber == true ? TextInputType.number : TextInputType.text,
-        obscureText: isPassword!,
+        obscureText: isPassword ?? false,
         decoration: InputDecoration(
             prefix: Padding(
                 padding: EdgeInsets.symmetric(
@@ -67,6 +68,10 @@ class FormComponent extends StatelessWidget {
                 : null,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(isAuth == true ? 16.r : 10.r),
+              borderSide: const BorderSide(
+                width: 1,
+                color: AppColors.borderButton,
+              ),
             )),
       ),
     );

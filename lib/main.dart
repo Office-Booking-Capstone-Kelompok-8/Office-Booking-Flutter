@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:office_booking_app/provider/navbar_provider.dart';
+import 'utils/constant/app_colors.dart';
+import 'provider/navbar_provider.dart';
+import 'screen/form_reservation_page/form_reservation_page.dart';
 import 'package:provider/provider.dart';
 
 import 'screen/home/homepage.dart';
@@ -28,9 +30,11 @@ class MyApp extends StatelessWidget {
           title: 'Office Zone',
           routes: {
             '/': (context) => const Homepage(),
+            '/form-page': (context) => const FormReservationPage()
           },
           initialRoute: '/',
           theme: ThemeData(
+            canvasColor: AppColors.white,
             fontFamily: 'Inter',
             primarySwatch: Colors.blue,
           ),
