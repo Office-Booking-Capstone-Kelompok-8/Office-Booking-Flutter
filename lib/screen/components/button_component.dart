@@ -29,7 +29,6 @@ class ButtonComponent extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.w),
           ),
-          backgroundColor: const Color(0xFFD9D9D9),
           foregroundColor: const Color(0xFF1E1E1E)),
       onPressed: onPress,
       child: isMessage == true
