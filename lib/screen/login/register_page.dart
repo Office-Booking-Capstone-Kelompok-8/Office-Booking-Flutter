@@ -112,7 +112,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   Padding(
                     padding: EdgeInsets.only(left: 10.w),
                     child: Text(
-                      'Sesuai kartu identitas (KTP/SIM/Paspor)',
+                      '6-20 karakter terdiri dari huruf dan angka',
                       style: TextStyle(
                           color: const Color(0xFF7D8797), fontSize: 10.sp),
                     ),
