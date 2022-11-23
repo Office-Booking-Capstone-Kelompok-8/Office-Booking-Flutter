@@ -24,7 +24,10 @@ class ButtonComponent extends StatelessWidget {
           textStyle: TextStyle(fontSize: 14.sp),
           minimumSize: Size(buttonWidth, buttonHeight),
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.w))),
+            borderRadius: BorderRadius.circular(10.w),
+          ),
+          backgroundColor: const Color(0xFFD9D9D9),
+          foregroundColor: const Color(0xFF1E1E1E)),
       onPressed: onPress,
       child: isMessage == true
           ? const Icon(

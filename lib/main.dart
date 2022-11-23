@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:office_booking_app/provider/navbar_provider.dart';
 import 'package:office_booking_app/screen/login/login_page.dart';
+import 'package:office_booking_app/screen/login/register_page.dart';
 import 'package:provider/provider.dart';
 
 import 'screen/home/homepage.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
           routes: {
             '/': (context) => const Homepage(),
             '/login': (context) => const LoginPage(),
+            '/register': (context) => const RegisterPage(),
           },
           initialRoute: '/login',
           theme: ThemeData(

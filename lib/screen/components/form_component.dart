@@ -11,6 +11,7 @@ class FormComponent extends StatelessWidget {
       this.isNumber,
       this.isPassword,
       this.isAuth,
+      this.isEmail,
       this.prefixIcon,
       this.hint,
       this.validation});
@@ -22,9 +23,11 @@ class FormComponent extends StatelessWidget {
   final bool? isNumber;
   final bool? isPassword;
   final bool? isAuth;
+  final bool? isEmail;
+
   final IconData? prefixIcon;
   final String? hint;
-  final Function()? validation;
+  final String? Function(String? value)? validation;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -32,18 +35,23 @@ class FormComponent extends StatelessWidget {
       width: formWidth,
       child: TextFormField(
         controller: controller,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter some text';
-          } else if (value.length < 4) {
-            return 'Text must have more than 4 character length';
-          }
-          return null;
-        },
+        validator: (validation != null)
+            ? (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                } else if (value.length < 4) {
+                  return 'Text must have more than 4 character length';
+                }
+                return null;
+              }
+            : validation,
         initialValue: initialValue,
-        keyboardType:
-            isNumber == true ? TextInputType.number : TextInputType.text,
-        obscureText: isPassword!,
+        keyboardType: isNumber == true
+            ? TextInputType.number
+            : isEmail == true
+                ? TextInputType.emailAddress
+                : TextInputType.text,
+        obscureText: isPassword != null ? isPassword! : false,
         decoration: InputDecoration(
             prefix: Padding(
                 padding: EdgeInsets.symmetric(

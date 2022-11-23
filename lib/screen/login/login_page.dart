@@ -26,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Center(
           child: SingleChildScrollView(
               child: Form(
+        key: formKey,
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 10.w),
           child: Column(
@@ -133,7 +134,10 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(color: Color(0xFF7D8797)),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/register', (route) => false);
+                      },
                       child: const Text(
                         'Daftar',
                         style: TextStyle(
