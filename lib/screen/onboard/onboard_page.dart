@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:office_booking_app/provider/onboard_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:office_booking_app/screen/components/button_component.dart';
@@ -48,7 +49,7 @@ class _OnboardPageState extends State<OnboardPage> {
                       value.getOnboard[index].subTitle,
                       maxLines: 3,
                       textAlign: TextAlign.center,
-                      style: buttonStyle,
+                      style: onboardSubtitle,
                     ),
                   ),
                   SizedBox(
@@ -82,7 +83,11 @@ class _OnboardPageState extends State<OnboardPage> {
                               height: 12.h,
                             ),
                             TextButton(
-                                onPressed: () {
+                                onPressed: () async {
+                                  SmartDialog.showLoading(
+                                      animationType: SmartAnimationType.scale);
+                                  await Future.delayed(Duration(seconds: 2));
+                                  SmartDialog.dismiss();
                                   Navigator.pushNamedAndRemoveUntil(
                                       context, '/navbar', (route) => false);
                                 },

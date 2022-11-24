@@ -1,20 +1,16 @@
 import 'package:flutter/painting.dart';
 
 class AppColors {
-  // warna button luar
-  static const Color buttonColor = Color(0xFFD9D9D9);
-  // warna border button
+  // warna
+  static const Color primary4 = Color(0xFF0D6AEC);
   static const Color borderButton = Color(0xFF0012B0);
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
-  // warna text di onboard - login regist dan button
-  static const Color blackAuthColor = Color(0xFF1E1E1E);
-  // warna di hint, text nama room di hompepage,filter , dll :v
-  static const Color hintColor = Color(0xFF5F5F5F);
-  // Warna lupa password, daftar, masuk
-  static const Color greyAuthColor = Color(0xFF5B5A5A);
-  // Warna Sudah punya akun dan belum punya akun
-  static const Color accountColor = Color(0xFF7D8797);
-  // Warna abu di stack homepage
-  static const Color greyStackHomepage = Color(0xFF434343);
+  static const Color neutral2 = Color(0xFFFAFAFA);
+  static const Color neutral3 = Color(0xFFF5F5F5);
+  static const Color neutral8 = Color(0xFF595959);
+  static const Color neutral9 = Color(0xFF434343);
+  static const Color neutral10 = Color(0xFF262626);
+  static const Color neutral11 = Color(0xFF1F1F1F);
+  static const Color error5 = Color(0xFFCE362B);
 }

@@ -22,14 +22,14 @@ class ButtonComponent extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
           elevation: 0,
-          backgroundColor: AppColors.buttonColor,
+          backgroundColor: AppColors.primary4,
           alignment: Alignment.center,
           textStyle: buttonStyle,
           minimumSize: Size(buttonWidth, buttonHeight),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.w),
           ),
-          foregroundColor: const Color(0xFF1E1E1E)),
+          foregroundColor: AppColors.borderButton),
       onPressed: onPress,
       child: isMessage == true
           ? const Icon(

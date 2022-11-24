@@ -15,7 +15,8 @@ class FormComponent extends StatelessWidget {
       this.isEmail,
       this.prefixIcon,
       this.hint,
-      this.validation});
+      this.validation,
+      this.isSearch});
 
   final double formHeight;
   final double formWidth;
@@ -25,6 +26,7 @@ class FormComponent extends StatelessWidget {
   final bool? isPassword;
   final bool? isAuth;
   final bool? isEmail;
+  final bool? isSearch;
 
   final IconData? prefixIcon;
   final String? hint;
@@ -74,13 +76,15 @@ class FormComponent extends StatelessWidget {
                     ),
                   )
                 : null,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(isAuth == true ? 16.r : 10.r),
-              borderSide: const BorderSide(
-                width: 1,
-                color: AppColors.borderButton,
-              ),
-            )),
+            border: isSearch == true
+                ? OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16.r),
+                    borderSide: const BorderSide(
+                      width: 1,
+                      color: AppColors.borderButton,
+                    ),
+                  )
+                : null),
       ),
     );
   }

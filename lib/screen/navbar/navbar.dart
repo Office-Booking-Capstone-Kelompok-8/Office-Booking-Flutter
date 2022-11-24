@@ -28,29 +28,25 @@ class _NavbarState extends State<Navbar> {
             type: BottomNavigationBarType.fixed,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
+                icon: Icon(Icons.home_outlined),
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.article),
+                icon: Icon(Icons.article_outlined),
                 label: 'Pesanan',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.mail),
-                label: 'Inbox',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
+                icon: Icon(Icons.person_outlined),
                 label: 'Profile',
               ),
             ],
-            backgroundColor: AppColors.buttonColor,
+            backgroundColor: AppColors.white,
             currentIndex: value.currentTab,
             // ganti ini belom fix
-            unselectedItemColor: AppColors.black,
+            // unselectedItemColor: AppColors.buttonColor,
             iconSize: 24.w,
             // ini juga
-            selectedItemColor: AppColors.white,
+            selectedItemColor: AppColors.primary4,
             onTap: (index) {
               value.currentTab = index;
             },

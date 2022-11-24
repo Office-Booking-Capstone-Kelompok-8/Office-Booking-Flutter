@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:office_booking_app/screen/onboard/onboard_page.dart';
 import 'provider/onboard_provider.dart';
 import 'screen/navbar/navbar.dart';
@@ -32,6 +33,10 @@ class MyApp extends StatelessWidget {
       child: ScreenUtilInit(
         designSize: const Size(360, 831),
         builder: (context, child) => MaterialApp(
+          navigatorObservers: [FlutterSmartDialog.observer],
+          builder: FlutterSmartDialog.init(
+              // loadingBuilder: (String msg) => ,
+              ),
           debugShowCheckedModeBanner: false,
           title: 'Office Zone',
           routes: {
