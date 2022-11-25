@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:office_booking_app/utils/constant/app_colors.dart';
 
 import '../components/button_component.dart';
 import '../components/form_component.dart';
@@ -49,7 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.fromLTRB(10.w, 10.w, 10.w, 0),
+                margin: EdgeInsets.all(10.w),
                 child: FormComponent(
                   isAuth: true,
                   formHeight: 48.h,
@@ -58,18 +59,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   prefixIcon: Icons.person_outline,
                   hint: 'Nama Lengkap',
                 ),
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 10.w),
-                    child: Text(
-                      'Sesuai kartu identitas (KTP/SIM/Paspor)',
-                      style: TextStyle(
-                          color: const Color(0xFF7D8797), fontSize: 10.sp),
-                    ),
-                  ),
-                ],
               ),
               Container(
                 margin: EdgeInsets.all(10.w),
@@ -96,7 +85,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.fromLTRB(10.w, 10.w, 10.w, 0),
+                margin: EdgeInsets.all(10.w),
                 child: FormComponent(
                   isPassword: true,
                   isAuth: true,
@@ -106,18 +95,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   prefixIcon: Icons.lock_outline,
                   hint: 'Password',
                 ),
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 10.w),
-                    child: Text(
-                      '6-20 karakter terdiri dari huruf dan angka',
-                      style: TextStyle(
-                          color: const Color(0xFF7D8797), fontSize: 10.sp),
-                    ),
-                  ),
-                ],
               ),
               Container(
                 margin: EdgeInsets.all(10.w),
@@ -147,7 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   children: [
                     const Text(
                       'Sudah Punya Akun?',
-                      style: TextStyle(color: Color(0xFF7D8797)),
+                      style: TextStyle(color: AppColors.text1),
                     ),
                     InkWell(
                       onTap: () {
@@ -158,7 +135,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         'Masuk',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
-                            color: Color(0xFF5B5A5A)),
+                            color: AppColors.primary4),
                       ),
                     ),
                   ],

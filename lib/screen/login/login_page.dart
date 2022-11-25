@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:office_booking_app/utils/constant/app_colors.dart';
+
+import '../components/button_component.dart';
+import '../components/form_component.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -40,51 +44,26 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Container(
-                height: 48.h,
                 margin: EdgeInsets.all(10.w),
-                child: TextFormField(
+                child: FormComponent(
+                  isAuth: true,
+                  formHeight: 48.h,
+                  formWidth: double.infinity,
                   controller: _emailController,
-                  textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    hintText: 'Email',
-                    hintStyle: TextStyle(fontSize: 12.sp),
-                    prefixIcon: Icon(
-                      Icons.mail_outline,
-                      size: 24.h,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16.r),
-                      borderSide: const BorderSide(
-                        width: 1,
-                        color: Color(0xFF0012B0),
-                      ),
-                    ),
-                  ),
+                  prefixIcon: Icons.mail_outline,
+                  hint: 'Email',
                 ),
               ),
               Container(
-                height: 48.h,
-                margin: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 0),
-                child: TextFormField(
+                margin: EdgeInsets.fromLTRB(10.w, 10.w, 10.w, 0),
+                child: FormComponent(
+                  isAuth: true,
+                  isPassword: true,
+                  formHeight: 48.h,
+                  formWidth: double.infinity,
                   controller: _passwordController,
-                  textInputAction: TextInputAction.done,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: 'Password',
-                    hintStyle: TextStyle(fontSize: 12.sp),
-                    prefixIcon: Icon(
-                      Icons.lock_outline,
-                      size: 24.h,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16.r),
-                      borderSide: const BorderSide(
-                        width: 1,
-                        color: Color(0xFF0012B0),
-                      ),
-                    ),
-                  ),
+                  prefixIcon: Icons.lock_outline,
+                  hint: 'Password',
                 ),
               ),
               Row(
@@ -98,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                         'Lupa Pasword?',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
-                            color: Color(0xFF5B5A5A)),
+                            color: AppColors.primary4),
                       ),
                     ),
                   ),
@@ -107,24 +86,13 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: 50.h,
               ),
-              SizedBox(
-                width: 240.w,
-                height: 40.h,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(const Color(0xFFD9D9D9)),
-                      shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.r)))),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/navbar');
-                  },
-                  child: Text(
-                    'MASUK',
-                    style: TextStyle(fontSize: 14.sp, color: Colors.black),
-                  ),
-                ),
+              ButtonComponent(
+                buttonHeight: 40.h,
+                buttonWidth: 240.w,
+                onPress: () {
+                  Navigator.pushNamed(context, '/navbar');
+                },
+                textButton: 'MASUK',
               ),
               Container(
                 padding: EdgeInsets.only(right: 10.w, top: 10.h),
@@ -133,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     const Text(
                       'Belum punya akun?',
-                      style: TextStyle(color: Color(0xFF7D8797)),
+                      style: TextStyle(color: AppColors.text1),
                     ),
                     InkWell(
                       onTap: () {
@@ -144,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                         'Daftar',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
-                            color: Color(0xFF5B5A5A)),
+                            color: AppColors.primary4),
                       ),
                     ),
                   ],

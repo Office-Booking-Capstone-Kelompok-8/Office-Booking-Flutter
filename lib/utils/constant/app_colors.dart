@@ -13,4 +13,5 @@ class AppColors {
   static const Color neutral10 = Color(0xFF262626);
   static const Color neutral11 = Color(0xFF1F1F1F);
   static const Color error5 = Color(0xFFCE362B);
+  static const Color text1 = Color(0xFF7D8797);
 }
