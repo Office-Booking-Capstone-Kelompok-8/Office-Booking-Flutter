@@ -48,6 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   fontWeight: FontWeight.bold, fontSize: 14.sp),
                             ),
                             InkWell(
+                              splashFactory: NoSplash.splashFactory,
                               onTap: () {},
                               child: Container(
                                 margin: EdgeInsets.only(right: 10.w),

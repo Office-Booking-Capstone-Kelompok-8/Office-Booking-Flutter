@@ -95,6 +95,9 @@ class _OnboardPageState extends State<OnboardPage> {
                                   height: 12.h,
                                 ),
                                 TextButton(
+                                    style: TextButton.styleFrom(
+                                      splashFactory: NoSplash.splashFactory,
+                                    ),
                                     onPressed: () async {
                                       SmartDialog.showLoading(
                                           animationType:
@@ -115,6 +118,9 @@ class _OnboardPageState extends State<OnboardPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 TextButton(
+                                    style: TextButton.styleFrom(
+                                      splashFactory: NoSplash.splashFactory,
+                                    ),
                                     onPressed: () {
                                       _pageController.jumpToPage(2);
                                     },
@@ -123,6 +129,9 @@ class _OnboardPageState extends State<OnboardPage> {
                                       style: onboardSkip,
                                     )),
                                 TextButton(
+                                    style: TextButton.styleFrom(
+                                      splashFactory: NoSplash.splashFactory,
+                                    ),
                                     onPressed: () {
                                       if (index < 2) {
                                         _pageController.jumpToPage(index + 1);

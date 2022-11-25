@@ -31,8 +31,9 @@ class TileCompnent extends StatelessWidget {
                 text,
                 style: TextStyle(fontSize: 14.sp, color: textColor),
               ),
-              trailing: const Icon(
-                Icons.arrow_forward_ios,
+              trailing: Icon(
+                size: 30.h,
+                Icons.chevron_right,
                 color: AppColors.black,
               ),
             ),
