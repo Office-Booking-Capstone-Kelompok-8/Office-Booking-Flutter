@@ -33,9 +33,8 @@ class _EditProfileState extends State<EditProfile> {
     _phoneController.text = '+6282110766872';
     _emailController.text = 'sabrina07@upi.edu';
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
-        padding: const EdgeInsets.only(bottom: 30),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.only(bottom: 30.h, left: 16.w, right: 16.w),
         child: ButtonComponent(
             onPress: () {},
             textButton: 'Save',
