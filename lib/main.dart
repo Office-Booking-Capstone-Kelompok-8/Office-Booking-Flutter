@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:office_booking_app/screen/edit_profile/edit_profile_page.dart';
 import 'package:office_booking_app/screen/onboard/onboard_page.dart';
 import 'provider/onboard_provider.dart';
 import 'screen/navbar/navbar.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
             '/register': (context) => const RegisterPage(),
             '/navbar': (context) => const Navbar(),
             '/onboard': (context) => const OnboardPage(),
+            '/edit-profile': (context) => const EditProfile(),
           },
           initialRoute: '/onboard',
           theme: ThemeData(
