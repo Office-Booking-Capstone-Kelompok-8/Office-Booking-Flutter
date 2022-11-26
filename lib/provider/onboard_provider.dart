@@ -1,15 +1,15 @@
-import 'package:flutter/cupertino.dart';
-import 'package:office_booking_app/model/onboard/onboard_model.dart';
+import 'package:flutter/material.dart';
+import '../model/onboard/onboard_model.dart';
 
 class OnboardProvider extends ChangeNotifier {
   int _pageIndex = 0;
   final List<OnboardModel> _onboard = [
-    OnboardModel('assets/images/img_onboard1.png', 'KEUNGGULAN',
-        'Temukan Kemudahan dalam menyewa kantor dengan berbagai fitur menarik didalamnya'),
-    OnboardModel('assets/images/img_onboard2.png', 'HARGA',
-        'Tempat Office yang bisa Anda sewa dengan harga pas dengan kualitas yang nyaman'),
-    OnboardModel('assets/images/img_onboard3.png', 'FASILITAS',
-        'Fasilitas yang lengkap akan membuat suasana menjadi lebih nyaman dan pas untuk bekerja'),
+    OnboardModel('assets/images/img_onboard1.png', 'SUPERIORITY',
+        'Find the convenience of renting an office with a variety of interesting features in it'),
+    OnboardModel('assets/images/img_onboard2.png', 'PRICE',
+        'Office space that you can rent at the right price with comfortable quality'),
+    OnboardModel('assets/images/img_onboard3.png', 'FASCILITY',
+        'Complete facilities will make the atmosphere more comfortable and fit for work'),
   ];
 
   List<OnboardModel> get getOnboard => _onboard;

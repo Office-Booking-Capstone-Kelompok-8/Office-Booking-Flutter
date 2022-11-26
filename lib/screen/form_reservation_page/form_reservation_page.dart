@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:office_booking_app/provider/date_provider.dart';
-import 'package:office_booking_app/utils/constant/app_text_style.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../provider/date_provider.dart';
+import '../../utils/constant/app_text_style.dart';
 import '../components/button_component.dart';
-import '..//components/form_component.dart';
+import '../components/form_component.dart';
 import '../components/appbar_component.dart';
 
 class FormReservationPage extends StatefulWidget {
@@ -27,7 +27,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
     return SafeArea(
       child: Scaffold(
         appBar: const AppbarComponent(
-          title: 'Form Reservasi',
+          title: 'Reservation Form',
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -70,7 +70,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                                   style: detailFormGrey,
                                 ),
                                 Text(
-                                  'Harga',
+                                  'Price',
                                   style: detailFormStyle,
                                 ),
                               ],
@@ -96,7 +96,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     height: 10.h,
                   ),
                   Text(
-                    'Nama Penyewa',
+                    'Tenant name*',
                     style: formTop,
                   ),
                   FormComponent(
@@ -108,7 +108,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     height: 10.h,
                   ),
                   Text(
-                    'No.Telepon',
+                    'Phone Number*',
                     style: formTop,
                   ),
                   FormComponent(
@@ -120,7 +120,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     height: 10.h,
                   ),
                   Text(
-                    'Email',
+                    'Email*',
                     style: formTop,
                   ),
                   FormComponent(

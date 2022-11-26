@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:office_booking_app/provider/navbar_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:provider/provider.dart';
+
+import '../../provider/navbar_provider.dart';
+import '../../utils/constant/app_colors.dart';
 
 class Navbar extends StatefulWidget {
   const Navbar({super.key});

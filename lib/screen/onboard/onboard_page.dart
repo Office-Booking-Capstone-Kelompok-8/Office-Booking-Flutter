@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:office_booking_app/provider/onboard_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:office_booking_app/screen/components/button_component.dart';
-import 'package:office_booking_app/screen/onboard/component/dot_indicator.dart';
-import 'package:office_booking_app/utils/constant/app_text_style.dart';
 import 'package:provider/provider.dart';
+
+import '../../screen/components/button_component.dart';
+import '../../screen/onboard/component/dot_indicator.dart';
+import '../../utils/constant/app_text_style.dart';
 
 class OnboardPage extends StatefulWidget {
   const OnboardPage({super.key});
@@ -76,7 +77,7 @@ class _OnboardPageState extends State<OnboardPage> {
                                               '/register',
                                               (route) => false);
                                         },
-                                        textButton: 'Daftar',
+                                        textButton: 'Register',
                                         buttonHeight: 40.h,
                                         buttonWidth: 108.w),
                                     ButtonComponent(
@@ -86,7 +87,7 @@ class _OnboardPageState extends State<OnboardPage> {
                                               '/login',
                                               (route) => false);
                                         },
-                                        textButton: 'Masuk',
+                                        textButton: 'Login',
                                         buttonHeight: 40.h,
                                         buttonWidth: 108.w),
                                   ],
@@ -109,7 +110,7 @@ class _OnboardPageState extends State<OnboardPage> {
                                           context, '/navbar', (route) => false);
                                     },
                                     child: Text(
-                                      'Lewati untuk saat ini',
+                                      'Skip for now',
                                       style: onboardSkip,
                                     ))
                               ],
@@ -125,7 +126,7 @@ class _OnboardPageState extends State<OnboardPage> {
                                       _pageController.jumpToPage(2);
                                     },
                                     child: Text(
-                                      'Lewati',
+                                      'Skip',
                                       style: onboardSkip,
                                     )),
                                 TextButton(
@@ -138,7 +139,7 @@ class _OnboardPageState extends State<OnboardPage> {
                                       }
                                     },
                                     child: Text(
-                                      'Lanjut',
+                                      'Next',
                                       style: onboardSkip,
                                     )),
                               ],

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:office_booking_app/utils/constant/app_colors.dart';
+import '../../../utils/constant/app_colors.dart';
 
 class DotIndicator extends StatelessWidget {
   const DotIndicator({Key? key, this.isActive = true}) : super(key: key);

@@ -44,7 +44,7 @@ class _RegisterPageState extends State<RegisterPage> {
               Padding(
                 padding: EdgeInsets.all(20.h),
                 child: Text(
-                  'Pendaftaran',
+                  'Create your account',
                   style:
                       TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
                 ),
@@ -57,7 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   formWidth: double.infinity,
                   controller: _nameController,
                   prefixIcon: Icons.person_outline,
-                  hint: 'Nama Lengkap',
+                  hint: 'Full name',
                 ),
               ),
               Container(
@@ -69,7 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   formWidth: double.infinity,
                   controller: _phoneController,
                   prefixIcon: Icons.phone_outlined,
-                  hint: 'No.hp',
+                  hint: 'Phone number',
                 ),
               ),
               Container(
@@ -105,7 +105,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   formWidth: double.infinity,
                   controller: _confirmPasswordController,
                   prefixIcon: Icons.lock_outline,
-                  hint: 'Konfirmasi Password',
+                  hint: 'Confirm password',
                 ),
               ),
               SizedBox(
@@ -115,7 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 buttonHeight: 40.h,
                 buttonWidth: 240.w,
                 onPress: () {},
-                textButton: 'DAFTAR',
+                textButton: 'Register',
               ),
               Container(
                 padding: EdgeInsets.only(right: 10.w, top: 10.h),
@@ -123,7 +123,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      'Sudah Punya Akun?',
+                      "Already have an account?",
                       style: TextStyle(color: AppColors.text1),
                     ),
                     InkWell(
@@ -132,7 +132,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             context, '/login', (route) => false);
                       },
                       child: const Text(
-                        'Masuk',
+                        'Sign In',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             color: AppColors.primary4),

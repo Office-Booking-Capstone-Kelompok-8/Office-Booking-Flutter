@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:office_booking_app/utils/constant/app_colors.dart';
+import '../../utils/constant/app_colors.dart';
 
 class FormComponent extends StatelessWidget {
   const FormComponent(

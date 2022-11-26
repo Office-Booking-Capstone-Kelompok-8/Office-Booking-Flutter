@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:office_booking_app/screen/components/tile_component.dart';
-import 'package:office_booking_app/utils/constant/app_colors.dart';
+
+import '../../screen/components/tile_component.dart';
+import '../../utils/constant/app_colors.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -22,13 +23,13 @@ class _ProfilePageState extends State<ProfilePage> {
               margin: EdgeInsets.all(16.w),
               child: Row(
                 children: [
-                  const CircleAvatar(
-                    radius: 35,
+                  CircleAvatar(
+                    radius: 35.r,
                     backgroundColor: AppColors.bg1,
                     foregroundColor: Colors.black,
                     child: Icon(
                       Icons.person_rounded,
-                      size: 59,
+                      size: 59.sm,
                     ),
                   ),
                   SizedBox(
@@ -86,12 +87,10 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 children: [
                   TileCompnent(
-                    text: 'Riwayat',
+                    text: 'Transaction History',
                     onPress: () {},
                   ),
-                  TileCompnent(text: 'Booking'),
-                  TileCompnent(text: 'Booking Summary'),
-                  TileCompnent(text: 'Ubah Password'),
+                  TileCompnent(text: 'Change Password'),
                   TileCompnent(text: 'Help Center'),
                   TileCompnent(
                     text: 'Logout',

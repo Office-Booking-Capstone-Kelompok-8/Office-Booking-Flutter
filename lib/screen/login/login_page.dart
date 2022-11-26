@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: EdgeInsets.all(20.h),
                 child: Text(
-                  'Selamat Datang Kembali!',
+                  'Sign in to your account',
                   style:
                       TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
                 ),
@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: TextButton(
                       onPressed: () {},
                       child: const Text(
-                        'Lupa Pasword?',
+                        'Forgot Password?',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             color: AppColors.primary4),
@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                 onPress: () {
                   Navigator.pushNamed(context, '/navbar');
                 },
-                textButton: 'MASUK',
+                textButton: 'Login',
               ),
               Container(
                 padding: EdgeInsets.only(right: 10.w, top: 10.h),
@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      'Belum punya akun?',
+                      "Don't have an account yet?",
                       style: TextStyle(color: AppColors.text1),
                     ),
                     InkWell(
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                             context, '/register', (route) => false);
                       },
                       child: const Text(
-                        'Daftar',
+                        ' Sign up',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             color: AppColors.primary4),

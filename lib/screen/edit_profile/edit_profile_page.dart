@@ -67,7 +67,7 @@ class _EditProfileState extends State<EditProfile> {
                       height: 10.h,
                     ),
                     Text(
-                      'Ubah Photo Profile',
+                      'Change Profile Photo',
                       style:
                           TextStyle(color: AppColors.primary4, fontSize: 12.sp),
                     )
