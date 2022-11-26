@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:office_booking_app/provider/date_provider.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../components/button_component.dart';
 import '..//components/form_component.dart';
@@ -14,14 +17,11 @@ class FormReservationPage extends StatefulWidget {
 }
 
 class _FormReservationPageState extends State<FormReservationPage> {
-  final DateTime _dateStart = DateTime.now();
-  final DateTime _dateEnd = DateTime.now();
   final _formkey = GlobalKey<FormState>();
-  final TextEditingController _companyName = TextEditingController();
-  final TextEditingController _tenantName = TextEditingController();
-  final TextEditingController _date = TextEditingController();
-  final TextEditingController _phoneNumber = TextEditingController();
-  final TextEditingController _email = TextEditingController();
+  final TextEditingController _companyNameController = TextEditingController();
+  final TextEditingController _tenantNameController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -88,7 +88,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     style: formTop,
                   ),
                   FormComponent(
-                    controller: _companyName,
+                    controller: _companyNameController,
                     formHeight: 40.h,
                     formWidth: 328.w,
                   ),
@@ -100,19 +100,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     style: formTop,
                   ),
                   FormComponent(
-                    controller: _tenantName,
-                    formHeight: 40.h,
-                    formWidth: 328.w,
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  Text(
-                    'Tanggal',
-                    style: formTop,
-                  ),
-                  FormComponent(
-                    controller: _date,
+                    controller: _tenantNameController,
                     formHeight: 40.h,
                     formWidth: 328.w,
                   ),
@@ -124,7 +112,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     style: formTop,
                   ),
                   FormComponent(
-                    controller: _phoneNumber,
+                    controller: _phoneNumberController,
                     formHeight: 40.h,
                     formWidth: 328.w,
                   ),
@@ -136,12 +124,80 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     style: formTop,
                   ),
                   FormComponent(
-                    controller: _email,
+                    controller: _emailController,
                     formHeight: 40.h,
                     formWidth: 328.w,
                   ),
                   SizedBox(
-                    height: 34.h,
+                    height: 10.h,
+                  ),
+                  Text(
+                    'Check in',
+                    style: formTop,
+                  ),
+                  SizedBox(
+                    height: 40.h,
+                    width: 328.w,
+                    child: Consumer<DateProvider>(
+                      builder: (context, date, _) => TextFormField(
+                          readOnly: true,
+                          // controller: _dateStartController,
+                          decoration: InputDecoration(
+                            hintText: DateFormat('yyyy/MM/dd')
+                                .format(date.getDateStart),
+                            suffixIcon: IconButton(
+                              onPressed: (() async {
+                                final selectDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: date.getDateStart,
+                                    firstDate: DateTime.now(),
+                                    lastDate:
+                                        DateTime(date.getDateStart.year + 5));
+                                if (selectDate != null) {
+                                  date.setDateStart = selectDate;
+                                }
+                              }),
+                              icon: const Icon(Icons.calendar_today),
+                            ),
+                          )),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Text(
+                    'Check out',
+                    style: formTop,
+                  ),
+                  SizedBox(
+                    height: 40.h,
+                    width: 328.w,
+                    child: Consumer<DateProvider>(
+                      builder: (context, date, _) => TextFormField(
+                          readOnly: true,
+                          // controller: _dateEndController,
+                          decoration: InputDecoration(
+                            hintText: DateFormat('yyyy/MM/dd')
+                                .format(date.getDateEnd),
+                            suffixIcon: IconButton(
+                              onPressed: (() async {
+                                final selectDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: date.getDateEnd,
+                                    firstDate: DateTime.now(),
+                                    lastDate:
+                                        DateTime(date.getDateEnd.year + 5));
+                                if (selectDate != null) {
+                                  date.setDateEnd = selectDate;
+                                }
+                              }),
+                              icon: const Icon(Icons.calendar_today),
+                            ),
+                          )),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 108.h,
                   ),
                   Center(
                     child: ButtonComponent(

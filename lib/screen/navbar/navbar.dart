@@ -44,7 +44,7 @@ class _NavbarState extends State<Navbar> {
             currentIndex: value.currentTab,
             // ganti ini belom fix
             // unselectedItemColor: AppColors.buttonColor,
-            iconSize: 24.w,
+            iconSize: 24.sm,
             // ini juga
             selectedItemColor: AppColors.primary4,
             onTap: (index) {
