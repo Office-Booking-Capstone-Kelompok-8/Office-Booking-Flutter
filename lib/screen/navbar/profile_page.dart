@@ -49,7 +49,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             InkWell(
                               splashFactory: NoSplash.splashFactory,
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pushNamed(context, '/edit-profile');
+                              },
                               child: Container(
                                 margin: EdgeInsets.only(right: 10.w),
                                 child: Icon(
