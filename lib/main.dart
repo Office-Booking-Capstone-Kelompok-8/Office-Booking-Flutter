@@ -3,8 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:office_booking_app/provider/date_provider.dart';
+import 'package:office_booking_app/screen/building/building_detail_page.dart';
 import 'package:office_booking_app/screen/edit_profile/edit_profile_page.dart';
+import 'package:office_booking_app/screen/navbar/order_page.dart';
 import 'package:office_booking_app/screen/onboard/onboard_page.dart';
+import 'package:office_booking_app/screen/order/order_detail_page.dart';
 import 'provider/onboard_provider.dart';
 import 'screen/navbar/navbar.dart';
 import 'utils/constant/app_colors.dart';
@@ -52,6 +55,9 @@ class MyApp extends StatelessWidget {
             '/navbar': (context) => const Navbar(),
             '/onboard': (context) => const OnboardPage(),
             '/edit-profile': (context) => const EditProfile(),
+            '/order-detail': (context) => const OrderDetail(),
+            '/order': (context) => const OrderPage(),
+            '/building-detail': (context) => const BuildingDetail(),
           },
           initialRoute: '/onboard',
           theme: ThemeData(

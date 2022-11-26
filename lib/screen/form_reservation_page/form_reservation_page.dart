@@ -42,11 +42,14 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: 92.h,
-                          width: 83.w,
-                          child: Image.network(
-                            'https://www.barajacoding.or.id/wp-content/uploads/2022/05/unnamed.jpg',
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8.r),
+                          child: SizedBox(
+                            height: 92.h,
+                            width: 83.w,
+                            child: Image.network(
+                              'https://www.barajacoding.or.id/wp-content/uploads/2022/05/unnamed.jpg',
+                            ),
                           ),
                         ),
                         SizedBox(

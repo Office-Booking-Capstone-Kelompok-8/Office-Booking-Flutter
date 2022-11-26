@@ -25,7 +25,7 @@ class _HomepageState extends State<Homepage> {
               buttonHeight: 40.h,
               buttonWidth: 240.w,
               onPress: () {
-                Navigator.pushNamed(context, '/form-page');
+                Navigator.pushNamed(context, '/building-detail');
               },
               textButton: 'Login',
             ),

@@ -88,7 +88,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   TileCompnent(
                     text: 'Transaction History',
-                    onPress: () {},
+                    onPress: () {
+                      Navigator.pushNamed(context, '/order');
+                    },
                   ),
                   TileCompnent(text: 'Change Password'),
                   TileCompnent(text: 'Help Center'),

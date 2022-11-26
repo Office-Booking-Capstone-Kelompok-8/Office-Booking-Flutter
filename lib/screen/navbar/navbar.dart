@@ -34,7 +34,7 @@ class _NavbarState extends State<Navbar> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.article_outlined),
-                label: 'Pesanan',
+                label: 'Booking',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person_outlined),
@@ -43,10 +43,7 @@ class _NavbarState extends State<Navbar> {
             ],
             backgroundColor: AppColors.white,
             currentIndex: value.currentTab,
-            // ganti ini belom fix
-            // unselectedItemColor: AppColors.buttonColor,
             iconSize: 24.sm,
-            // ini juga
             selectedItemColor: AppColors.primary4,
             onTap: (index) {
               value.currentTab = index;
