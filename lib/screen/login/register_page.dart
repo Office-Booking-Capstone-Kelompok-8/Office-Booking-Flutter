@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
+import 'package:provider/provider.dart';
 
+import '../../provider/login_provider.dart';
 import '../components/button_component.dart';
 import '../components/form_component.dart';
+import '../components/snackbar_component.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -32,13 +35,14 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<SignInProvider>(context, listen: false);
     return Scaffold(
       body: Center(
           child: SingleChildScrollView(
               child: Form(
         key: _formKey,
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 10.w),
+          margin: EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(
             children: [
               Padding(
@@ -50,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.all(10.w),
+                margin: EdgeInsets.symmetric(vertical: 10.h),
                 child: FormComponent(
                   isAuth: true,
                   formHeight: 48.h,
@@ -61,7 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.all(10.w),
+                margin: EdgeInsets.symmetric(vertical: 10.h),
                 child: FormComponent(
                   isNumber: true,
                   isAuth: true,
@@ -73,7 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.all(10.w),
+                margin: EdgeInsets.symmetric(vertical: 10.h),
                 child: FormComponent(
                   isAuth: true,
                   isEmail: true,
@@ -82,10 +86,23 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: _emailController,
                   prefixIcon: Icons.email_outlined,
                   hint: 'Email',
+                  validation: (value) {
+                    const String expression = "[a-zA-Z0-9+._%-+]{1,256}"
+                        "\\@"
+                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}"
+                        "("
+                        "\\."
+                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}"
+                        ")+";
+                    final RegExp regExp = RegExp(expression);
+                    return !regExp.hasMatch(value!)
+                        ? "Please, input valid email!"
+                        : null;
+                  },
                 ),
               ),
               Container(
-                margin: EdgeInsets.all(10.w),
+                margin: EdgeInsets.symmetric(vertical: 10.h),
                 child: FormComponent(
                   isPassword: true,
                   isAuth: true,
@@ -94,10 +111,20 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: _passwordController,
                   prefixIcon: Icons.lock_outline,
                   hint: 'Password',
+                  validation: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'field cannot be empty';
+                    }
+                    if (value.length < 8) {
+                      return 'field must be longer than 8 characters';
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
               ),
               Container(
-                margin: EdgeInsets.all(10.w),
+                margin: EdgeInsets.symmetric(vertical: 10.h),
                 child: FormComponent(
                   isPassword: true,
                   isAuth: true,
@@ -106,6 +133,13 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: _confirmPasswordController,
                   prefixIcon: Icons.lock_outline,
                   hint: 'Confirm password',
+                  validation: (value) {
+                    if (value != _passwordController.text) {
+                      return 'Password not match';
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
               ),
               SizedBox(
@@ -113,8 +147,27 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               ButtonComponent(
                 buttonHeight: 40.h,
-                buttonWidth: 240.w,
-                onPress: () {},
+                buttonWidth: double.infinity,
+                onPress: () async {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  if (_formKey.currentState!.validate()) {
+                    try {
+                      final response = await provider.signUp(
+                          name: _nameController.text,
+                          email: _emailController.text,
+                          phone: _phoneController.text,
+                          password: _passwordController.text);
+                      if (mounted) {}
+                      if (response != null) {
+                        showNotification(context, '$response please login');
+
+                        Navigator.pushNamed(context, '/login');
+                      }
+                    } catch (e) {
+                      showNotification(context, 'Gagal');
+                    }
+                  }
+                },
                 textButton: 'Register',
               ),
               Container(

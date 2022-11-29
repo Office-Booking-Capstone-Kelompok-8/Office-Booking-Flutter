@@ -97,6 +97,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   TileCompnent(
                     text: 'Logout',
                     textColor: AppColors.error5,
+                    onPress: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/login', (route) => false);
+                    },
                   ),
                 ],
               ),

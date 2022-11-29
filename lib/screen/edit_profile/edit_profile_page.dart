@@ -51,7 +51,7 @@ class _EditProfileState extends State<EditProfile> {
             Center(
               child: SizedBox(
                 // height: 85.h,
-                width: 100.w,
+                width: 150.w,
                 child: Column(
                   children: [
                     CircleAvatar(

@@ -38,7 +38,7 @@ class FormComponent extends StatelessWidget {
       width: formWidth,
       child: TextFormField(
         controller: controller,
-        validator: (validation != null)
+        validator: (validation == null)
             ? (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter some text';
