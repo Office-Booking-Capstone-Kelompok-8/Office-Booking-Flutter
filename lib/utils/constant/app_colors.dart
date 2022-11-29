@@ -4,6 +4,7 @@ class AppColors {
   // warna
   static const Color primary3 = Color(0xFF3583EF);
   static const Color primary4 = Color(0xFF0D6AEC);
+  static const Color primary5 = Color(0xFF0b58c5);
   static const Color primary7 = Color(0xFF073576);
   static const Color borderButton = Color(0xFF0012B0);
   static const Color white = Color(0xFFFFFFFF);

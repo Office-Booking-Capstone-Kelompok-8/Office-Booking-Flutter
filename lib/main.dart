@@ -9,6 +9,8 @@ import 'package:office_booking_app/screen/edit_profile/edit_profile_page.dart';
 import 'package:office_booking_app/screen/navbar/order_page.dart';
 import 'package:office_booking_app/screen/onboard/onboard_page.dart';
 import 'package:office_booking_app/screen/order/order_detail_page.dart';
+import 'package:office_booking_app/screen/search/search_page.dart';
+import 'package:office_booking_app/screen/search/search_result.dart';
 import 'provider/onboard_provider.dart';
 import 'screen/navbar/navbar.dart';
 import 'utils/constant/app_colors.dart';
@@ -60,6 +62,8 @@ class MyApp extends StatelessWidget {
             '/order-detail': (context) => const OrderDetail(),
             '/order': (context) => const OrderPage(),
             '/building-detail': (context) => const BuildingDetail(),
+            '/search': (context) => const SearchPage(),
+            '/search-result': (context) => const SearchResult(),
           },
           initialRoute: '/onboard',
           theme: ThemeData(

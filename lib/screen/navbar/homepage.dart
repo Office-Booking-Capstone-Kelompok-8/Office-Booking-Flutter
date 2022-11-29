@@ -39,6 +39,9 @@ class _HomepageState extends State<Homepage> {
               prefixIcon: Icons.home,
               formHeight: 48.h,
               formWidth: 328.w,
+              onPress: () {
+                Navigator.pushNamed(context, '/search');
+              },
             )
           ],
         ),

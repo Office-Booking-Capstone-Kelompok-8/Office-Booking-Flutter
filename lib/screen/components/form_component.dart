@@ -16,7 +16,8 @@ class FormComponent extends StatelessWidget {
       this.prefixIcon,
       this.hint,
       this.validation,
-      this.isSearch});
+      this.isSearch,
+      this.onPress});
 
   final double formHeight;
   final double formWidth;
@@ -31,12 +32,15 @@ class FormComponent extends StatelessWidget {
   final IconData? prefixIcon;
   final String? hint;
   final String? Function(String? value)? validation;
+  final Function()? onPress;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: formHeight,
       width: formWidth,
       child: TextFormField(
+        onTap: onPress,
         controller: controller,
         validator: (validation == null)
             ? (value) {
