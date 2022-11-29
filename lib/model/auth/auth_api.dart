@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import '../../utils/constant/api_constant.dart';
 import '../signin_model.dart';
 
 class AuthApi {
@@ -27,7 +28,7 @@ class AuthApi {
   }) async {
     try {
       final response = await _dio.post(
-        'https://dev.fortyfourvisual.com/v1/auth/login',
+        Api.baseUrl + Api.login,
         data: {
           'email': email,
           'password': password,
@@ -48,7 +49,7 @@ class AuthApi {
   }) async {
     try {
       final response = await _dio.post(
-        'https://dev.fortyfourvisual.com/v1/auth/register',
+        Api.baseUrl + Api.register,
         data: {
           'name': name,
           'email': email,
