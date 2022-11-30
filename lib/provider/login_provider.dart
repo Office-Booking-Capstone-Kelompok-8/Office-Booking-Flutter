@@ -13,7 +13,7 @@ class SignInProvider extends ChangeNotifier {
 
   MyState myState = MyState.initial;
 
-  Future signIn({
+  Future<String?> signIn({
     required String email,
     required String password,
   }) async {
@@ -28,6 +28,7 @@ class SignInProvider extends ChangeNotifier {
 
       myState = MyState.loaded;
       notifyListeners();
+      return 'Berhasil Login';
     } catch (e) {
       if (e is DioError) {
         /// If want to check status code from service error
@@ -36,6 +37,7 @@ class SignInProvider extends ChangeNotifier {
 
       myState = MyState.failed;
       notifyListeners();
+      return null;
     }
   }
 
