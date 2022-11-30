@@ -17,7 +17,8 @@ class FormComponent extends StatelessWidget {
       this.hint,
       this.validation,
       this.isSearch,
-      this.onPress});
+      this.onPress,
+      this.isForm});
 
   final double formHeight;
   final double formWidth;
@@ -28,6 +29,7 @@ class FormComponent extends StatelessWidget {
   final bool? isAuth;
   final bool? isEmail;
   final bool? isSearch;
+  final bool? isForm;
 
   final IconData? prefixIcon;
   final String? hint;
@@ -63,13 +65,22 @@ class FormComponent extends StatelessWidget {
             prefix: Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: isAuth == true ? 0.w : 2.w, vertical: 11.h)),
-            hintText: isAuth == true ? hint : '',
+            hintText: isAuth == true
+                ? hint
+                : isSearch == true
+                    ? 'Search location buildings'
+                    : '',
             prefixIcon: isAuth == true
                 ? Icon(
                     prefixIcon!,
                     size: 24,
                   )
-                : null,
+                : isSearch == true
+                    ? const Icon(
+                        Icons.search,
+                        size: 24,
+                      )
+                    : null,
             hintStyle: TextStyle(fontSize: 12.sp),
             suffixIcon: isPassword == true
                 ? IconButton(
@@ -79,10 +90,12 @@ class FormComponent extends StatelessWidget {
                       size: 24,
                     ),
                   )
-                : null,
-            border: isSearch == true
+                : isSearch == true
+                    ? const Icon(Icons.filter_list)
+                    : null,
+            border: isSearch == true || isForm == true
                 ? OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16.r),
+                    borderRadius: BorderRadius.circular(9.r),
                     borderSide: const BorderSide(
                       width: 1,
                       color: AppColors.borderButton,

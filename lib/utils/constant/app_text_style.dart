@@ -4,7 +4,7 @@ import 'app_colors.dart';
 
 TextStyle titleAppBar = TextStyle(
   color: AppColors.neutral10,
-  fontSize: 14.sp,
+  fontSize: 18.sp,
   fontWeight: FontWeight.w700,
 );
 TextStyle formTop = TextStyle(

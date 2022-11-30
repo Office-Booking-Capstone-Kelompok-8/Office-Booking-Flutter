@@ -27,7 +27,7 @@ class ButtonComponent extends StatelessWidget {
           textStyle: buttonStyle,
           minimumSize: Size(buttonWidth, buttonHeight),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.w),
+            borderRadius: BorderRadius.circular(8.w),
           ),
           foregroundColor: AppColors.borderButton),
       onPressed: onPress,

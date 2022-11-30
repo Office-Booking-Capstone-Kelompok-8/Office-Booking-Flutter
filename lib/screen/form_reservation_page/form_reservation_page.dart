@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/date_provider.dart';
@@ -31,14 +32,26 @@ class _FormReservationPageState extends State<FormReservationPage> {
         ),
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
+            padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
             child: Form(
               key: _formkey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(5.w, 0, 16.w, 0),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          blurStyle: BlurStyle.normal,
+                          blurRadius: 24.r,
+                          color: AppColors.shadowColor,
+                          offset: const Offset(0, 8),
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    padding: EdgeInsets.fromLTRB(5.w, 11.h, 16.w, 11.h),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -90,57 +103,76 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     'Company Name',
                     style: formTop,
                   ),
+                  SizedBox(
+                    height: 9.h,
+                  ),
                   FormComponent(
+                    isForm: true,
                     controller: _companyNameController,
-                    formHeight: 40.h,
-                    formWidth: 328.w,
+                    formHeight: 41.h,
+                    formWidth: double.infinity,
                   ),
                   SizedBox(
-                    height: 10.h,
+                    height: 24.h,
                   ),
                   Text(
                     'Tenant name*',
                     style: formTop,
                   ),
+                  SizedBox(
+                    height: 9.h,
+                  ),
                   FormComponent(
+                    isForm: true,
                     controller: _tenantNameController,
-                    formHeight: 40.h,
-                    formWidth: 328.w,
+                    formHeight: 41.h,
+                    formWidth: double.infinity,
                   ),
                   SizedBox(
-                    height: 10.h,
+                    height: 24.h,
                   ),
                   Text(
                     'Phone Number*',
                     style: formTop,
                   ),
+                  SizedBox(
+                    height: 9.h,
+                  ),
                   FormComponent(
+                    isForm: true,
                     controller: _phoneNumberController,
-                    formHeight: 40.h,
-                    formWidth: 328.w,
+                    formHeight: 41.h,
+                    formWidth: double.infinity,
                   ),
                   SizedBox(
-                    height: 10.h,
+                    height: 24.h,
                   ),
                   Text(
                     'Email*',
                     style: formTop,
                   ),
+                  SizedBox(
+                    height: 9.h,
+                  ),
                   FormComponent(
+                    isForm: true,
                     controller: _emailController,
-                    formHeight: 40.h,
-                    formWidth: 328.w,
+                    formHeight: 41.h,
+                    formWidth: double.infinity,
                   ),
                   SizedBox(
-                    height: 10.h,
+                    height: 24.h,
                   ),
                   Text(
                     'Check in',
                     style: formTop,
                   ),
                   SizedBox(
-                    height: 40.h,
-                    width: 328.w,
+                    height: 9.h,
+                  ),
+                  SizedBox(
+                    height: 48.h,
+                    width: double.infinity,
                     child: Consumer<DateProvider>(
                       builder: (context, date, _) => TextFormField(
                           readOnly: true,
@@ -148,6 +180,13 @@ class _FormReservationPageState extends State<FormReservationPage> {
                           decoration: InputDecoration(
                             hintText: DateFormat('yyyy/MM/dd')
                                 .format(date.getDateStart),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(9.r),
+                              borderSide: const BorderSide(
+                                width: 1,
+                                color: AppColors.borderButton,
+                              ),
+                            ),
                             suffixIcon: IconButton(
                               onPressed: (() async {
                                 final selectDate = await showDatePicker(
@@ -166,15 +205,18 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 10.h,
+                    height: 24.h,
                   ),
                   Text(
                     'Check out',
                     style: formTop,
                   ),
                   SizedBox(
-                    height: 40.h,
-                    width: 328.w,
+                    height: 9.h,
+                  ),
+                  SizedBox(
+                    height: 48.h,
+                    width: double.infinity,
                     child: Consumer<DateProvider>(
                       builder: (context, date, _) => TextFormField(
                           readOnly: true,
@@ -182,6 +224,13 @@ class _FormReservationPageState extends State<FormReservationPage> {
                           decoration: InputDecoration(
                             hintText: DateFormat('yyyy/MM/dd')
                                 .format(date.getDateEnd),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(9.r),
+                              borderSide: const BorderSide(
+                                width: 1,
+                                color: AppColors.borderButton,
+                              ),
+                            ),
                             suffixIcon: IconButton(
                               onPressed: (() async {
                                 final selectDate = await showDatePicker(
@@ -200,14 +249,14 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 108.h,
+                    height: 65.h,
                   ),
                   Center(
                     child: ButtonComponent(
                         onPress: () {},
                         textButton: 'BOOKING',
-                        buttonHeight: 40.h,
-                        buttonWidth: 240.w),
+                        buttonHeight: 41.h,
+                        buttonWidth: double.infinity),
                   )
                 ],
               ),

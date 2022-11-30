@@ -11,6 +11,13 @@ class AppbarComponent extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       toolbarHeight: 50.h,
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back,
+          size: 30.sm,
+        ),
+        onPressed: () => Navigator.pop(context),
+      ),
       foregroundColor: AppColors.black,
       backgroundColor: AppColors.white,
       elevation: 0,
