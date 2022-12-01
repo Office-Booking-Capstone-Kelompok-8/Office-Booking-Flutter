@@ -5,7 +5,6 @@ import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
 
 import '../components/form_component.dart';
-import '../components/button_component.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -100,8 +99,9 @@ class _HomepageState extends State<Homepage> {
                 physics: NeverScrollableScrollPhysics(),
                 children: [
                   InkWell(
-                    onTap: () =>
-                        Navigator.pushNamed(context, '/building-detail'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/building-detail');
+                    },
                     child: BuildingGridComponent(
                       url:
                           'https://unsplash.com/photos/eHD8Y1Znfpk/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTB8fG9mZmljZSUyMHJvb218ZW58MHx8fHwxNjY5NzE3OTI5&force=true&w=640',

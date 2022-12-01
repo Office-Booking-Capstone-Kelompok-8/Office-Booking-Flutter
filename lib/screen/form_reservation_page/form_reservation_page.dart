@@ -241,6 +241,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                                         DateTime(date.getDateEnd.year + 5));
                                 if (selectDate != null) {
                                   date.setDateEnd = selectDate;
+                                  print(date.getDateEnd);
                                 }
                               }),
                               icon: const Icon(Icons.calendar_today),
