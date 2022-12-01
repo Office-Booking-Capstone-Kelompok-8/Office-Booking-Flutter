@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/auth/auth_api.dart';
 import '../model/signin_model.dart';
@@ -13,6 +14,9 @@ class SignInProvider extends ChangeNotifier {
 
   MyState myState = MyState.initial;
 
+  SignInProvider() {
+    getPref();
+  }
   Future<String?> signIn({
     required String email,
     required String password,
@@ -25,7 +29,11 @@ class SignInProvider extends ChangeNotifier {
         email: email,
         password: password,
       );
-
+      if (users != null) {
+        final helper = await SharedPreferences.getInstance();
+        helper.setString('accessToken', users!.accessToken!);
+        helper.setString('refreshToken', users!.refreshToken!);
+      }
       myState = MyState.loaded;
       notifyListeners();
       return 'Berhasil Login';
@@ -70,6 +78,19 @@ class SignInProvider extends ChangeNotifier {
       myState = MyState.failed;
       notifyListeners();
       return null;
+    }
+  }
+
+  getPref() async {
+    final helper = await SharedPreferences.getInstance();
+    final accesToken = helper.getString('accesToken');
+    final refreshToken = helper.getString('refreshToken');
+    if (accesToken != null && refreshToken != null) {
+      users = SignInModel(accessToken: accesToken, refreshToken: refreshToken);
+      notifyListeners();
+    } else {
+      users = null;
+      notifyListeners();
     }
   }
 }
