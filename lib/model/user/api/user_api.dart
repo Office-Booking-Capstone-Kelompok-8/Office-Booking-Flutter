@@ -4,13 +4,13 @@ import 'package:office_booking_app/utils/constant/api_constant.dart';
 
 class UserApi {
   final Dio _dio = Dio();
-  String accessToken = '';
+  // String accessToken = '';
 
   UserApi() {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          options.headers['Authorization'] = 'Bearer$accessToken';
+          // options.headers['Authorization'] = 'Bearer$accessToken';
           return handler.next(options);
         },
         onResponse: (response, handler) {
@@ -23,9 +23,12 @@ class UserApi {
     );
   }
 
-  Future<UserModel> getUser() async {
+  Future<UserModel> getUser(String token) async {
     try {
-      final response = await _dio.get(Api.baseUrl + Api.userDetail);
+      final response = await _dio.get(Api.baseUrl + Api.userDetail,
+          options: Options(headers: {
+            "Authorization": "Bearer $token",
+          }));
       return UserModel.fromJson(response.data['data']);
     } on DioError catch (_) {
       rethrow;

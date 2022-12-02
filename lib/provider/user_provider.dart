@@ -9,10 +9,10 @@ class UserProvider extends ChangeNotifier {
   UserModel _users = UserModel();
   UserModel get getUsers => _users;
   MyState myState = MyState.loaded;
-  getUsersDetail() async {
+  getUsersDetail(String token) async {
     try {
       myState = MyState.loading;
-      final response = await service.getUser();
+      final response = await service.getUser(token);
       _users = response;
       myState = MyState.loaded;
       notifyListeners();

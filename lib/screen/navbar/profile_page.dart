@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:office_booking_app/provider/login_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -15,15 +16,9 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<UserProvider>(context, listen: false).getUsersDetail();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final profile = Provider.of<UserProvider>(context, listen: false);
+    final data = Provider.of<SignInProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -53,13 +48,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Consumer<UserProvider>(
-                              builder: (context, user, _) => Text(
-                                user.getUsers.name ?? 'sabrina',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14.sp),
-                              ),
+                            Text(
+                              profile.getUsers.name ?? 'sabrina',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14.sp),
                             ),
                             InkWell(
                               splashFactory: NoSplash.splashFactory,
@@ -102,6 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   TileCompnent(
                     text: 'Transaction History',
                     onPress: () {
+                      print(profile.getUsers.name);
                       Navigator.pushNamed(context, '/order');
                     },
                   ),
