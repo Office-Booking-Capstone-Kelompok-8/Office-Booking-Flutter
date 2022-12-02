@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:office_booking_app/provider/building_provider.dart';
+import 'package:office_booking_app/screen/components/appbar_component.dart';
+import 'package:office_booking_app/screen/components/appbar_home.dart';
 import 'package:office_booking_app/screen/components/building_grid_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
@@ -29,6 +31,7 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const AppbarHome(),
       body: SafeArea(
           child: Container(
         padding: EdgeInsets.fromLTRB(16.w, 18.h, 16.w, 18.h),
@@ -36,68 +39,32 @@ class _HomepageState extends State<Homepage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Find best office around you',
-                style: buildingName,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Popular building by rating',
+                    style: textEmptyReservation,
+                  ),
+                  TextButton(onPressed: () {}, child: Text('View All'))
+                ],
               ),
               SizedBox(
                 height: 16.h,
               ),
-              FormComponent(
-                isPassword: false,
-                isSearch: true,
-                formHeight: 41.h,
-                formWidth: double.infinity,
-                onPress: () {
-                  Navigator.pushNamed(context, '/search');
-                },
+              Container(
+                height: 103.h,
+                color: AppColors.primary3,
               ),
               SizedBox(
                 height: 24.h,
               ),
               Text(
-                'Office recommendation in Jakarta',
+                'All Building in Jakarta',
                 style: textEmptyReservation,
               ),
               SizedBox(
-                height: 8.h,
-              ),
-              SizedBox(
-                height: 64.h,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: 16.w),
-                      child: ChoiceChip(
-                        label: SizedBox(
-                            height: 40.h,
-                            width: 65.w,
-                            child: Center(
-                                child: Text(
-                              'Utara',
-                              style: TextStyle(
-                                  color: _isSelected
-                                      ? AppColors.white
-                                      : AppColors.black),
-                            ))),
-                        selectedColor: AppColors.primary4,
-                        selected: _isSelected,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.r))),
-                        onSelected: (value) {
-                          setState(() {
-                            _isSelected = value;
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20.h,
+                height: 16.h,
               ),
               Consumer<BuildingProvider>(
                 builder: (context, building, _) => GridView.builder(

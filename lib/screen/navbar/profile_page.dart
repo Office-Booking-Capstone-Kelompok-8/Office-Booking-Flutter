@@ -69,12 +69,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         ),
                         Text(
-                          'sabrina07@upi.edu',
+                          profile.getUsers.email ?? 'sabrina07@upi.edu',
                           style: TextStyle(
                               fontSize: 12.sp, color: AppColors.neutral7),
                         ),
                         Text(
-                          '+6282110766872',
+                          profile.getUsers.phone ?? '+6282110766872',
                           style: TextStyle(
                               fontSize: 12.sp, color: AppColors.neutral7),
                         )

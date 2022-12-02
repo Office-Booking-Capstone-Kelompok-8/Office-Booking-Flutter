@@ -16,8 +16,8 @@ class Navbar extends StatefulWidget {
 
 class _NavbarState extends State<Navbar> {
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final data = Provider.of<SignInProvider>(context, listen: false);
       Provider.of<UserProvider>(context, listen: false)

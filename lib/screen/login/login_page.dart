@@ -127,7 +127,8 @@ class _LoginPageState extends State<LoginPage> {
                       showNotification(context,
                           'Success ${provider.dataUser!.accessToken!} ');
 
-                      Navigator.pushNamed(context, '/navbar');
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/navbar', (route) => false);
                     } catch (e) {
                       showNotification(context, 'Gagal');
                     }

@@ -10,25 +10,36 @@ class AppbarComponent extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      toolbarHeight: 50.h,
-      leading: IconButton(
-        icon: Icon(
-          Icons.arrow_back,
-          size: 30.sm,
+      toolbarHeight: 70.h,
+      bottom: const PreferredSize(
+          preferredSize: Size(1, 1),
+          child: Divider(
+            thickness: 1,
+          )),
+      leading: Padding(
+        padding: EdgeInsets.only(top: 20.h),
+        child: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            size: 25.sm,
+          ),
+          onPressed: () => Navigator.pop(context),
         ),
-        onPressed: () => Navigator.pop(context),
       ),
       foregroundColor: AppColors.black,
       backgroundColor: AppColors.white,
       elevation: 0,
       centerTitle: true,
-      title: Text(
-        title,
-        style: titleAppBar,
+      title: Padding(
+        padding: EdgeInsets.only(top: 20.h),
+        child: Text(
+          title,
+          style: titleAppBar,
+        ),
       ),
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(50.h);
+  Size get preferredSize => Size.fromHeight(70.h);
 }
