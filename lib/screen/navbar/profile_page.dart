@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:office_booking_app/provider/login_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -93,7 +92,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   TileCompnent(
                     text: 'Transaction History',
                     onPress: () {
-                      print(profile.getUsers.name);
                       Navigator.pushNamed(context, '/order');
                     },
                   ),

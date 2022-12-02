@@ -154,7 +154,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
                 SizedBox(
                   height: Helper.icon.length < 9 ? 107.h : 147.h,
                   child: GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
                         mainAxisSpacing: 8.h,
@@ -215,7 +215,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Annual'),
+                  const Text('Annual'),
                   Text('IDR ${detail.getDetailBuilding.price!.monthly!}/ year'),
                   Radio(
                     value: 'value',
