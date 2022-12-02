@@ -52,6 +52,7 @@ class _SendOtpState extends State<SendOtp> {
                   height: 32.h,
                 ),
                 FormComponent(
+                  isEmail: true,
                   isAuth: true,
                   formHeight: 40.h,
                   formWidth: double.infinity,

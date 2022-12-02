@@ -66,7 +66,7 @@ class FormComponent extends StatelessWidget {
                   : isEmail == true
                       ? TextInputType.emailAddress
                       : TextInputType.text,
-              obscureText: value,
+              obscureText: isPassword == true ? value : false,
               decoration: InputDecoration(
                   prefix: Padding(
                       padding: EdgeInsets.symmetric(
