@@ -8,6 +8,9 @@ import 'package:office_booking_app/provider/login_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/screen/building/building_detail_page.dart';
 import 'package:office_booking_app/screen/edit_profile/edit_profile_page.dart';
+import 'package:office_booking_app/screen/login/forgot_password.dart';
+import 'package:office_booking_app/screen/login/send_otp.dart';
+import 'package:office_booking_app/screen/login/verify_otp.dart';
 import 'package:office_booking_app/screen/navbar/order_page.dart';
 import 'package:office_booking_app/screen/onboard/onboard_page.dart';
 import 'package:office_booking_app/screen/order/order_detail_page.dart';
@@ -68,6 +71,9 @@ class MyApp extends StatelessWidget {
             '/building-detail': (context) => const BuildingDetail(),
             '/search': (context) => const SearchPage(),
             '/search-result': (context) => const SearchResult(),
+            '/forgot-password': (context) => const ForgotPassword(),
+            '/send-otp': (context) => const SendOtp(),
+            '/verify-otp': (context) => const VerifyOtp(),
           },
           initialRoute: '/onboard',
           theme: ThemeData(
