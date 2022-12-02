@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:office_booking_app/screen/components/appbar_component.dart';
 import 'package:office_booking_app/screen/components/button_component.dart';
 import 'package:office_booking_app/screen/components/status_order_component.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
@@ -63,11 +62,11 @@ class _OrderPageState extends State<OrderPage> {
                         onTap: () {
                           Navigator.pushNamed(context, '/order-detail');
                         },
-                        child: StatusOrderComponent(
+                        child: const StatusOrderComponent(
                           statusId: 1,
                         ),
                       ),
-                      StatusOrderComponent(
+                      const StatusOrderComponent(
                         statusId: 2,
                       ),
                     ],

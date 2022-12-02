@@ -18,7 +18,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final profile = Provider.of<UserProvider>(context, listen: false);
-    final data = Provider.of<SignInProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         body: Column(

@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:office_booking_app/provider/building_provider.dart';
-import 'package:office_booking_app/screen/components/appbar_component.dart';
 import 'package:office_booking_app/screen/components/appbar_home.dart';
 import 'package:office_booking_app/screen/components/building_grid_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
 import 'package:provider/provider.dart';
-
-import '../components/form_component.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -16,8 +13,6 @@ class Homepage extends StatefulWidget {
   @override
   State<Homepage> createState() => _HomepageState();
 }
-
-bool _isSelected = false;
 
 class _HomepageState extends State<Homepage> {
   @override
@@ -46,7 +41,7 @@ class _HomepageState extends State<Homepage> {
                     'Popular building by rating',
                     style: textEmptyReservation,
                   ),
-                  TextButton(onPressed: () {}, child: Text('View All'))
+                  TextButton(onPressed: () {}, child: const Text('View All'))
                 ],
               ),
               SizedBox(

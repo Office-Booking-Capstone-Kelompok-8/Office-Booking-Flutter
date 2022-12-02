@@ -12,7 +12,6 @@ class BuildingApi {
       List<BuildingModel> building = (response.data['data'] as List)
           .map((e) => BuildingModel.fromJson(e))
           .toList();
-      print(building);
       return building;
     } on DioError catch (_) {
       rethrow;
