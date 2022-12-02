@@ -110,6 +110,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     controller: _nameController,
                     prefixIcon: Icons.person_outline,
                     hint: 'Full name',
+                    validation: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Name is required';
+                      } else {
+                        return null;
+                      }
+                    },
                   ),
                 ),
                 Container(
@@ -122,6 +129,15 @@ class _RegisterPageState extends State<RegisterPage> {
                     controller: _phoneController,
                     prefixIcon: Icons.phone_outlined,
                     hint: 'Phone number',
+                    validation: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Phone number is required';
+                      } else if (int.tryParse(value) == null) {
+                        return 'Phone Number can only consist of numbers';
+                      } else {
+                        return null;
+                      }
+                    },
                   ),
                 ),
                 Container(
@@ -144,8 +160,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           ")+";
                       final RegExp regExp = RegExp(expression);
                       return !regExp.hasMatch(value!)
-                          ? "Please, input valid email!"
-                          : null;
+                          ? "Can only consist of letters, numbers and special characters (@.-_)"
+                          : value.isEmpty
+                              ? 'email is required'
+                              : null;
                     },
                   ),
                 ),
@@ -161,10 +179,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     hint: 'Password',
                     validation: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'field cannot be empty';
+                        return 'Password is required';
                       }
                       if (value.length < 8) {
-                        return 'field must be longer than 8 characters';
+                        return '8-20 characters consisting of letters and numbers';
                       } else {
                         return null;
                       }
@@ -183,7 +201,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     hint: 'Confirm password',
                     validation: (value) {
                       if (value != _passwordController.text) {
-                        return 'Password not match';
+                        return 'Password and password confirmation must be the same';
                       } else {
                         return null;
                       }

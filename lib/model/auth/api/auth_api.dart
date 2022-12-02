@@ -79,4 +79,44 @@ class AuthApi {
       rethrow;
     }
   }
+
+  Future<String> verifyOtp({
+    required String email,
+    required String code,
+  }) async {
+    try {
+      final response = await _dio.post(
+        Api.baseUrl + Api.verifyOtp,
+        data: {
+          'email': email,
+          'code': code,
+        },
+      );
+
+      return response.data['message'];
+    } on DioError catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<String> resetPassword({
+    required String email,
+    required String password,
+    required String key,
+  }) async {
+    try {
+      final response = await _dio.put(
+        Api.baseUrl + Api.verifyOtp,
+        data: {
+          'email': email,
+          'password': password,
+          'key': key,
+        },
+      );
+
+      return response.data['message'];
+    } on DioError catch (_) {
+      rethrow;
+    }
+  }
 }

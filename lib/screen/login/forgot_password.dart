@@ -1,0 +1,116 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:office_booking_app/screen/components/form_component.dart';
+
+import '../../utils/constant/app_colors.dart';
+import '../components/button_component.dart';
+
+class ForgotPassword extends StatefulWidget {
+  const ForgotPassword({super.key});
+
+  @override
+  State<ForgotPassword> createState() => _ForgotPasswordState();
+}
+
+class _ForgotPasswordState extends State<ForgotPassword> {
+  late TextEditingController _passwordController;
+  late TextEditingController _confirmPasswordController;
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    _passwordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: SingleChildScrollView(
+            child: Form(
+          key: _formKey,
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Create a new password',
+                  style:
+                      TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Text(
+                  'The new password must be different from the previously used password',
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                  ),
+                ),
+                SizedBox(
+                  height: 32.h,
+                ),
+                FormComponent(
+                  isPassword: true,
+                  isAuth: true,
+                  formHeight: 40.h,
+                  formWidth: double.infinity,
+                  controller: _passwordController,
+                  prefixIcon: Icons.lock_outline,
+                  hint: 'Password',
+                  validation: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Password is required';
+                    }
+                    if (value.length < 8) {
+                      return '8-20 characters consisting of letters and numbers';
+                    } else {
+                      return null;
+                    }
+                  },
+                ),
+                SizedBox(
+                  height: 32.h,
+                ),
+                FormComponent(
+                  isPassword: true,
+                  isAuth: true,
+                  formHeight: 40.h,
+                  formWidth: double.infinity,
+                  controller: _confirmPasswordController,
+                  prefixIcon: Icons.lock_outline,
+                  hint: 'Confirm password',
+                  validation: (value) {
+                    if (value != _passwordController.text) {
+                      return 'Password and password confirmation must be the same';
+                    } else {
+                      return null;
+                    }
+                  },
+                ),
+                SizedBox(
+                  height: 32.h,
+                ),
+                ButtonComponent(
+                  buttonHeight: 40.h,
+                  buttonWidth: double.infinity,
+                  onPress: () async {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/login', (route) => false);
+                    }
+                  },
+                  textButton: 'Create Password',
+                ),
+              ],
+            ),
+          ),
+        )),
+      ),
+    );
+  }
+}

@@ -114,8 +114,10 @@ class _LoginPageState extends State<LoginPage> {
                           ")+";
                       final RegExp regExp = RegExp(expression);
                       return !regExp.hasMatch(value!)
-                          ? "Please, input valid email!"
-                          : null;
+                          ? "Can only consist of letters, numbers and special characters (@.-_)"
+                          : value.isEmpty
+                              ? 'email is required'
+                              : null;
                     },
                   ),
                 ),
@@ -131,10 +133,10 @@ class _LoginPageState extends State<LoginPage> {
                     hint: 'Password',
                     validation: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'field cannot be empty';
+                        return 'Password is required';
                       }
                       if (value.length < 8) {
-                        return 'field must be longer than 8 characters';
+                        return '8-20 characters consisting of letters and numbers';
                       } else {
                         return null;
                       }
@@ -147,7 +149,10 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       padding: EdgeInsets.only(right: 10.w),
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/send-otp', (route) => false);
+                        },
                         child: const Text(
                           'Forgot Password?',
                           style: TextStyle(

@@ -102,4 +102,89 @@ class SignInProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<String?> sendOtp({
+    required String email,
+  }) async {
+    try {
+      myState = MyState.loading;
+      notifyListeners();
+
+      final response = await service.sendOtp(email: email);
+
+      myState = MyState.loaded;
+      notifyListeners();
+      return response;
+    } catch (e) {
+      if (e is DioError) {
+        if (e.response != null) {
+          myState = MyState.loaded;
+          notifyListeners();
+          return e.response!.data['message'];
+        }
+      }
+
+      myState = MyState.failed;
+      notifyListeners();
+      return null;
+    }
+  }
+
+  Future<String?> verfyOtp({
+    required String email,
+    required String code,
+  }) async {
+    try {
+      myState = MyState.loading;
+      notifyListeners();
+
+      final response = await service.verifyOtp(email: email, code: code);
+
+      myState = MyState.loaded;
+      notifyListeners();
+      return response;
+    } catch (e) {
+      if (e is DioError) {
+        if (e.response != null) {
+          myState = MyState.loaded;
+          notifyListeners();
+          return e.response!.data['message'];
+        }
+      }
+
+      myState = MyState.failed;
+      notifyListeners();
+      return null;
+    }
+  }
+
+  Future<String?> resetPassword({
+    required String email,
+    required String password,
+    required String key,
+  }) async {
+    try {
+      myState = MyState.loading;
+      notifyListeners();
+
+      final response = await service.resetPassword(
+          email: email, password: password, key: key);
+
+      myState = MyState.loaded;
+      notifyListeners();
+      return response;
+    } catch (e) {
+      if (e is DioError) {
+        if (e.response != null) {
+          myState = MyState.loaded;
+          notifyListeners();
+          return e.response!.data['message'];
+        }
+      }
+
+      myState = MyState.failed;
+      notifyListeners();
+      return null;
+    }
+  }
 }
