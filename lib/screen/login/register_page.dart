@@ -206,13 +206,16 @@ class _RegisterPageState extends State<RegisterPage> {
                             phone: _phoneController.text,
                             password: _passwordController.text);
                         if (mounted) {}
-                        if (response != null) {
+                        if (response == 'user created successfully') {
                           showNotification(context, '$response please login');
 
-                          Navigator.pushNamed(context, '/login');
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/login', (route) => false);
+                        } else if (response != null) {
+                          showNotification(context, response);
                         }
                       } catch (e) {
-                        showNotification(context, 'Gagal');
+                        showNotification(context, e.toString());
                       }
                     }
                   },

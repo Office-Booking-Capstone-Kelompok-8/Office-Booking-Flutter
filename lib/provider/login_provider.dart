@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../model/auth/auth_api.dart';
-import '../model/signin_model.dart';
+import '../model/auth/api/auth_api.dart';
+import '../model/auth/signin_model.dart';
 import '../utils/state/finite_state.dart';
 
 class SignInProvider extends ChangeNotifier {
@@ -25,22 +25,28 @@ class SignInProvider extends ChangeNotifier {
       myState = MyState.loading;
       notifyListeners();
 
-      users = await service.signIn(
+      final result = await service.signIn(
         email: email,
         password: password,
       );
-      if (users != null) {
+      if (result.runtimeType == SignInModel) {
+        users = result;
         final helper = await SharedPreferences.getInstance();
-        helper.setString('accessToken', users!.accessToken!);
-        helper.setString('refreshToken', users!.refreshToken!);
+        helper.setString('accessToken', result!.accessToken!);
+        helper.setString('refreshToken', result!.refreshToken!);
+        myState = MyState.loaded;
+        notifyListeners();
+        return 'Login successful';
       }
       myState = MyState.loaded;
       notifyListeners();
-      return 'Berhasil Login';
+      return result;
     } catch (e) {
       if (e is DioError) {
         /// If want to check status code from service error
-        e.response!.statusCode;
+        myState = MyState.loaded;
+        notifyListeners();
+        return e.response!.data['message'];
       }
 
       myState = MyState.failed;
@@ -71,8 +77,11 @@ class SignInProvider extends ChangeNotifier {
       return response;
     } catch (e) {
       if (e is DioError) {
-        /// If want to check status code from service error
-        e.response!.statusCode;
+        if (e.response != null) {
+          myState = MyState.loaded;
+          notifyListeners();
+          return e.response!.data['message'];
+        }
       }
 
       myState = MyState.failed;

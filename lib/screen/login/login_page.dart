@@ -168,16 +168,22 @@ class _LoginPageState extends State<LoginPage> {
                     FocusManager.instance.primaryFocus?.unfocus();
                     if (_formKey.currentState!.validate()) {
                       try {
-                        await provider.signIn(
+                        final result = await provider.signIn(
                             email: _emailController.text,
                             password: _passwordController.text);
                         if (mounted) {}
-                        showNotification(context,
-                            'Success ${provider.dataUser!.accessToken!} ');
-
-                        Navigator.pushNamed(context, '/navbar');
+                        if (result == 'Login successful') {
+                          showNotification(context, result!);
+                          // if (args != null) {
+                          //   Navigator.pop(args);
+                          // }
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/navbar', (route) => false);
+                        } else if (result != null) {
+                          showNotification(context, result);
+                        }
                       } catch (e) {
-                        showNotification(context, 'Gagal');
+                        showNotification(context, e.toString());
                       }
                     }
                   },

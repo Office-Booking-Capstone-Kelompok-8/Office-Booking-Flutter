@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import '../../utils/constant/api_constant.dart';
+import '../../../utils/constant/api_constant.dart';
 import '../signin_model.dart';
 
 class AuthApi {
@@ -22,7 +22,7 @@ class AuthApi {
     );
   }
 
-  Future<SignInModel> signIn({
+  Future<dynamic> signIn({
     required String email,
     required String password,
   }) async {
@@ -57,11 +57,24 @@ class AuthApi {
           'phone': phone,
         },
       );
+      return response.data['message'];
+    } on DioError catch (_) {
+      rethrow;
+    }
+  }
 
-      if (response.statusCode == 201) {
-        return response.data['message'];
-      }
-      return 'gagal';
+  Future<String> sendOtp({
+    required String email,
+  }) async {
+    try {
+      final response = await _dio.post(
+        Api.baseUrl + Api.requestOtp,
+        data: {
+          'email': email,
+        },
+      );
+
+      return response.data['message'];
     } on DioError catch (_) {
       rethrow;
     }
