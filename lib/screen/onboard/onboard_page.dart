@@ -66,32 +66,14 @@ class _OnboardPageState extends State<OnboardPage> {
                       value.pageIndex == 2
                           ? Column(
                               children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    ButtonComponent(
-                                        onPress: () {
-                                          Navigator.pushNamedAndRemoveUntil(
-                                              context,
-                                              '/register',
-                                              (route) => false);
-                                        },
-                                        textButton: 'Register',
-                                        buttonHeight: 40.h,
-                                        buttonWidth: 108.w),
-                                    ButtonComponent(
-                                        onPress: () {
-                                          Navigator.pushNamedAndRemoveUntil(
-                                              context,
-                                              '/login',
-                                              (route) => false);
-                                        },
-                                        textButton: 'Login',
-                                        buttonHeight: 40.h,
-                                        buttonWidth: 108.w),
-                                  ],
-                                ),
+                                ButtonComponent(
+                                    onPress: () {
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context, '/login', (route) => false);
+                                    },
+                                    textButton: 'Join Now',
+                                    buttonHeight: 40.h,
+                                    buttonWidth: double.infinity),
                                 SizedBox(
                                   height: 12.h,
                                 ),

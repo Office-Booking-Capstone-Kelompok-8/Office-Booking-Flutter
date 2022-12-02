@@ -46,8 +46,11 @@ class _SearchResultState extends State<SearchResult> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.w),
         child: GridView(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, childAspectRatio: 160 / 180),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 160 / 220,
+              mainAxisSpacing: 8.h,
+              crossAxisSpacing: 8.w),
           shrinkWrap: true,
           children: const [
             BuildingGridComponent(
