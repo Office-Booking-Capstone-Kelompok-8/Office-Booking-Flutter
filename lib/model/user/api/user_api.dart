@@ -4,11 +4,13 @@ import 'package:office_booking_app/utils/constant/api_constant.dart';
 
 class UserApi {
   final Dio _dio = Dio();
+  String accessToken = '';
 
   UserApi() {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
+          options.headers['Authorization'] = 'Bearer$accessToken';
           return handler.next(options);
         },
         onResponse: (response, handler) {

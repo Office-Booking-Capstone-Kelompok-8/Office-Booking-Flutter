@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:office_booking_app/provider/building_provider.dart';
 import 'package:office_booking_app/screen/components/button_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
 import 'package:office_booking_app/utils/constant/helper.dart';
+import 'package:provider/provider.dart';
 import '../../screen/components/appbar_component.dart';
 
 class BuildingDetail extends StatefulWidget {
@@ -14,8 +16,20 @@ class BuildingDetail extends StatefulWidget {
 }
 
 class _BuildingDetailState extends State<BuildingDetail> {
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+  //     Map<String, dynamic> argsDetail =
+  //         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+  //     String id = argsDetail['id'];
+  //     Provider.of<BuildingProvider>(context, listen: false).getDetail(id);
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
+    final detail = Provider.of<BuildingProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         appBar: const AppbarComponent(title: 'Detail Building'),
@@ -33,21 +47,22 @@ class _BuildingDetailState extends State<BuildingDetail> {
                     child: PageView.builder(
                         itemBuilder: (context, index) => FittedBox(
                               fit: BoxFit.cover,
-                              child: Image.network(
-                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxGBuzZrbeQiISNiDKyJRFu4QKyR54MqssYg&usqp=CAU'),
+                              child: Image.network(detail
+                                  .getDetailBuilding.pictures![index].url!),
                             ),
-                        itemCount: 3),
+                        itemCount: detail.getDetailBuilding.pictures!.length),
                   ),
                 ),
                 SizedBox(
                   height: 24.h,
                 ),
                 SizedBox(
-                    height: 40.h,
-                    child: Text(
-                      'LILY MEETING ROOM',
-                      style: buildingName,
-                    )),
+                  height: 40.h,
+                  child: Text(
+                    detail.getDetailBuilding.name!,
+                    style: buildingName,
+                  ),
+                ),
                 // Row(
                 //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 //   children: [
@@ -93,7 +108,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
                   height: 8.h,
                 ),
                 Text(
-                  'Nikmati hunian nyaman dengan letak strategis di Daerah Pancoran. Ukuran ruangan ini sebesar 12mx24m dengan total kapasitas sebanyak 45 orang. ',
+                  detail.getDetailBuilding.description!,
                   maxLines: 5,
                   style: detailBuilidingStyle,
                 ),
@@ -115,7 +130,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
                   height: 8.h,
                 ),
                 Text(
-                  'Pasaraya Blok M Gedung B Lt. 6. Jalan Iskandarsyah II No.7, RW. 2, Melawai, Kebayoran Baru, RT.3/RW.1, Melawai, Kby. Baru',
+                  '${detail.getDetailBuilding.location!.address!}, ${detail.getDetailBuilding.location!.district!}, ${detail.getDetailBuilding.location!.city!}',
                   maxLines: 5,
                   style: detailBuilidingStyle,
                 ),
@@ -187,8 +202,9 @@ class _BuildingDetailState extends State<BuildingDetail> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Monthly'),
-                  Text('IDR 350.000/ month'),
+                  const Text('Monthly'),
+                  Text(
+                      'IDR ${detail.getDetailBuilding.price!.monthly!}/ month'),
                   Radio(
                     value: 'value',
                     groupValue: 'groupValue',
@@ -200,7 +216,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Annual'),
-                  Text('IDR 11.350.000/ month'),
+                  Text('IDR ${detail.getDetailBuilding.price!.monthly!}/ year'),
                   Radio(
                     value: 'value',
                     groupValue: 'groupValue',

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:office_booking_app/provider/building_provider.dart';
 import 'package:office_booking_app/screen/components/building_grid_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
+import 'package:provider/provider.dart';
 
 import '../components/form_component.dart';
 
@@ -16,6 +18,14 @@ class Homepage extends StatefulWidget {
 bool _isSelected = false;
 
 class _HomepageState extends State<Homepage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<BuildingProvider>(context, listen: false).getAllBuilding();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,64 +99,37 @@ class _HomepageState extends State<Homepage> {
               SizedBox(
                 height: 20.h,
               ),
-              GridView(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 160 / 220,
-                    mainAxisSpacing: 8.h,
-                    crossAxisSpacing: 8.w),
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/building-detail');
+              Consumer<BuildingProvider>(
+                builder: (context, building, _) => GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 160 / 220,
+                      mainAxisSpacing: 8.h,
+                      crossAxisSpacing: 8.w),
+                  shrinkWrap: true,
+                  itemCount: building.getBuilding.length,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) => InkWell(
+                    onTap: () async {
+                      await building.getDetail(building.getBuilding[index].id!);
+                      Navigator.pushNamed(
+                        context, '/building-detail',
+                        // arguments: {
+                        //   'id': building.getBuilding[index].id,
+                        // }
+                      );
                     },
                     child: BuildingGridComponent(
-                      url:
-                          'https://unsplash.com/photos/eHD8Y1Znfpk/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTB8fG9mZmljZSUyMHJvb218ZW58MHx8fHwxNjY5NzE3OTI5&force=true&w=640',
-                      buildingName: 'Lily Meeting Room',
-                      buildingLoc: 'Pancoran, South Jakarta',
-                      buildingPrice: '1.000.000',
+                      url: building.getBuilding[index].pictures!,
+                      buildingName: building.getBuilding[index].name!,
+                      buildingLoc:
+                          '${building.getBuilding[index].location!.district!}, ${building.getBuilding[index].location!.city!}',
+                      buildingPrice: building.getBuilding[index].price!.monthly!
+                          .toString(),
                     ),
                   ),
-                  BuildingGridComponent(
-                    url:
-                        'https://unsplash.com/photos/eHD8Y1Znfpk/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTB8fG9mZmljZSUyMHJvb218ZW58MHx8fHwxNjY5NzE3OTI5&force=true&w=640',
-                    buildingName: 'Lily Meeting Room',
-                    buildingLoc: 'Pancoran, South Jakarta',
-                    buildingPrice: '1.000.000',
-                  ),
-                  BuildingGridComponent(
-                    url:
-                        'https://unsplash.com/photos/eHD8Y1Znfpk/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTB8fG9mZmljZSUyMHJvb218ZW58MHx8fHwxNjY5NzE3OTI5&force=true&w=640',
-                    buildingName: 'Lily Meeting Room',
-                    buildingLoc: 'Pancoran, South Jakarta',
-                    buildingPrice: '1.000.000',
-                  ),
-                  BuildingGridComponent(
-                    url:
-                        'https://unsplash.com/photos/eHD8Y1Znfpk/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTB8fG9mZmljZSUyMHJvb218ZW58MHx8fHwxNjY5NzE3OTI5&force=true&w=640',
-                    buildingName: 'Lily Meeting Room',
-                    buildingLoc: 'Pancoran, South Jakarta',
-                    buildingPrice: '1.000.000',
-                  ),
-                  BuildingGridComponent(
-                    url:
-                        'https://unsplash.com/photos/eHD8Y1Znfpk/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTB8fG9mZmljZSUyMHJvb218ZW58MHx8fHwxNjY5NzE3OTI5&force=true&w=640',
-                    buildingName: 'Lily Meeting Room',
-                    buildingLoc: 'Pancoran, South Jakarta',
-                    buildingPrice: '1.000.000',
-                  ),
-                  BuildingGridComponent(
-                    url:
-                        'https://unsplash.com/photos/eHD8Y1Znfpk/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTB8fG9mZmljZSUyMHJvb218ZW58MHx8fHwxNjY5NzE3OTI5&force=true&w=640',
-                    buildingName: 'Lily Meeting Room',
-                    buildingLoc: 'Pancoran, South Jakarta',
-                    buildingPrice: '1.000.000',
-                  ),
-                ],
-              ),
+                ),
+              )
             ],
           ),
         ),
