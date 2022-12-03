@@ -130,7 +130,7 @@ class SignInProvider extends ChangeNotifier {
     }
   }
 
-  Future<String?> verfyOtp({
+  Future<Map<String, dynamic>?> verfyOtp({
     required String email,
     required String code,
   }) async {
@@ -148,7 +148,7 @@ class SignInProvider extends ChangeNotifier {
         if (e.response != null) {
           myState = MyState.loaded;
           notifyListeners();
-          return e.response!.data['message'];
+          return {'message': e.response!.data['message']};
         }
       }
 

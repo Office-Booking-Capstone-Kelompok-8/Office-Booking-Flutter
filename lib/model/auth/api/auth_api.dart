@@ -80,7 +80,7 @@ class AuthApi {
     }
   }
 
-  Future<String> verifyOtp({
+  Future<Map<String, dynamic>> verifyOtp({
     required String email,
     required String code,
   }) async {
@@ -92,8 +92,10 @@ class AuthApi {
           'code': code,
         },
       );
-
-      return response.data['message'];
+      if (response.statusCode == 200) {
+        return response.data;
+      }
+      return {'message': response.data['message']};
     } on DioError catch (_) {
       rethrow;
     }
