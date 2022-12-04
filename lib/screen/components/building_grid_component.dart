@@ -24,12 +24,11 @@ class BuildingGridComponent extends StatelessWidget {
     return InkWell(
       onTap: onPress,
       child: Card(
-        // margin: EdgeInsets.all(8.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 120.h,
+              height: 120.w,
               width: 180.w,
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
@@ -42,28 +41,41 @@ class BuildingGridComponent extends StatelessWidget {
               ),
             ),
             Container(
+              height: 80.w,
               padding: EdgeInsets.symmetric(horizontal: 8.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    height: 5.h,
-                  ),
-                  Text(
-                    buildingName,
-                    style:
-                        TextStyle(fontSize: 14.sp, color: AppColors.neutral9),
-                  ),
-                  Text(
-                    buildingLoc,
-                    style:
-                        TextStyle(fontSize: 12.sp, color: AppColors.neutral8),
-                  ),
-                  SizedBox(
-                    height: 16.h,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      Text(
+                        buildingName,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                            fontSize: 14.sp, color: AppColors.neutral9),
+                      ),
+                      Text(
+                        buildingLoc,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: TextStyle(
+                            fontSize: 12.sp, color: AppColors.neutral8),
+                      ),
+                      SizedBox(
+                        height: 16.h,
+                      ),
+                    ],
                   ),
                   Text(
                     'Start From $buildingPrice',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                     style: TextStyle(
                         fontSize: 12.sp,
                         color: AppColors.primary5,

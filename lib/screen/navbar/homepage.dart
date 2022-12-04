@@ -103,8 +103,8 @@ class _HomepageState extends State<Homepage> {
                 builder: (context, building, _) => GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 160 / 220,
-                      mainAxisSpacing: 8.h,
+                      childAspectRatio: 160.w / 220.w,
+                      mainAxisSpacing: 8.w,
                       crossAxisSpacing: 8.w),
                   shrinkWrap: true,
                   itemCount: building.getBuilding.length,
