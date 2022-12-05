@@ -94,3 +94,8 @@ TextStyle detailBuilidingStyle = TextStyle(
   fontSize: 12.sp,
   fontWeight: FontWeight.w400,
 );
+TextStyle priceBold = TextStyle(
+  color: AppColors.neutral9,
+  fontSize: 12.sp,
+  fontWeight: FontWeight.w700,
+);

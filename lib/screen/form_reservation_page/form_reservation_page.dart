@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:provider/provider.dart';
 
-import '../../provider/date_provider.dart';
+import '../../provider/set_state_provider.dart';
 import '../../utils/constant/app_text_style.dart';
 import '../components/button_component.dart';
 import '../components/form_component.dart';
@@ -19,12 +20,26 @@ class FormReservationPage extends StatefulWidget {
 
 class _FormReservationPageState extends State<FormReservationPage> {
   final _formkey = GlobalKey<FormState>();
-  final TextEditingController _companyNameController = TextEditingController();
-  final TextEditingController _tenantNameController = TextEditingController();
-  final TextEditingController _phoneNumberController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
+  late TextEditingController _companyNameController = TextEditingController();
+  late TextEditingController _tenantNameController = TextEditingController();
+  late TextEditingController _phoneNumberController = TextEditingController();
+  late TextEditingController _emailController = TextEditingController();
+  @override
+  void initState() {
+    _companyNameController = TextEditingController();
+    _tenantNameController = TextEditingController();
+    _phoneNumberController = TextEditingController();
+    _emailController = TextEditingController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final data = Provider.of<UserProvider>(context, listen: false);
+    _emailController.text = data.getUsers.email!;
+    _phoneNumberController.text = data.getUsers.phone!;
+    Map<String, dynamic> argsForm =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return SafeArea(
       child: Scaffold(
         appBar: const AppbarComponent(
@@ -61,7 +76,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                             height: 92.h,
                             width: 83.w,
                             child: Image.network(
-                              'https://www.barajacoding.or.id/wp-content/uploads/2022/05/unnamed.jpg',
+                              argsForm['building-image'],
                             ),
                           ),
                         ),
@@ -76,18 +91,23 @@ class _FormReservationPageState extends State<FormReservationPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Text(
-                                  'Lily Meeting Room',
+                                  argsForm['building-name'],
                                   style: detailFormStyle,
                                 ),
                                 Text(
-                                  'Jl. Melati no. 75 Kel. yy. Jakarta Barat',
+                                  argsForm['building-address'],
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 3,
                                   style: detailFormGrey,
                                 ),
-                                Text(
-                                  'Price',
-                                  style: detailFormStyle,
+                                Row(
+                                  children: [
+                                    Text(
+                                      'IDR ${argsForm['building-price'].toString()}',
+                                      style: onboardSkip,
+                                    ),
+                                    const Text(' / year')
+                                  ],
                                 ),
                               ],
                             ),
@@ -156,6 +176,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                   ),
                   FormComponent(
                     isForm: true,
+                    isDisable: true,
                     controller: _emailController,
                     formHeight: 41.h,
                     formWidth: double.infinity,
@@ -163,90 +184,100 @@ class _FormReservationPageState extends State<FormReservationPage> {
                   SizedBox(
                     height: 24.h,
                   ),
-                  Text(
-                    'Check in',
-                    style: formTop,
-                  ),
-                  SizedBox(
-                    height: 9.h,
-                  ),
-                  SizedBox(
-                    height: 48.h,
-                    width: double.infinity,
-                    child: Consumer<DateProvider>(
-                      builder: (context, date, _) => TextFormField(
-                          readOnly: true,
-                          // controller: _dateStartController,
-                          decoration: InputDecoration(
-                            hintText: DateFormat('yyyy/MM/dd')
-                                .format(date.getDateStart),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(9.r),
-                              borderSide: const BorderSide(
-                                width: 1,
-                                color: AppColors.borderButton,
-                              ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Check in',
+                            style: formTop,
+                          ),
+                          SizedBox(
+                            height: 9.h,
+                          ),
+                          SizedBox(
+                            height: 48.h,
+                            width: 156.w,
+                            child: Consumer<SetStateProvider>(
+                              builder: (context, date, _) => TextFormField(
+                                  readOnly: true,
+                                  decoration: InputDecoration(
+                                    hintText: DateFormat('dd/MM/yyy')
+                                        .format(date.getDateStart),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(9.r),
+                                      borderSide: const BorderSide(
+                                        width: 1,
+                                        color: AppColors.borderButton,
+                                      ),
+                                    ),
+                                    suffixIcon: IconButton(
+                                      onPressed: (() async {
+                                        final selectDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: date.getDateStart,
+                                            firstDate: DateTime.now(),
+                                            lastDate: DateTime(
+                                                date.getDateStart.year + 5));
+                                        if (selectDate != null) {
+                                          date.setDateStart = selectDate;
+                                        }
+                                      }),
+                                      icon: const Icon(Icons.calendar_today),
+                                    ),
+                                  )),
                             ),
-                            suffixIcon: IconButton(
-                              onPressed: (() async {
-                                final selectDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: date.getDateStart,
-                                    firstDate: DateTime.now(),
-                                    lastDate:
-                                        DateTime(date.getDateStart.year + 5));
-                                if (selectDate != null) {
-                                  date.setDateStart = selectDate;
-                                }
-                              }),
-                              icon: const Icon(Icons.calendar_today),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Check out',
+                            style: formTop,
+                          ),
+                          SizedBox(
+                            height: 9.h,
+                          ),
+                          SizedBox(
+                            height: 48.h,
+                            width: 156.w,
+                            child: Consumer<SetStateProvider>(
+                              builder: (context, date, _) => TextFormField(
+                                  readOnly: true,
+                                  decoration: InputDecoration(
+                                    hintText: DateFormat('dd/MM/yyy')
+                                        .format(date.getDateEnd),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(9.r),
+                                      borderSide: const BorderSide(
+                                        width: 1,
+                                        color: AppColors.borderButton,
+                                      ),
+                                    ),
+                                    suffixIcon: IconButton(
+                                      onPressed: (() async {
+                                        final selectDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: date.getDateStart,
+                                            firstDate: date.getDateStart,
+                                            lastDate: DateTime(
+                                                date.getDateEnd.year + 5));
+                                        if (selectDate != null) {
+                                          date.setDateEnd = selectDate;
+                                        }
+                                      }),
+                                      icon: const Icon(Icons.calendar_today),
+                                    ),
+                                  )),
                             ),
-                          )),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 24.h,
-                  ),
-                  Text(
-                    'Check out',
-                    style: formTop,
-                  ),
-                  SizedBox(
-                    height: 9.h,
-                  ),
-                  SizedBox(
-                    height: 48.h,
-                    width: double.infinity,
-                    child: Consumer<DateProvider>(
-                      builder: (context, date, _) => TextFormField(
-                          readOnly: true,
-                          // controller: _dateEndController,
-                          decoration: InputDecoration(
-                            hintText: DateFormat('yyyy/MM/dd')
-                                .format(date.getDateEnd),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(9.r),
-                              borderSide: const BorderSide(
-                                width: 1,
-                                color: AppColors.borderButton,
-                              ),
-                            ),
-                            suffixIcon: IconButton(
-                              onPressed: (() async {
-                                final selectDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: date.getDateEnd,
-                                    firstDate: DateTime.now(),
-                                    lastDate:
-                                        DateTime(date.getDateEnd.year + 5));
-                                if (selectDate != null) {
-                                  date.setDateEnd = selectDate;
-                                }
-                              }),
-                              icon: const Icon(Icons.calendar_today),
-                            ),
-                          )),
-                    ),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
                   SizedBox(
                     height: 65.h,

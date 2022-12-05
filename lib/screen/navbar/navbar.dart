@@ -15,15 +15,15 @@ class Navbar extends StatefulWidget {
 }
 
 class _NavbarState extends State<Navbar> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final data = Provider.of<SignInProvider>(context, listen: false);
-      Provider.of<UserProvider>(context, listen: false)
-          .getUsersDetail(data.users!.accessToken!);
-    });
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+  //     final data = Provider.of<SignInProvider>(context, listen: false);
+  //     Provider.of<UserProvider>(context, listen: false)
+  //         .getUsersDetail(data.users!.accessToken!);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

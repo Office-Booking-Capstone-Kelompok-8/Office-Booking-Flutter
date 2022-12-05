@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:office_booking_app/provider/building_provider.dart';
+import 'package:office_booking_app/provider/set_state_provider.dart';
 import 'package:office_booking_app/screen/components/button_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
@@ -30,6 +32,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
   @override
   Widget build(BuildContext context) {
     final detail = Provider.of<BuildingProvider>(context, listen: false);
+    NumberFormat formater = NumberFormat('#,##,000');
     return SafeArea(
       child: Scaffold(
         appBar: const AppbarComponent(title: 'Detail Building'),
@@ -194,7 +197,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
         ),
         bottomNavigationBar: Container(
           margin: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 16.h),
-          height: 175.h,
+          height: 171.h,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -205,25 +208,53 @@ class _BuildingDetailState extends State<BuildingDetail> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Monthly'),
                   Text(
-                      'IDR ${detail.getDetailBuilding.price!.monthly!}/ month'),
-                  Radio(
-                    value: 'value',
-                    groupValue: 'groupValue',
-                    onChanged: (value) {},
+                    'Monthly',
+                    style: detailBuilidingStyle,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                          'IDR ${formater.format(detail.getDetailBuilding.price!.monthly!)}',
+                          style: priceBold),
+                      const Text(' / month')
+                    ],
+                  ),
+                  Consumer<SetStateProvider>(
+                    builder: (context, numChange, _) => Radio(
+                      value: 0,
+                      groupValue: numChange.number,
+                      onChanged: (value) {
+                        numChange.number = value;
+                      },
+                    ),
                   )
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Annual'),
-                  Text('IDR ${detail.getDetailBuilding.price!.monthly!}/ year'),
-                  Radio(
-                    value: 'value',
-                    groupValue: 'groupValue',
-                    onChanged: (value) {},
+                  Text(
+                    'Annual',
+                    style: detailBuilidingStyle,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'IDR ${formater.format(detail.getDetailBuilding.price!.annual!)}',
+                        style: priceBold,
+                      ),
+                      const Text(' / year')
+                    ],
+                  ),
+                  Consumer<SetStateProvider>(
+                    builder: (context, numChange, _) => Radio(
+                      value: 1,
+                      groupValue: numChange.number,
+                      onChanged: (value) {
+                        numChange.number = value;
+                      },
+                    ),
                   )
                 ],
               ),
@@ -258,13 +289,27 @@ class _BuildingDetailState extends State<BuildingDetail> {
                   SizedBox(
                     width: 12.w,
                   ),
-                  ButtonComponent(
-                      onPress: () {
-                        Navigator.pushNamed(context, '/form-page');
-                      },
-                      textButton: 'Book Now',
-                      buttonHeight: 37.h,
-                      buttonWidth: 274.w),
+                  Consumer<SetStateProvider>(
+                    builder: (context, numChange, _) => ButtonComponent(
+                        onPress: () {
+                          Navigator.pushNamed(context, '/form-page',
+                              arguments: {
+                                'building-image': detail
+                                    .getDetailBuilding.pictures!.first.url!,
+                                'building-name': detail.getDetailBuilding.name,
+                                'building-address':
+                                    '${detail.getDetailBuilding.location!.district!} - ${detail.getDetailBuilding.location!.city!}',
+                                'building-price': numChange.number == 0
+                                    ? formater.format(
+                                        detail.getDetailBuilding.price!.monthly)
+                                    : formater.format(
+                                        detail.getDetailBuilding.price!.annual)
+                              });
+                        },
+                        textButton: 'Book Now',
+                        buttonHeight: 37.h,
+                        buttonWidth: 274.w),
+                  ),
                 ],
               ),
             ],

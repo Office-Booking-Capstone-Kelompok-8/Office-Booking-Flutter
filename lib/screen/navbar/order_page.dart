@@ -18,7 +18,6 @@ class _OrderPageState extends State<OrderPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // appBar: AppbarComponent(title: ''),
         body: _isEmpty == true
             ? Center(
                 child: Column(
@@ -34,7 +33,7 @@ class _OrderPageState extends State<OrderPage> {
                     ),
                     Text(
                       'Oops!! There are no active orders',
-                      style: textEmptyReservation,
+                      style: detailFormStyle,
                     ),
                     SizedBox(
                       height: 24.h,
@@ -48,7 +47,7 @@ class _OrderPageState extends State<OrderPage> {
                 ),
               )
             : Container(
-                padding: EdgeInsets.fromLTRB(16.w, 29.h, 16.w, 10.w),
+                padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 10.w),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

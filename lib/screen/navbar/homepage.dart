@@ -5,7 +5,6 @@ import 'package:office_booking_app/provider/building_provider.dart';
 import 'package:office_booking_app/screen/components/appbar_home.dart';
 import 'package:office_booking_app/screen/components/building_grid_component.dart';
 import 'package:office_booking_app/screen/components/popular_building_component.dart';
-import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +42,7 @@ class _HomepageState extends State<Homepage> {
                 children: [
                   Text(
                     'Popular building by rating',
-                    style: textEmptyReservation,
+                    style: detailFormStyle,
                   ),
                   TextButton(onPressed: () {}, child: const Text('View All'))
                 ],
@@ -59,14 +58,14 @@ class _HomepageState extends State<Homepage> {
                     scrollDirection: Axis.horizontal,
                     itemCount: 3,
                     itemBuilder: (context, index) =>
-                        PopularBuildingComponent()),
+                        const PopularBuildingComponent()),
               ),
               SizedBox(
                 height: 24.h,
               ),
               Text(
                 'All Building in Jakarta',
-                style: textEmptyReservation,
+                style: detailFormStyle,
               ),
               SizedBox(
                 height: 16.h,

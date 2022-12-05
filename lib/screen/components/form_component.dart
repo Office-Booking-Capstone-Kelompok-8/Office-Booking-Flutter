@@ -4,23 +4,24 @@ import '../../utils/constant/app_colors.dart';
 
 // ignore: must_be_immutable
 class FormComponent extends StatelessWidget {
-  FormComponent({
-    super.key,
-    required this.formHeight,
-    required this.formWidth,
-    this.controller,
-    this.initialValue,
-    this.isNumber,
-    this.isPassword,
-    this.isAuth,
-    this.isEmail,
-    this.prefixIcon,
-    this.hint,
-    this.validation,
-    this.isSearch,
-    this.onPress,
-    this.isForm,
-  });
+  FormComponent(
+      {super.key,
+      required this.formHeight,
+      required this.formWidth,
+      this.controller,
+      this.initialValue,
+      this.isNumber,
+      this.isPassword,
+      this.isAuth,
+      this.isEmail,
+      this.prefixIcon,
+      this.hint,
+      this.validation,
+      this.isSearch,
+      this.onPress,
+      this.isForm,
+      this.isProfile,
+      this.isDisable});
 
   final double formHeight;
   final double formWidth;
@@ -32,6 +33,8 @@ class FormComponent extends StatelessWidget {
   final bool? isEmail;
   final bool? isSearch;
   final bool? isForm;
+  final bool? isProfile;
+  final bool? isDisable;
   ValueNotifier<bool> showPassword = ValueNotifier<bool>(true);
 
   final IconData? prefixIcon;
@@ -50,18 +53,9 @@ class FormComponent extends StatelessWidget {
             child: TextFormField(
               onTap: onPress,
               controller: controller,
-              validator: (validation == null)
-                  ? (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      } else if (value.length < 4) {
-                        return 'Text must have more than 4 character length';
-                      }
-                      return null;
-                    }
-                  : validation,
+              validator: validation,
               initialValue: initialValue,
-              // enabled: isSearch == true ? false : true,
+              enabled: isDisable == true ? false : true,
               readOnly: isSearch == true ? true : false,
               keyboardType: isNumber == true
                   ? TextInputType.number
@@ -74,7 +68,7 @@ class FormComponent extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                           horizontal: isAuth == true ? 0.w : 2.w,
                           vertical: 11.h)),
-                  hintText: isAuth == true
+                  hintText: isAuth == true || isProfile == true
                       ? hint
                       : isSearch == true
                           ? 'Filter Building'
