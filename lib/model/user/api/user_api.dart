@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:office_booking_app/model/user/user_model.dart';
 import 'package:office_booking_app/utils/constant/api_constant.dart';
 

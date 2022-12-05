@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import '../../utils/constant/app_colors.dart';
 import '../../utils/constant/app_text_style.dart';
 import '../components/form_component.dart';
+import '../components/show_state.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -39,6 +40,7 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     final profile = Provider.of<UserProvider>(context, listen: true);
     final tkn = Provider.of<SignInProvider>(context, listen: false);
+    showState(profile);
     _nameController.text = profile.getUsers.name ?? 'Sabrina Maharani';
     _phoneController.text = profile.getUsers.phone ?? '+6282110766872';
     _emailController.text = profile.getUsers.email ?? 'sabrina07@upi.edu';

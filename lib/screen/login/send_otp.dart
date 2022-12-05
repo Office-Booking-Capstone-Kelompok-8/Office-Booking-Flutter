@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:office_booking_app/provider/login_provider.dart';
 import 'package:office_booking_app/screen/components/form_component.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/constant/app_colors.dart';
-import '../../utils/state/finite_state.dart';
 import '../components/button_component.dart';
+import '../components/show_state.dart';
 import '../components/snackbar_component.dart';
 
 class SendOtp extends StatefulWidget {
@@ -30,52 +29,7 @@ class _SendOtpState extends State<SendOtp> {
   @override
   Widget build(BuildContext context) {
     return Consumer<SignInProvider>(builder: (context, provider, _) {
-      if (provider.myState == MyState.loading) {
-        SmartDialog.show(builder: (context) {
-          return Container(
-            height: 150.w,
-            width: 150.w,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            alignment: Alignment.center,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const CircularProgressIndicator(
-                    color: AppColors.primary4,
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  const Text('Loading...',
-                      style: TextStyle(color: AppColors.primary4)),
-                ],
-              ),
-            ),
-          );
-        });
-      } else if (provider.myState == MyState.failed) {
-        SmartDialog.dismiss();
-        SmartDialog.show(builder: (context) {
-          return Container(
-            height: 100.w,
-            width: 180.w,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            alignment: Alignment.center,
-            child:
-                const Text('Gagal', style: TextStyle(color: AppColors.error5)),
-          );
-        });
-      } else {
-        SmartDialog.dismiss();
-      }
-
+      showState(provider);
       return Scaffold(
         body: Center(
           child: SingleChildScrollView(

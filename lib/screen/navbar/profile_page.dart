@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../screen/components/tile_component.dart';
 import '../../utils/constant/app_colors.dart';
+import '../components/show_state.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -17,6 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final profile = Provider.of<UserProvider>(context, listen: true);
+    showState(profile);
     return SafeArea(
       child: Scaffold(
         body: Column(
