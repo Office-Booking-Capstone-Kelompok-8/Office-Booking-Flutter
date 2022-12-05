@@ -66,7 +66,6 @@ class UserApi {
           options: Options(headers: {
             "Authorization": "Bearer $token",
           }));
-      print('yey');
       return response.data['message'];
     } on DioError catch (_) {
       rethrow;

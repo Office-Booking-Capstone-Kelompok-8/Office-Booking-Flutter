@@ -28,7 +28,7 @@ class BuildingGridComponent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 120.w,
+              height: 120.h,
               width: 180.w,
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
@@ -41,7 +41,7 @@ class BuildingGridComponent extends StatelessWidget {
               ),
             ),
             Container(
-              height: 80.w,
+              height: 85.w,
               padding: EdgeInsets.symmetric(horizontal: 8.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

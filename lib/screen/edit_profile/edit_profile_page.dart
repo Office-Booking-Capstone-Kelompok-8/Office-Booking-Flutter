@@ -40,10 +40,10 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     final profile = Provider.of<UserProvider>(context, listen: true);
     final tkn = Provider.of<SignInProvider>(context, listen: false);
-    showState(profile);
-    _nameController.text = profile.getUsers.name ?? 'Sabrina Maharani';
-    _phoneController.text = profile.getUsers.phone ?? '+6282110766872';
-    _emailController.text = profile.getUsers.email ?? 'sabrina07@upi.edu';
+    // showState(profile);
+    _nameController.text = profile.getUsers.name!;
+    _phoneController.text = profile.getUsers.phone!;
+    _emailController.text = profile.getUsers.email!;
     return Scaffold(
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(bottom: 30.h, left: 16.w, right: 16.w),
@@ -139,6 +139,7 @@ class _EditProfileState extends State<EditProfile> {
               style: formTop,
             ),
             FormComponent(
+              isDisable: false,
               controller: _nameController,
               formHeight: 40.h,
               formWidth: 328.w,
@@ -151,6 +152,7 @@ class _EditProfileState extends State<EditProfile> {
               style: formTop,
             ),
             FormComponent(
+              isDisable: false,
               controller: _phoneController,
               formHeight: 40.h,
               formWidth: 328.w,
@@ -163,6 +165,7 @@ class _EditProfileState extends State<EditProfile> {
               style: formTop,
             ),
             FormComponent(
+              isDisable: false,
               controller: _emailController,
               formHeight: 40.h,
               formWidth: 328.w,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:office_booking_app/provider/login_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
+import 'package:office_booking_app/screen/login/login_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../screen/components/tile_component.dart';
@@ -21,7 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
     super.didChangeDependencies();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final data = Provider.of<SignInProvider>(context, listen: false);
-      if (data.users?.accessToken != null) {
+      if (data.dataUser?.accessToken != null) {
         Provider.of<UserProvider>(context, listen: false)
             .getUsersDetail(data.users!.accessToken!);
       }
@@ -30,38 +31,25 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final profile = Provider.of<UserProvider>(context, listen: true);
-    showState(profile);
+    final profile = Provider.of<UserProvider>(context, listen: false);
+    final data = Provider.of<SignInProvider>(context, listen: false);
+    // showState(profile);
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          children: [
-            Container(
-              height: 60.h,
-              margin: EdgeInsets.all(16.w),
-              child: Row(
+        body: data.dataUser?.accessToken == null
+            ? const LoginPage()
+            : Column(
                 children: [
-                  CircleAvatar(
-                    radius: 35.r,
-                    backgroundImage: NetworkImage(profile.getUsers.picture ??
-                        'https://unsplash.com/photos/OLLtavHHBKg/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8M3x8aWNvbiUyMHBlcnNvbnxlbnwwfDJ8fHwxNjcwMjE3NjIz&force=true&w=640'),
-                  ),
-                  SizedBox(
-                    width: 16.w,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  Container(
+                    height: 60.h,
+                    margin: EdgeInsets.all(16.w),
+                    child: Row(
                       children: [
                         CircleAvatar(
                           radius: 35.r,
-                          backgroundColor: AppColors.bg1,
-                          foregroundColor: Colors.black,
-                          child: Icon(
-                            Icons.person_rounded,
-                            size: 59.sm,
-                          ),
+                          backgroundImage: NetworkImage(profile
+                                  .getUsers.picture ??
+                              'https://unsplash.com/photos/OLLtavHHBKg/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8M3x8aWNvbiUyMHBlcnNvbnxlbnwwfDJ8fHwxNjcwMjE3NjIz&force=true&w=640'),
                         ),
                         SizedBox(
                           width: 16.w,
@@ -151,9 +139,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   )
                 ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }

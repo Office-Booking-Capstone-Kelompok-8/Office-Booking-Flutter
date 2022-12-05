@@ -63,11 +63,7 @@ TextStyle dateReservation = TextStyle(
   fontSize: 12.sp,
   fontWeight: FontWeight.w400,
 );
-TextStyle textEmptyReservation = TextStyle(
-  color: AppColors.neutral9,
-  fontSize: 14.sp,
-  fontWeight: FontWeight.w700,
-);
+
 TextStyle idTransaction = TextStyle(
   color: AppColors.neutral10,
   fontSize: 12.sp,
