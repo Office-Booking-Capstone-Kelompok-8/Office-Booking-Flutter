@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:office_booking_app/model/user/user_model.dart';
 import 'package:office_booking_app/utils/constant/api_constant.dart';
@@ -72,12 +74,22 @@ class UserApi {
   }
 
   //belom fix
-  Future<String> editPicture(String picture, String token) async {
+  Future<String> editPicture(File file, String token) async {
+    FormData formData = FormData.fromMap({
+      "file": await MultipartFile.fromFile(
+        file.path,
+        filename: file.path.split("/").last,
+      ),
+    });
     try {
-      final response = await _dio.put(Api.baseUrl + Api.picture,
-          options: Options(headers: {
-            "Authorization": "Bearer $token",
-          }));
+      final response = await _dio.put(
+        Api.baseUrl + Api.picture,
+        data: formData,
+        options: Options(headers: {
+          "Authorization": "Bearer $token",
+          // "content-type": "multipart/form-data",
+        }),
+      );
       return response.data['message'];
     } on DioError catch (_) {
       rethrow;

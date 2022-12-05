@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:office_booking_app/model/user/api/user_api.dart';
@@ -56,6 +58,34 @@ class UserProvider extends ChangeNotifier {
     try {
       myState = MyState.loading;
       final response = await service.editProfile(name, email, phone, token);
+      myState = MyState.loaded;
+      notifyListeners();
+      return response;
+    } catch (e) {
+      if (e is DioError) {
+        if (e.response != null) {
+          myState = MyState.loaded;
+          notifyListeners();
+          return e.response!.data['message'];
+        }
+      }
+
+      myState = MyState.failed;
+      notifyListeners();
+      return null;
+    }
+  }
+
+  Future<String?> editPicture({
+    required File file,
+    required String token,
+  }) async {
+    try {
+      myState = MyState.loading;
+      notifyListeners();
+
+      final response = await service.editPicture(file, token);
+
       myState = MyState.loaded;
       notifyListeners();
       return response;
