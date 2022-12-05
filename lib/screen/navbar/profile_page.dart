@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:office_booking_app/provider/login_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
-import 'package:office_booking_app/screen/login/login_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../screen/components/tile_component.dart';
 import '../../utils/constant/app_colors.dart';
+import '../components/show_state.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -30,18 +30,29 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final profile = Provider.of<UserProvider>(context, listen: false);
-    final tkn = Provider.of<SignInProvider>(context, listen: false);
-    return tkn.users?.accessToken == null
-        ? const LoginPage()
-        : SafeArea(
-            child: Scaffold(
-              body: Column(
+    final profile = Provider.of<UserProvider>(context, listen: true);
+    showState(profile);
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            Container(
+              height: 60.h,
+              margin: EdgeInsets.all(16.w),
+              child: Row(
                 children: [
-                  Container(
-                    height: 60.h,
-                    margin: EdgeInsets.all(16.w),
-                    child: Row(
+                  CircleAvatar(
+                    radius: 35.r,
+                    backgroundImage: NetworkImage(profile.getUsers.picture ??
+                        'https://unsplash.com/photos/OLLtavHHBKg/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8M3x8aWNvbiUyMHBlcnNvbnxlbnwwfDJ8fHwxNjcwMjE3NjIz&force=true&w=640'),
+                  ),
+                  SizedBox(
+                    width: 16.w,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         CircleAvatar(
                           radius: 35.r,
@@ -141,6 +152,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
             ),
-          );
+          ],
+        ),
+      ),
+    );
   }
 }
