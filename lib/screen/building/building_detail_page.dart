@@ -39,6 +39,9 @@ class _BuildingDetailState extends State<BuildingDetail> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(
+                  height: 24.h,
+                ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(4.r),
                   child: SizedBox(

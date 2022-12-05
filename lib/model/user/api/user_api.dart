@@ -34,4 +34,53 @@ class UserApi {
       rethrow;
     }
   }
+
+  Future<String> changePassword(
+      String oldPassword, String newPassword, String token) async {
+    try {
+      final response = await _dio.put(Api.baseUrl + Api.changePassword,
+          data: {
+            "oldPassword": oldPassword,
+            "newPassword": newPassword,
+          },
+          options: Options(headers: {
+            "Authorization": "Bearer $token",
+          }));
+      return response.data['message'];
+    } on DioError catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<String> editProfile(
+      String name, String email, String phone, String token) async {
+    try {
+      final response = await _dio.put(Api.baseUrl + Api.userDetail,
+          data: {
+            "name": name,
+            "email": email,
+            "phone": phone,
+          },
+          options: Options(headers: {
+            "Authorization": "Bearer $token",
+          }));
+      print('yey');
+      return response.data['message'];
+    } on DioError catch (_) {
+      rethrow;
+    }
+  }
+
+  //belom fix
+  Future<String> editPicture(String picture, String token) async {
+    try {
+      final response = await _dio.put(Api.baseUrl + Api.picture,
+          options: Options(headers: {
+            "Authorization": "Bearer $token",
+          }));
+      return response.data['message'];
+    } on DioError catch (_) {
+      rethrow;
+    }
+  }
 }
