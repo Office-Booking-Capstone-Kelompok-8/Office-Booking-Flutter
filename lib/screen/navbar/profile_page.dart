@@ -16,7 +16,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    final profile = Provider.of<UserProvider>(context, listen: false);
+    final profile = Provider.of<UserProvider>(context, listen: true);
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -28,12 +28,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   CircleAvatar(
                     radius: 35.r,
-                    backgroundColor: AppColors.bg1,
-                    foregroundColor: Colors.black,
-                    child: Icon(
-                      Icons.person_rounded,
-                      size: 59.sm,
-                    ),
+                    backgroundImage: NetworkImage(profile.getUsers.picture ??
+                        'https://unsplash.com/photos/OLLtavHHBKg/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8M3x8aWNvbiUyMHBlcnNvbnxlbnwwfDJ8fHwxNjcwMjE3NjIz&force=true&w=640'),
                   ),
                   SizedBox(
                     width: 16.w,

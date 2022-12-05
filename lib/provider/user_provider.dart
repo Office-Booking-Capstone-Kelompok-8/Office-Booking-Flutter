@@ -94,7 +94,7 @@ class UserProvider extends ChangeNotifier {
         if (e.response != null) {
           myState = MyState.loaded;
           notifyListeners();
-          return e.response!.data['message'];
+          return e.response!.statusCode.toString();
         }
       }
 
