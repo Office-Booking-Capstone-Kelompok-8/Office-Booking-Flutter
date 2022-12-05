@@ -13,4 +13,5 @@ class Api {
   // endpointnya kayanya typo
   static const String buildingFacilities = 'buildings/faclities/category';
   static const String payment = 'payments';
+  static const String picture = 'users/picture';
 }

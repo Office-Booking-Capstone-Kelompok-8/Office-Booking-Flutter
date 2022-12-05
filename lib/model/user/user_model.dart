@@ -4,7 +4,7 @@ class UserModel {
   String? name;
   String? phone;
   String? picture;
-  String? role;
+  int? role;
   UserModel(
       {this.id, this.email, this.name, this.phone, this.picture, this.role});
 

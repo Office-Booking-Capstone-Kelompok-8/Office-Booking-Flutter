@@ -14,13 +14,13 @@ class AppbarComponent extends StatelessWidget with PreferredSizeWidget {
       leading: IconButton(
         icon: Icon(
           Icons.arrow_back,
-          size: 30.sm,
+          size: 25.sm,
         ),
         onPressed: () => Navigator.pop(context),
       ),
       foregroundColor: AppColors.black,
       backgroundColor: AppColors.white,
-      elevation: 0,
+      elevation: 1,
       centerTitle: true,
       title: Text(
         title,

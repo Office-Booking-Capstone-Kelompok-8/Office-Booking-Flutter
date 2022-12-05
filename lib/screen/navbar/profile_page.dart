@@ -15,15 +15,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<UserProvider>(context, listen: false).getUsersDetail();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final profile = Provider.of<UserProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -53,13 +46,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Consumer<UserProvider>(
-                              builder: (context, user, _) => Text(
-                                user.getUsers.name ?? 'sabrina',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14.sp),
-                              ),
+                            Text(
+                              profile.getUsers.name ?? 'sabrina',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14.sp),
                             ),
                             InkWell(
                               splashFactory: NoSplash.splashFactory,
@@ -77,12 +67,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         ),
                         Text(
-                          'sabrina07@upi.edu',
+                          profile.getUsers.email ?? 'sabrina07@upi.edu',
                           style: TextStyle(
                               fontSize: 12.sp, color: AppColors.neutral7),
                         ),
                         Text(
-                          '+6282110766872',
+                          profile.getUsers.phone ?? '+6282110766872',
                           style: TextStyle(
                               fontSize: 12.sp, color: AppColors.neutral7),
                         )

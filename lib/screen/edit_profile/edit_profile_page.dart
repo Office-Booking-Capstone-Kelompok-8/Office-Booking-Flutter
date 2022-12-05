@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:office_booking_app/provider/login_provider.dart';
+import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/screen/components/appbar_component.dart';
 import 'package:office_booking_app/screen/components/button_component.dart';
+import 'package:provider/provider.dart';
 
 import '../../utils/constant/app_colors.dart';
 import '../../utils/constant/app_text_style.dart';
@@ -29,17 +32,26 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    _nameController.text = 'Sabrina Maharani';
-    _phoneController.text = '+6282110766872';
-    _emailController.text = 'sabrina07@upi.edu';
+    final profile = Provider.of<UserProvider>(context, listen: false);
+    final tkn = Provider.of<SignInProvider>(context, listen: false);
+    _nameController.text = profile.getUsers.name ?? 'Sabrina Maharani';
+    _phoneController.text = profile.getUsers.phone ?? '+6282110766872';
+    _emailController.text = profile.getUsers.email ?? 'sabrina07@upi.edu';
     return Scaffold(
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(bottom: 30.h, left: 16.w, right: 16.w),
         child: ButtonComponent(
-            onPress: () {},
+            onPress: () async {
+              final response = await profile.editProfile(
+                  _nameController.text,
+                  _emailController.text,
+                  _phoneController.text,
+                  tkn.users!.accessToken!);
+              print(response);
+            },
             textButton: 'Save',
             buttonHeight: 40.h,
-            buttonWidth: 330.w),
+            buttonWidth: double.infinity),
       ),
       appBar: const AppbarComponent(title: 'Edit Profile'),
       body: SingleChildScrollView(

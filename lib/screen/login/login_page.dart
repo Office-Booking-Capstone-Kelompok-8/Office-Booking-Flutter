@@ -98,6 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 10.h),
                   child: FormComponent(
+                    isPassword: false,
                     isAuth: true,
                     formHeight: 48.h,
                     formWidth: double.infinity,

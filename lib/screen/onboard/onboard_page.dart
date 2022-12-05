@@ -86,7 +86,7 @@ class _OnboardPageState extends State<OnboardPage> {
                                           animationType:
                                               SmartAnimationType.scale);
                                       await Future.delayed(
-                                          Duration(seconds: 2));
+                                          const Duration(seconds: 2));
                                       SmartDialog.dismiss();
                                       Navigator.pushNamedAndRemoveUntil(
                                           context, '/navbar', (route) => false);

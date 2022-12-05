@@ -61,6 +61,8 @@ class FormComponent extends StatelessWidget {
                     }
                   : validation,
               initialValue: initialValue,
+              // enabled: isSearch == true ? false : true,
+              readOnly: isSearch == true ? true : false,
               keyboardType: isNumber == true
                   ? TextInputType.number
                   : isEmail == true
@@ -75,19 +77,14 @@ class FormComponent extends StatelessWidget {
                   hintText: isAuth == true
                       ? hint
                       : isSearch == true
-                          ? 'Search location buildings'
+                          ? 'Filter Building'
                           : '',
                   prefixIcon: isAuth == true
                       ? Icon(
                           prefixIcon!,
                           size: 24,
                         )
-                      : isSearch == true
-                          ? const Icon(
-                              Icons.search,
-                              size: 24,
-                            )
-                          : null,
+                      : null,
                   hintStyle: TextStyle(fontSize: 12.sp),
                   suffixIcon: isPassword == true && value == true
                       ? IconButton(

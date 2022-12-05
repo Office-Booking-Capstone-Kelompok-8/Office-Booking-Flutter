@@ -13,10 +13,12 @@ class BuildingProvider extends ChangeNotifier {
   BuildingDetailModel get getDetailBuilding => _detailBuilding;
   MyState myState = MyState.loaded;
 
-  getAllBuilding() async {
+  getAllBuilding(String? city, String? district, String? dateStart,
+      String? dateEnd) async {
     try {
       myState = MyState.loading;
-      final response = await service.getAllBuildings();
+      final response =
+          await service.getAllBuildings(city, district, dateStart, dateEnd);
       _buildings = response;
       myState = MyState.loaded;
       notifyListeners();

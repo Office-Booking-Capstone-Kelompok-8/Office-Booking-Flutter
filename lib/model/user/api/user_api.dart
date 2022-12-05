@@ -4,13 +4,13 @@ import 'package:office_booking_app/utils/constant/api_constant.dart';
 
 class UserApi {
   final Dio _dio = Dio();
-  String accessToken = '';
+  // String accessToken = '';
 
   UserApi() {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          options.headers['Authorization'] = 'Bearer$accessToken';
+          // options.headers['Authorization'] = 'Bearer$accessToken';
           return handler.next(options);
         },
         onResponse: (response, handler) {
@@ -23,10 +23,62 @@ class UserApi {
     );
   }
 
-  Future<UserModel> getUser() async {
+  Future<UserModel> getUser(String token) async {
     try {
-      final response = await _dio.get(Api.baseUrl + Api.userDetail);
+      final response = await _dio.get(Api.baseUrl + Api.userDetail,
+          options: Options(headers: {
+            "Authorization": "Bearer $token",
+          }));
       return UserModel.fromJson(response.data['data']);
+    } on DioError catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<String> changePassword(
+      String oldPassword, String newPassword, String token) async {
+    try {
+      final response = await _dio.put(Api.baseUrl + Api.changePassword,
+          data: {
+            "oldPassword": oldPassword,
+            "newPassword": newPassword,
+          },
+          options: Options(headers: {
+            "Authorization": "Bearer $token",
+          }));
+      return response.data['message'];
+    } on DioError catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<String> editProfile(
+      String name, String email, String phone, String token) async {
+    try {
+      final response = await _dio.put(Api.baseUrl + Api.userDetail,
+          data: {
+            "name": name,
+            "email": email,
+            "phone": phone,
+          },
+          options: Options(headers: {
+            "Authorization": "Bearer $token",
+          }));
+      print('yey');
+      return response.data['message'];
+    } on DioError catch (_) {
+      rethrow;
+    }
+  }
+
+  //belom fix
+  Future<String> editPicture(String picture, String token) async {
+    try {
+      final response = await _dio.put(Api.baseUrl + Api.picture,
+          options: Options(headers: {
+            "Authorization": "Bearer $token",
+          }));
+      return response.data['message'];
     } on DioError catch (_) {
       rethrow;
     }
