@@ -29,21 +29,15 @@ class SignInProvider extends ChangeNotifier {
         email: email,
         password: password,
       );
-      if (result.runtimeType == SignInModel) {
-        users = result;
-        final helper = await SharedPreferences.getInstance();
-        helper.setString('accessToken', result!.accessToken!);
-        helper.setString('refreshToken', result!.refreshToken!);
-        myState = MyState.loaded;
-        notifyListeners();
-        return 'Login successful';
-      }
+      users = result;
+      final helper = await SharedPreferences.getInstance();
+      helper.setString('accessToken', result.accessToken!);
+      helper.setString('refreshToken', result.refreshToken!);
       myState = MyState.loaded;
       notifyListeners();
-      return result;
+      return 'Login successful';
     } catch (e) {
       if (e is DioError) {
-        /// If want to check status code from service error
         myState = MyState.loaded;
         notifyListeners();
         return e.response!.data['message'];

@@ -81,7 +81,7 @@ class UserApi {
     });
     try {
       final response = await _dio.put(
-        'https://dev.fortyfourvisual.com/v1/users/picture',
+        Api.baseUrl + Api.picture,
         data: formData,
         options: Options(headers: {
           "Authorization": "Bearer $token",
