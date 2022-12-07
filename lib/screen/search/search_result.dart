@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../utils/constant/app_colors.dart';
+import '../components/appbar_component.dart';
 import '../components/building_grid_component.dart';
-import '../components/form_component.dart';
 
 class SearchResult extends StatefulWidget {
   const SearchResult({super.key});
@@ -13,38 +12,15 @@ class SearchResult extends StatefulWidget {
 }
 
 class _SearchResultState extends State<SearchResult> {
-  late TextEditingController _searchController;
-
-  @override
-  void initState() {
-    _searchController = TextEditingController();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: AppColors.black),
+      appBar: const AppbarComponent(
+        title: 'Building Result',
         elevation: 0,
-        backgroundColor: Colors.white,
-        toolbarHeight: 80.h,
-        titleSpacing: 0,
-        title: Container(
-          margin: EdgeInsets.only(right: 16.w),
-          child: FormComponent(
-            controller: _searchController,
-            isSearch: true,
-            isAuth: true,
-            formHeight: 50.h,
-            formWidth: double.infinity,
-            hint: 'Search Buildings',
-            prefixIcon: Icons.search,
-          ),
-        ),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        padding: EdgeInsets.all(16.w),
         child: GridView(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
