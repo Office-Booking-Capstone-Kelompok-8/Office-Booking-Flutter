@@ -24,15 +24,15 @@ class _ProfilePageState extends State<ProfilePage> {
       final data = Provider.of<SignInProvider>(context, listen: false);
       if (data.dataUser?.accessToken != null) {
         Provider.of<UserProvider>(context, listen: false)
-            .getUsersDetail(data.users!.accessToken!);
+            .getUsersDetail(data.dataUser!.accessToken!);
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final profile = Provider.of<UserProvider>(context, listen: false);
-    final data = Provider.of<SignInProvider>(context, listen: false);
+    final profile = Provider.of<UserProvider>(context, listen: true);
+    final data = Provider.of<SignInProvider>(context, listen: true);
     // showState(profile);
     return SafeArea(
       child: Scaffold(

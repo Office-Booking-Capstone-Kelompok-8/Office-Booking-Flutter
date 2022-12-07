@@ -7,10 +7,10 @@ import '../model/auth/signin_model.dart';
 import '../utils/state/finite_state.dart';
 
 class SignInProvider extends ChangeNotifier {
-  final AuthApi service = AuthApi();
+  final AuthApi _service = AuthApi();
 
-  SignInModel? users;
-  SignInModel? get dataUser => users;
+  SignInModel? _users;
+  SignInModel? get dataUser => _users;
 
   MyState myState = MyState.initial;
 
@@ -25,14 +25,14 @@ class SignInProvider extends ChangeNotifier {
       myState = MyState.loading;
       notifyListeners();
 
-      final result = await service.signIn(
+      final result = await _service.signIn(
         email: email,
         password: password,
       );
-      users = result;
+      _users = result;
       final helper = await SharedPreferences.getInstance();
-      helper.setString('accessToken', result.accessToken!);
-      helper.setString('refreshToken', result.refreshToken!);
+      await helper.setString('accessToken', result.accessToken!);
+      await helper.setString('refreshToken', result.refreshToken!);
       myState = MyState.loaded;
       notifyListeners();
       return 'Login successful';
@@ -59,7 +59,7 @@ class SignInProvider extends ChangeNotifier {
       myState = MyState.loading;
       notifyListeners();
 
-      final response = await service.signUp(
+      final response = await _service.signUp(
         name: name,
         phone: phone,
         email: email,
@@ -84,17 +84,14 @@ class SignInProvider extends ChangeNotifier {
     }
   }
 
-  getPref() async {
-    final helper = await SharedPreferences.getInstance();
-    final accesToken = helper.getString('accesToken');
-    final refreshToken = helper.getString('refreshToken');
-    if (accesToken != null && refreshToken != null) {
-      users = SignInModel(accessToken: accesToken, refreshToken: refreshToken);
+  Future<void> getPref() async {
+    try {
+      final helper = await SharedPreferences.getInstance();
+      final accesToken = helper.getString('accessToken');
+      final refreshToken = helper.getString('refreshToken');
+      _users = SignInModel(accessToken: accesToken, refreshToken: refreshToken);
       notifyListeners();
-    } else {
-      users = null;
-      notifyListeners();
-    }
+    } catch (_) {}
   }
 
   Future<String?> sendOtp({
@@ -104,7 +101,7 @@ class SignInProvider extends ChangeNotifier {
       myState = MyState.loading;
       notifyListeners();
 
-      final response = await service.sendOtp(email: email);
+      final response = await _service.sendOtp(email: email);
 
       myState = MyState.loaded;
       notifyListeners();
@@ -132,7 +129,7 @@ class SignInProvider extends ChangeNotifier {
       myState = MyState.loading;
       notifyListeners();
 
-      final response = await service.verifyOtp(email: email, code: code);
+      final response = await _service.verifyOtp(email: email, code: code);
 
       myState = MyState.loaded;
       notifyListeners();
@@ -161,7 +158,7 @@ class SignInProvider extends ChangeNotifier {
       myState = MyState.loading;
       notifyListeners();
 
-      final response = await service.resetPassword(
+      final response = await _service.resetPassword(
           email: email, password: password, key: key);
 
       myState = MyState.loaded;
