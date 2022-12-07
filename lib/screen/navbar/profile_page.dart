@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:office_booking_app/provider/login_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
+import 'package:office_booking_app/screen/components/snackbar_component.dart';
 import 'package:office_booking_app/screen/login/login_page.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +21,10 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final data = Provider.of<SignInProvider>(context, listen: false);
       if (data.dataUser?.accessToken != null) {
@@ -27,6 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
             .getUsersDetail(data.dataUser!.accessToken!);
       }
     });
+    super.initState();
   }
 
   @override
@@ -129,9 +135,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         TileCompnent(
                           text: 'Logout',
                           textColor: AppColors.error5,
-                          onPress: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, '/login', (route) => false);
+                          onPress: () async {
+                            final result = await data.logOut();
+                            if (result != null) {
+                              if (mounted) {}
+                              showNotification(context, result);
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, '/login', (route) => false);
+                            }
                           },
                         ),
                       ],

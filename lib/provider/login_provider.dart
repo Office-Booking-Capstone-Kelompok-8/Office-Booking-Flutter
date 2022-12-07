@@ -94,6 +94,19 @@ class SignInProvider extends ChangeNotifier {
     } catch (_) {}
   }
 
+  Future<String?> logOut() async {
+    try {
+      final helper = await SharedPreferences.getInstance();
+      await helper.remove('accessToken');
+      await helper.remove('refreshToken');
+      _users = null;
+      notifyListeners();
+      return 'Logout successful';
+    } catch (e) {
+      return null;
+    }
+  }
+
   Future<String?> sendOtp({
     required String email,
   }) async {
