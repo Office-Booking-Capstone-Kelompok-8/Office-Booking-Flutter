@@ -95,3 +95,33 @@ TextStyle priceBold = TextStyle(
   fontSize: 12.sp,
   fontWeight: FontWeight.w700,
 );
+TextStyle greyPaymentMedium = TextStyle(
+  color: AppColors.greyPayment,
+  fontSize: 14.sp,
+  fontWeight: FontWeight.w400,
+);
+TextStyle greyPaymentSmall = TextStyle(
+  color: AppColors.greyPayment,
+  fontSize: 12.sp,
+  fontWeight: FontWeight.w400,
+);
+TextStyle blackPaymentSmall = TextStyle(
+  color: AppColors.blackPayment,
+  fontSize: 14.sp,
+  fontWeight: FontWeight.w400,
+);
+TextStyle blackPaymentMedium = TextStyle(
+  color: AppColors.blackPayment,
+  fontSize: 14.sp,
+  fontWeight: FontWeight.w700,
+);
+TextStyle blackPaymentLarge = TextStyle(
+  color: AppColors.blackPayment,
+  fontSize: 16.sp,
+  fontWeight: FontWeight.w700,
+);
+TextStyle blackPaymentVeryLarge = TextStyle(
+  color: AppColors.blackPayment,
+  fontSize: 18.sp,
+  fontWeight: FontWeight.w700,
+);

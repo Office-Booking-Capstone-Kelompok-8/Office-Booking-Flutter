@@ -11,6 +11,7 @@ class AppColors {
   static const Color black = Color(0xFF000000);
   static const Color neutral2 = Color(0xFFFAFAFA);
   static const Color neutral3 = Color(0xFFF5F5F5);
+  static const Color neutral4 = Color(0xFFF0F0F0);
   static const Color neutral5 = Color(0xFFD9D9D9);
   static const Color neutral7 = Color(0xFF8C8C8C);
   static const Color neutral8 = Color(0xFF595959);
@@ -24,4 +25,6 @@ class AppColors {
   static const Color bg1 = Color(0xFFD9D9D9);
   static const Color dividerColor = Color(0xFFDFDFDF);
   static const Color shadowColor = Color(0x267090B0);
+  static const Color greyPayment = Color(0xFF777777);
+  static const Color blackPayment = Color(0xFF1D1D1D);
 }

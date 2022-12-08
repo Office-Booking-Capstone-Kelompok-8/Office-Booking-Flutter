@@ -7,6 +7,8 @@ import 'package:office_booking_app/provider/set_state_provider.dart';
 import 'package:office_booking_app/provider/login_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/screen/building/building_detail_page.dart';
+import 'package:office_booking_app/screen/payment/booking_detail_page.dart';
+import 'package:office_booking_app/screen/payment/payment_detail_page.dart';
 import 'package:office_booking_app/screen/profile_tile_page/change_password_page.dart';
 import 'package:office_booking_app/screen/edit_profile/edit_profile_page.dart';
 import 'package:office_booking_app/screen/login/forgot_password.dart';
@@ -53,38 +55,44 @@ class MyApp extends StatelessWidget {
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 831),
-        builder: (context, child) => MaterialApp(
-          navigatorObservers: [FlutterSmartDialog.observer],
-          builder: FlutterSmartDialog.init(
-              // loadingBuilder: (String msg) => ,
-              ),
-          debugShowCheckedModeBanner: false,
-          title: 'Office Zone',
-          routes: {
-            '/': (context) => const Homepage(),
-            '/form-page': (context) => const FormReservationPage(),
-            '/login': (context) => const LoginPage(),
-            '/register': (context) => const RegisterPage(),
-            '/navbar': (context) => const Navbar(),
-            '/onboard': (context) => const OnboardPage(),
-            '/edit-profile': (context) => const EditProfile(),
-            '/order-detail': (context) => const OrderDetail(),
-            '/order': (context) => const OrderPage(),
-            '/building-detail': (context) => const BuildingDetail(),
-            '/search': (context) => const SearchPage(),
-            '/search-result': (context) => const SearchResult(),
-            '/forgot-password': (context) => const ForgotPassword(),
-            '/send-otp': (context) => const SendOtp(),
-            '/verify-otp': (context) => const VerifyOtp(),
-            '/change-password': (context) => const ChangePassword(),
-            '/help-center': (center) => const HelpCenter(),
-          },
-          initialRoute: '/onboard',
-          theme: ThemeData(
-            disabledColor: AppColors.neutral7,
-            canvasColor: AppColors.white,
-            fontFamily: 'Inter',
-            primarySwatch: Colors.blue,
+        builder: (context, child) => Consumer<OnboardProvider>(
+          builder: (context, onboard, child) => MaterialApp(
+            navigatorObservers: [FlutterSmartDialog.observer],
+            builder: FlutterSmartDialog.init(
+                // loadingBuilder: (String msg) => ,
+                ),
+            debugShowCheckedModeBanner: false,
+            title: 'Office Zone',
+            routes: {
+              '/': (context) => onboard.userOpenApp == false
+                  ? const OnboardPage()
+                  : const Navbar(),
+              '/form-page': (context) => const FormReservationPage(),
+              '/login': (context) => const LoginPage(),
+              '/register': (context) => const RegisterPage(),
+              '/navbar': (context) => const Navbar(),
+              // '/onboard': (context) => const OnboardPage(),
+              '/edit-profile': (context) => const EditProfile(),
+              '/order-detail': (context) => const OrderDetail(),
+              '/order': (context) => const OrderPage(),
+              '/building-detail': (context) => const BuildingDetail(),
+              '/search': (context) => const SearchPage(),
+              '/search-result': (context) => const SearchResult(),
+              '/forgot-password': (context) => const ForgotPassword(),
+              '/send-otp': (context) => const SendOtp(),
+              '/verify-otp': (context) => const VerifyOtp(),
+              '/change-password': (context) => const ChangePassword(),
+              '/help-center': (center) => const HelpCenter(),
+              '/payment-detail': (context) => const PaymentDetailPage(),
+              '/booking-detail': (context) => const BookingDetailPage(),
+            },
+            initialRoute: '/',
+            theme: ThemeData(
+              disabledColor: AppColors.neutral7,
+              canvasColor: AppColors.white,
+              fontFamily: 'Inter',
+              primarySwatch: Colors.blue,
+            ),
           ),
         ),
       ),
