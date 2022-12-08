@@ -58,8 +58,31 @@ class MyApp extends StatelessWidget {
         builder: (context, child) => MaterialApp(
           navigatorObservers: [FlutterSmartDialog.observer],
           builder: FlutterSmartDialog.init(
-              // loadingBuilder: (String msg) => ,
+            loadingBuilder: (String msg) => Container(
+              height: 150.w,
+              width: 150.w,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
               ),
+              alignment: Alignment.center,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const CircularProgressIndicator(
+                      color: AppColors.primary4,
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    const Text('Loading...',
+                        style: TextStyle(color: AppColors.primary4)),
+                  ],
+                ),
+              ),
+            ),
+          ),
           debugShowCheckedModeBanner: false,
           title: 'Office Zone',
           routes: {

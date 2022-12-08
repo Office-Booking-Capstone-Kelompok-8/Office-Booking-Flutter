@@ -1,13 +1,13 @@
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:office_booking_app/provider/filter_provider.dart';
 import 'package:office_booking_app/screen/components/appbar_component.dart';
+import 'package:office_booking_app/screen/components/show_state.dart';
+import 'package:office_booking_app/screen/components/snackbar_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:provider/provider.dart';
 
-import '../../provider/set_state_provider.dart';
 import '../../utils/constant/app_text_style.dart';
 import '../components/button_component.dart';
 
@@ -21,240 +21,334 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.only(bottom: 16.h, left: 16.w, right: 16.w),
-        child: ButtonComponent(
-            onPress: () async {
-              Navigator.pushNamed(context, '/search-result');
-            },
-            textButton: 'View Building',
-            buttonHeight: 40.h,
-            buttonWidth: double.infinity),
-      ),
-      appBar: const AppbarComponent(
-        title: 'Filter By',
-        elevation: 0,
-      ),
-      body: SingleChildScrollView(
-        child: Consumer<FilterProvider>(builder: (context, provider, _) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ExpansionTile(
-                title: Text(
-                  'Location',
-                  style:
-                      TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+    return Consumer<FilterProvider>(
+      builder: (context, provider, _) {
+        showState(provider);
+        return Scaffold(
+          bottomNavigationBar: Container(
+            padding: EdgeInsets.only(bottom: 16.h, left: 16.w, right: 16.w),
+            child: ButtonComponent(
+              onPress: () async {
+                if (provider.filterResult.isNotEmpty) {
+                  if (provider.hintDate != null || provider.duration != null) {
+                    if (provider.hintDate != null &&
+                        provider.duration != null) {
+                      final result = await provider.getAllBuilding();
+                      if (result == "successfull") {
+                        if (mounted) {}
+                        Navigator.pushNamed(context, '/search-result');
+                      } else if (result != null) {
+                        if (mounted) {}
+                        showNotification(context, result);
+                      }
+                    } else {
+                      showNotification(context,
+                          'start date must be accompanied by a duration, and vice versa.');
+                    }
+                  } else {
+                    final result = await provider.getAllBuilding();
+                    if (result == "successfull") {
+                      if (mounted) {}
+                      Navigator.pushNamed(context, '/search-result');
+                    } else if (result != null) {
+                      if (mounted) {}
+                      showNotification(context, result);
+                    }
+                  }
+                } else {
+                  showNotification(context, 'must choose one of the filters');
+                }
+              },
+              textButton: 'View Building',
+              buttonHeight: 40.h,
+              buttonWidth: double.infinity,
+            ),
+          ),
+          appBar: const AppbarComponent(
+            title: 'Filter By',
+            elevation: 0,
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ExpansionTile(
+                  title: Text(
+                    'Location',
+                    style:
+                        TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+                  ),
+                  expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                  children: List.generate(
+                    provider.listLocation.length,
+                    (index) => RadioListTile<Districts>(
+                      title: Text(provider.listLocation[index].text),
+                      value: provider.listLocation[index].location,
+                      groupValue: provider.location,
+                      onChanged: (value) {
+                        provider.changeLocation(provider.listLocation[index]);
+                      },
+                    ),
+                  ),
                 ),
-                expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                // expandedAlignment: Alignment.centerLeft,
-                // childrenPadding: EdgeInsets.symmetric(horizontal: 16.w),
-                children: [
-                  RadioListTile<Districts>(
-                    title: const Text('Central Jakarta'),
-                    value: Districts.centralJakarta,
-                    groupValue: provider.location,
-                    onChanged: (value) {
-                      provider.changeLocation(value!);
-                    },
-                  ),
-                  RadioListTile<Districts>(
-                    title: const Text('east Jakarta'),
-                    value: Districts.eastJakarta,
-                    groupValue: provider.location,
-                    onChanged: (value) {
-                      provider.changeLocation(value!);
-                    },
-                  ),
-                  RadioListTile<Districts>(
-                    title: const Text('northJakarta'),
-                    value: Districts.northJakarta,
-                    groupValue: provider.location,
-                    onChanged: (value) {
-                      provider.changeLocation(value!);
-                    },
-                  ),
-                  RadioListTile<Districts>(
-                    title: const Text('southJakarta'),
-                    value: Districts.southJakarta,
-                    groupValue: provider.location,
-                    onChanged: (value) {
-                      provider.changeLocation(value!);
-                    },
-                  ),
-                  RadioListTile<Districts>(
-                    title: const Text('westJakarta'),
-                    value: Districts.westJakarta,
-                    groupValue: provider.location,
-                    onChanged: (value) {
-                      provider.changeLocation(value!);
-                    },
-                  ),
-                  RadioListTile<Districts>(
-                    title: const Text('thousandIsland'),
-                    value: Districts.thousandIsland,
-                    groupValue: provider.location,
-                    onChanged: (value) {
-                      provider.changeLocation(value!);
-                    },
-                  ),
-                ],
-              ),
-              ExpansionTile(
-                title: Text('Date',
-                    style: TextStyle(
-                        fontSize: 14.sp, fontWeight: FontWeight.bold)),
-                childrenPadding: EdgeInsets.all(16.w),
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Start Date',
-                            style: formTop,
-                          ),
-                          SizedBox(
-                            height: 9.h,
-                          ),
-                          SizedBox(
-                            height: 48.h,
-                            width: 156.w,
-                            child: Consumer<SetStateProvider>(
-                              builder: (context, date, _) => TextFormField(
-                                  readOnly: true,
-                                  decoration: InputDecoration(
-                                    hintText: DateFormat('dd/MM/yyy')
-                                        .format(date.getDateStart),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(9.r),
-                                      borderSide: const BorderSide(
-                                        width: 1,
-                                        color: AppColors.borderButton,
-                                      ),
-                                    ),
-                                    suffixIcon: IconButton(
-                                      onPressed: (() async {
-                                        final selectDate = await showDatePicker(
-                                            context: context,
-                                            initialDate: date.getDateStart,
-                                            firstDate: DateTime.now(),
-                                            lastDate: DateTime(
-                                                date.getDateStart.year + 5));
-                                        if (selectDate != null) {
-                                          date.setDateStart = selectDate;
-                                        }
-                                      }),
-                                      icon: const Icon(Icons.calendar_today),
-                                    ),
-                                  )),
+                ExpansionTile(
+                  title: Text('Capacity',
+                      style: TextStyle(
+                          fontSize: 14.sp, fontWeight: FontWeight.bold)),
+                  childrenPadding: EdgeInsets.all(16.w),
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          height: 48.h,
+                          width: 156.w,
+                          child: TextField(
+                            onTap: () {},
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: 'Minimal',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(9.r),
+                                borderSide: const BorderSide(
+                                  width: 1,
+                                  color: AppColors.borderButton,
+                                ),
+                              ),
                             ),
+                            onChanged: (value) {
+                              if (value.isNotEmpty) {
+                                if (int.tryParse(value) != null) {
+                                  provider.changeMinCapacity(value);
+                                } else {
+                                  showNotification(context,
+                                      'Field Min Capacity can only contain number');
+                                }
+                              }
+                            },
                           ),
-                        ],
+                        ),
+                        SizedBox(
+                          height: 48.h,
+                          width: 156.w,
+                          child: TextField(
+                            onTap: () {},
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: 'Maximal',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(9.r),
+                                borderSide: const BorderSide(
+                                  width: 1,
+                                  color: AppColors.borderButton,
+                                ),
+                              ),
+                            ),
+                            onChanged: (value) {
+                              if (value.isNotEmpty) {
+                                if (int.tryParse(value) != null) {
+                                  provider.changeMaxCapacity(value);
+                                } else {
+                                  showNotification(context,
+                                      'Field Max Capacity can only contain number');
+                                }
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: List.generate(
+                        provider.dataButton.length,
+                        (index) => ButtonCapacity(
+                            onPress: () {
+                              provider.changeMaxCapacityButton(
+                                  provider.dataButton[index]);
+                            },
+                            textButton: provider.dataButton[index],
+                            activ: provider.activButton),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Duration',
-                            style: formTop,
-                          ),
-                          SizedBox(
-                            height: 9.h,
-                          ),
-                          SizedBox(
-                            height: 48.h,
-                            width: 156.w,
-                            child: DropDownTextField(
-                              // controller: _dateController,
-                              textFieldDecoration: InputDecoration(
-                                hintText: 'Select Duration',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(9.r),
-                                  borderSide: const BorderSide(
-                                    width: 1,
-                                    color: AppColors.borderButton,
+                    )
+                  ],
+                ),
+                ExpansionTile(
+                  title: Text('Date',
+                      style: TextStyle(
+                          fontSize: 14.sp, fontWeight: FontWeight.bold)),
+                  childrenPadding: EdgeInsets.all(16.w),
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Start Date',
+                              style: formTop,
+                            ),
+                            SizedBox(
+                              height: 9.h,
+                            ),
+                            SizedBox(
+                              height: 48.h,
+                              width: 156.w,
+                              child: TextFormField(
+                                onTap: (() async {
+                                  final selectDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: provider.getDateStart,
+                                      firstDate: DateTime.now(),
+                                      lastDate: DateTime(
+                                          provider.getDateStart.year + 5));
+                                  if (selectDate != null) {
+                                    provider.setDateStart = selectDate;
+                                    provider.changeDate(selectDate);
+                                  }
+                                }),
+                                readOnly: true,
+                                decoration: InputDecoration(
+                                  hintText: provider.hintDate ?? 'Select Date',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(9.r),
+                                    borderSide: const BorderSide(
+                                      width: 1,
+                                      color: AppColors.borderButton,
+                                    ),
+                                  ),
+                                  suffixIcon: IconButton(
+                                    onPressed: (() async {
+                                      final selectDate = await showDatePicker(
+                                          context: context,
+                                          initialDate: provider.getDateStart,
+                                          firstDate: DateTime.now(),
+                                          lastDate: DateTime(
+                                              provider.getDateStart.year + 5));
+                                      if (selectDate != null) {
+                                        provider.setDateStart = selectDate;
+                                        provider.changeDate(selectDate);
+                                      }
+                                    }),
+                                    icon: const Icon(Icons.calendar_today),
                                   ),
                                 ),
                               ),
-                              enableSearch: true,
-                              listSpace: 20,
-                              listPadding: ListPadding(top: 20),
-                              validator: (value) {
-                                if (value == null) {
-                                  return "Required field";
-                                } else {
-                                  return null;
-                                }
-                              },
-                              dropDownList: const [
-                                DropDownValueModel(
-                                    name: 'name1', value: "value1"),
-                                DropDownValueModel(
-                                    name: 'name2', value: "value2"),
-                                DropDownValueModel(
-                                    name: 'name3', value: "value3"),
-                                DropDownValueModel(
-                                    name: 'name4', value: "value4"),
-                                DropDownValueModel(
-                                    name: 'name5', value: "value5"),
-                                DropDownValueModel(
-                                    name: 'name6', value: "value6"),
-                                DropDownValueModel(
-                                    name: 'name7', value: "value7"),
-                                DropDownValueModel(
-                                    name: 'name8', value: "value8"),
-                              ],
-                              dropDownItemCount: 8,
-                              onChanged: (val) {
-                                // ignore: avoid_print
-                                print(val.toString());
-                              },
                             ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ],
-              )
-            ],
-          );
-        }),
-      ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Duration',
+                              style: formTop,
+                            ),
+                            SizedBox(
+                              height: 9.h,
+                            ),
+                            SizedBox(
+                              height: 48.h,
+                              width: 156.w,
+                              child: DropDownTextField(
+                                textFieldDecoration: InputDecoration(
+                                  hintText: 'Select Duration',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(9.r),
+                                    borderSide: const BorderSide(
+                                      width: 1,
+                                      color: AppColors.borderButton,
+                                    ),
+                                  ),
+                                ),
+                                listSpace: 20,
+                                listPadding: ListPadding(top: 20),
+                                validator: (value) {
+                                  if (value == null) {
+                                    return "Required field";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                dropDownList: const [
+                                  DropDownValueModel(name: '1 Month', value: 1),
+                                  DropDownValueModel(name: '2 Month', value: 2),
+                                  DropDownValueModel(name: '3 Month', value: 3),
+                                  DropDownValueModel(name: '4 Month', value: 4),
+                                  DropDownValueModel(name: '5 Month', value: 5),
+                                  DropDownValueModel(name: '6 Month', value: 6),
+                                  DropDownValueModel(name: '7 Month', value: 7),
+                                  DropDownValueModel(name: '8 Month', value: 8),
+                                  DropDownValueModel(name: '9 Month', value: 9),
+                                  DropDownValueModel(
+                                      name: '10 Month', value: 10),
+                                  DropDownValueModel(
+                                      name: '11 Month', value: 11),
+                                  DropDownValueModel(
+                                      name: '12 Month', value: 12),
+                                ],
+                                dropDownItemCount: 8,
+                                onChanged: (val) {
+                                  if (val != null &&
+                                      val.runtimeType == DropDownValueModel) {
+                                    provider
+                                        .changeDuration(val.value.toString());
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
 
-class ChildrenTile extends StatelessWidget {
-  const ChildrenTile({Key? key, required this.text, this.onTap})
-      : super(key: key);
-  final String text;
-  final Function()? onTap;
+class ButtonCapacity extends StatelessWidget {
+  const ButtonCapacity({
+    Key? key,
+    required this.onPress,
+    required this.textButton,
+    required this.activ,
+  }) : super(key: key);
+  final Function() onPress;
+  final String textButton;
+  final String? activ;
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        alignment: Alignment.centerLeft,
-        height: 36.h,
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          border: Border.symmetric(
-            horizontal: BorderSide(
-              width: 0.5,
-              color: Color(0xFFDDDDDD),
+    return SizedBox(
+      height: 40.w,
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            elevation: 0,
+            alignment: Alignment.center,
+            backgroundColor:
+                (activ == textButton) ? AppColors.primary4 : AppColors.white,
+            minimumSize: Size(60.w, 40.w),
+            shape: RoundedRectangleBorder(
+              side: const BorderSide(width: 1, color: AppColors.primary4),
+              borderRadius: BorderRadius.circular(8.w),
             ),
           ),
-        ),
-        child: Text(
-          text,
-          style: TextStyle(fontSize: 14.sp),
-        ),
-      ),
+          onPressed: onPress,
+          child: Text(
+            textButton,
+            style: TextStyle(
+              color: (activ == textButton) ? AppColors.white : AppColors.black,
+            ),
+          )),
     );
   }
 }

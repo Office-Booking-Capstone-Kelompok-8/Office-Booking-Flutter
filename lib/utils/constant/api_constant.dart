@@ -4,8 +4,8 @@ class Api {
   static const String register = 'auth/register';
   static const String logout = 'auth/logout';
   static const String refreshToken = 'auth/refresh';
-  static const String requestOtp = 'auth/request-otp';
-  static const String verifyOtp = 'auth/verify-otp';
+  static const String requestOtp = 'auth/request';
+  static const String verifyOtp = 'auth/verify';
   static const String resetPassword = 'auth/reset-password';
   static const String userDetail = 'users';
   static const String changePassword = 'users/change-password';
