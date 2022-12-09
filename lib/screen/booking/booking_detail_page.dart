@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:office_booking_app/screen/components/appbar_component.dart';
+import 'package:office_booking_app/screen/components/button_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
 
@@ -11,7 +12,7 @@ class BookingDetail extends StatefulWidget {
   State<BookingDetail> createState() => _BookingDetailState();
 }
 
-int statusId = 1;
+int statusId = 2;
 
 class _BookingDetailState extends State<BookingDetail> {
   @override
@@ -148,7 +149,7 @@ class _BookingDetailState extends State<BookingDetail> {
                                             ),
                           statusId == 1
                               ? Text(
-                                  'pending',
+                                  'Pending',
                                   style: TextStyle(
                                     color: AppColors.warning4,
                                     fontSize: 12.sp,
@@ -159,7 +160,7 @@ class _BookingDetailState extends State<BookingDetail> {
                                   ? Text(
                                       'Rejected',
                                       style: TextStyle(
-                                        color: AppColors.warning4,
+                                        color: AppColors.error4,
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -266,11 +267,34 @@ class _BookingDetailState extends State<BookingDetail> {
           ),
         ),
       ),
-      // bottomNavigationBar: Container(
-      //   height: 70.h,
-      //   margin: EdgeInsets.all(16.h),
-      //   child: statusId == 1 ||,
-      // ),
+      bottomNavigationBar: Container(
+        height: 70.h,
+        margin: EdgeInsets.all(16.h),
+        child: statusId == 1 || statusId == 2 || statusId == 3
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ButtonComponent(
+                      onPress: () {},
+                      isRed: statusId == 1 ? true : false,
+                      isWhite: statusId == 2 || statusId == 3 ? true : false,
+                      textButton: statusId == 1 ? 'cancel' : 'Back to Home',
+                      buttonHeight: 37.h,
+                      buttonWidth: 156.w),
+                  ButtonComponent(
+                      onPress: () {},
+                      textButton:
+                          statusId == 1 ? 'Back to home' : 'Order Again',
+                      buttonHeight: 37.h,
+                      buttonWidth: 156.w),
+                ],
+              )
+            : ButtonComponent(
+                onPress: () {},
+                textButton: statusId == 4 ? 'Complete Payment' : 'Give Review',
+                buttonHeight: 37.h,
+                buttonWidth: double.infinity),
+      ),
     ));
   }
 }

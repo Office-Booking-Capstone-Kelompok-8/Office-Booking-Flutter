@@ -77,8 +77,11 @@ class _FormReservationPageState extends State<FormReservationPage> {
                             child: SizedBox(
                               height: 90.h,
                               width: 90.w,
-                              child: Image.network(
-                                argsForm['building-image'],
+                              child: FittedBox(
+                                fit: BoxFit.fill,
+                                child: Image.network(
+                                  argsForm['building-image'],
+                                ),
                               ),
                             ),
                           ),
@@ -103,12 +106,15 @@ class _FormReservationPageState extends State<FormReservationPage> {
                                   maxLines: 3,
                                   style: detailFormGrey,
                                 ),
+                                SizedBox(
+                                  width: 7.w,
+                                ),
                                 Row(
                                   children: [
                                     const Text('Price/month\t'),
                                     Text(
                                       'IDR ${argsForm['building-price'].toString()}',
-                                      style: onboardSkip,
+                                      style: priceBlue,
                                     ),
                                   ],
                                 ),

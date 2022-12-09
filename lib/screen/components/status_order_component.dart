@@ -83,14 +83,20 @@ class StatusOrderComponent extends StatelessWidget {
                                         size: 16.sm,
                                         color: AppColors.primary4,
                                       )
-                                    : Icon(
-                                        Icons.check_circle_outline,
-                                        size: 16.sm,
-                                        color: AppColors.success4,
-                                      ),
+                                    : statusId == 5
+                                        ? Icon(
+                                            Icons.visibility_outlined,
+                                            size: 16.sm,
+                                            color: AppColors.success4,
+                                          )
+                                        : Icon(
+                                            Icons.check_circle_outline,
+                                            size: 16.sm,
+                                            color: AppColors.success4,
+                                          ),
                     statusId == 1
                         ? Text(
-                            'pending',
+                            'Pending',
                             style: TextStyle(
                               color: AppColors.warning4,
                               fontSize: 12.sp,
@@ -101,7 +107,7 @@ class StatusOrderComponent extends StatelessWidget {
                             ? Text(
                                 'Rejected',
                                 style: TextStyle(
-                                  color: AppColors.warning4,
+                                  color: AppColors.error4,
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w500,
                                 ),

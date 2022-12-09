@@ -114,10 +114,21 @@ class _BuildingDetailState extends State<BuildingDetail> {
                                 'Price',
                                 style: blueDetailPage,
                               ),
-                              Text(
-                                'Start IDR 1.000.000',
-                                style: blueDetailPage,
-                                maxLines: 2,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Start IDR ',
+                                    style: blueDetailPage,
+                                  ),
+                                  Text(
+                                    formater
+                                        .format(detail
+                                            .getDetailBuilding.price!.monthly!)
+                                        .toString(),
+                                    style: blueDetailPage,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -145,8 +156,9 @@ class _BuildingDetailState extends State<BuildingDetail> {
                                     width: 4.w,
                                   ),
                                   Text(
-                                    '40 People',
+                                    '${formater.format(detail.getDetailBuilding.capacity).toString()} People',
                                     style: blueDetailPage,
+                                    maxLines: 2,
                                   ),
                                 ],
                               ),
@@ -291,7 +303,13 @@ class _BuildingDetailState extends State<BuildingDetail> {
                   height: 8.h,
                 ),
                 SizedBox(
-                  height: Helper.icon.length < 9 ? 107.h : 147.h,
+                  height: detail.getDetailBuilding.facilities!.length < 5
+                      ? 40.h
+                      : detail.getDetailBuilding.facilities!.length < 9
+                          ? 80.h
+                          : detail.getDetailBuilding.facilities!.length < 13
+                              ? 120.h
+                              : 160.h,
                   child: GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -307,11 +325,12 @@ class _BuildingDetailState extends State<BuildingDetail> {
                             size: 20.sm,
                             color: AppColors.primary4,
                           ),
-                          Text(Helper.iconName[index]),
+                          Text(detail
+                              .getDetailBuilding.facilities![index].name!),
                         ],
                       );
                     },
-                    itemCount: Helper.icon.length,
+                    itemCount: detail.getDetailBuilding.facilities!.length,
                   ),
                 ),
                 SizedBox(

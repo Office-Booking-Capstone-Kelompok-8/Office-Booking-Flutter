@@ -15,10 +15,16 @@ class PopularBuildingComponent extends StatelessWidget {
       padding: EdgeInsets.all(8.h),
       child: Row(
         children: [
-          Image.network(
-            'https://www.barajacoding.or.id/wp-content/uploads/2022/05/unnamed.jpg',
-            height: 87.h,
-            width: 80.w,
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(4.r)),
+            child: FittedBox(
+              fit: BoxFit.fill,
+              child: Image.network(
+                'https://www.barajacoding.or.id/wp-content/uploads/2022/05/unnamed.jpg',
+                height: 87.h,
+                width: 80.w,
+              ),
+            ),
           ),
           SizedBox(
             width: 8.w,
@@ -33,8 +39,16 @@ class PopularBuildingComponent extends StatelessWidget {
               SizedBox(
                 height: 8.h,
               ),
-              Text('South Jakarta',
-                  style: TextStyle(fontSize: 12.sp, color: AppColors.neutral8)),
+              Row(
+                children: [
+                  Text('South Jakarta',
+                      style: TextStyle(
+                          fontSize: 12.sp, color: AppColors.neutral8)),
+                  SizedBox(
+                    width: 8.w,
+                  ),
+                ],
+              ),
               SizedBox(
                 height: 16.h,
               ),
