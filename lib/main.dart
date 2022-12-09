@@ -6,9 +6,11 @@ import 'package:office_booking_app/provider/building_provider.dart';
 import 'package:office_booking_app/provider/set_state_provider.dart';
 import 'package:office_booking_app/provider/login_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
+import 'package:office_booking_app/screen/booking/booking_detail_page.dart';
+import 'package:office_booking_app/screen/booking/booking_success_page.dart';
 import 'package:office_booking_app/screen/building/building_detail_page.dart';
-import 'package:office_booking_app/screen/payment/booking_detail_page.dart';
 import 'package:office_booking_app/screen/payment/payment_detail_page.dart';
+import 'package:office_booking_app/screen/payment/transaction_detail_page.dart';
 import 'package:office_booking_app/screen/profile_tile_page/change_password_page.dart';
 import 'package:office_booking_app/screen/edit_profile/edit_profile_page.dart';
 import 'package:office_booking_app/screen/login/forgot_password.dart';
@@ -16,7 +18,6 @@ import 'package:office_booking_app/screen/login/send_otp.dart';
 import 'package:office_booking_app/screen/login/verify_otp.dart';
 import 'package:office_booking_app/screen/navbar/order_page.dart';
 import 'package:office_booking_app/screen/onboard/onboard_page.dart';
-import 'package:office_booking_app/screen/order/order_detail_page.dart';
 import 'package:office_booking_app/screen/profile_tile_page/help_center_page.dart';
 import 'package:office_booking_app/screen/search/search_page.dart';
 import 'package:office_booking_app/screen/search/search_result.dart';
@@ -24,12 +25,10 @@ import 'provider/onboard_provider.dart';
 import 'screen/navbar/navbar.dart';
 import 'utils/constant/app_colors.dart';
 import 'provider/navbar_provider.dart';
-import 'screen/form_reservation_page/form_reservation_page.dart';
+import 'screen/booking/form_reservation_page.dart';
 import 'screen/login/login_page.dart';
 import 'screen/login/register_page.dart';
 import 'package:provider/provider.dart';
-
-import 'screen/navbar/homepage.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -73,7 +72,7 @@ class MyApp extends StatelessWidget {
               '/navbar': (context) => const Navbar(),
               // '/onboard': (context) => const OnboardPage(),
               '/edit-profile': (context) => const EditProfile(),
-              '/order-detail': (context) => const OrderDetail(),
+              '/booking-detail': (context) => const BookingDetail(),
               '/order': (context) => const OrderPage(),
               '/building-detail': (context) => const BuildingDetail(),
               '/search': (context) => const SearchPage(),
@@ -84,7 +83,8 @@ class MyApp extends StatelessWidget {
               '/change-password': (context) => const ChangePassword(),
               '/help-center': (center) => const HelpCenter(),
               '/payment-detail': (context) => const PaymentDetailPage(),
-              '/booking-detail': (context) => const BookingDetailPage(),
+              '/transaction-detail': (context) => const TransactionDetailPage(),
+              '/booking-success': (context) => const BookingSuccessPage(),
             },
             initialRoute: '/',
             theme: ThemeData(

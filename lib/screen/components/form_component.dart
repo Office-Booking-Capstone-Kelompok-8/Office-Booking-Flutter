@@ -64,15 +64,18 @@ class FormComponent extends StatelessWidget {
                       : TextInputType.text,
               obscureText: isPassword == true ? value : false,
               decoration: InputDecoration(
+                  contentPadding:
+                      isForm == true ? EdgeInsets.only(left: 16.w) : null,
                   prefix: Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: isAuth == true ? 0.w : 2.w,
-                          vertical: 11.h)),
-                  hintText: isAuth == true || isProfile == true
-                      ? hint
-                      : isSearch == true
-                          ? 'Filter Building'
-                          : '',
+                          horizontal: isAuth == true ? 0.w : 0.w,
+                          vertical: 0.h)),
+                  hintText:
+                      isAuth == true || isProfile == true || isForm == true
+                          ? hint
+                          : isSearch == true
+                              ? 'Filter Building'
+                              : '',
                   prefixIcon: isAuth == true
                       ? Icon(
                           prefixIcon!,

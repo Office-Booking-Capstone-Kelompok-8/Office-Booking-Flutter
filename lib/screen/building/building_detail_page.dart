@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:office_booking_app/provider/building_provider.dart';
-import 'package:office_booking_app/provider/set_state_provider.dart';
 import 'package:office_booking_app/screen/components/button_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
@@ -45,22 +44,50 @@ class _BuildingDetailState extends State<BuildingDetail> {
                 SizedBox(
                   height: 24.h,
                 ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(4.r),
-                  child: SizedBox(
-                    height: 153.h,
-                    width: double.infinity,
-                    child: PageView.builder(
-                        itemBuilder: (context, index) => FittedBox(
-                              fit: BoxFit.cover,
-                              child: Image.network(detail
-                                  .getDetailBuilding.pictures![index].url!),
-                            ),
-                        itemCount: detail.getDetailBuilding.pictures!.length),
-                  ),
+                Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(4.r),
+                      child: SizedBox(
+                        height: 220.h,
+                        width: double.infinity,
+                        child: PageView.builder(
+                            itemBuilder: (context, index) => Stack(
+                                  fit: StackFit.expand,
+                                  children: [
+                                    FittedBox(
+                                      fit: BoxFit.fill,
+                                      child: Image.network(detail
+                                          .getDetailBuilding
+                                          .pictures![index]
+                                          .url!),
+                                    ),
+                                    Positioned(
+                                      bottom: 8.h,
+                                      left: 8.w,
+                                      child: Container(
+                                        color: const Color(0xFF1F1F1F),
+                                        height: 25.h,
+                                        width: 43.w,
+                                        child: Center(
+                                          child: Text(
+                                            '${(index + 1).toString()}/${(detail.getDetailBuilding.pictures!.length).toString()}',
+                                            style: const TextStyle(
+                                                color: AppColors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                            itemCount:
+                                detail.getDetailBuilding.pictures!.length),
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
-                  height: 24.h,
+                  height: 16.h,
                 ),
                 SizedBox(
                   height: 40.h,
@@ -69,61 +96,145 @@ class _BuildingDetailState extends State<BuildingDetail> {
                     style: buildingName,
                   ),
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     Row(
-                //       children: [
-                //         Container(
-                //           decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(5.r),
-                //             color: AppColors.primary3,
-                //           ),
-                //           height: 22.h,
-                //           width: 30.w,
-                //           padding: EdgeInsets.symmetric(
-                //               vertical: 2.h, horizontal: 3.w),
-                //           child: Text(
-                //             '4.9',
-                //             style: ratingStyle,
-                //           ),
-                //         ),
-                //         SizedBox(
-                //           width: 8.w,
-                //         ),
-                //         Text('(15 Review)'),
-                //       ],
-                //     ),
-                //     TextButton(
-                //       onPressed: () {},
-                //       child: Text('View All'),
-                //       style: TextButton.styleFrom(
-                //         splashFactory: NoSplash.splashFactory,
-                //       ),
-                //     ),
-                //   ],
-                // ),
                 SizedBox(
                   height: 16.h,
                 ),
-                Text(
-                  'Description',
-                  style: detailFormStyle,
-                ),
                 SizedBox(
-                  height: 8.h,
-                ),
-                Text(
-                  detail.getDetailBuilding.description!,
-                  maxLines: 5,
-                  style: detailBuilidingStyle,
+                  height: 57.h,
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 109.w,
+                        child: Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Price',
+                                style: blueDetailPage,
+                              ),
+                              Text(
+                                'Start IDR 1.000.000',
+                                style: blueDetailPage,
+                                maxLines: 2,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 109.w,
+                        child: Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Capacity',
+                                style: blueDetailPage,
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.people_alt,
+                                    size: 16.sm,
+                                    color: AppColors.primary6,
+                                  ),
+                                  SizedBox(
+                                    width: 4.w,
+                                  ),
+                                  Text(
+                                    '40 People',
+                                    style: blueDetailPage,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 109.w,
+                        child: Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Size',
+                                style: blueDetailPage,
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.zoom_out_map,
+                                    size: 16.sm,
+                                    color: AppColors.primary6,
+                                  ),
+                                  SizedBox(
+                                    width: 4.w,
+                                  ),
+                                  Text(
+                                    '350 m2',
+                                    style: blueDetailPage,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 16.h,
                 ),
                 const Divider(
                   color: AppColors.dividerColor,
-                  indent: 1,
+                  thickness: 1,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.r),
+                            color: AppColors.primary3,
+                          ),
+                          height: 22.h,
+                          width: 30.w,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 2.h, horizontal: 3.w),
+                          child: Text(
+                            '4.9',
+                            style: ratingStyle,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 8.w,
+                        ),
+                        const Text('(15 Review)'),
+                      ],
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        splashFactory: NoSplash.splashFactory,
+                      ),
+                      child: const Text('View More'),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                const Divider(
+                  color: AppColors.dividerColor,
+                  thickness: 1,
                 ),
                 SizedBox(
                   height: 16.h,
@@ -145,7 +256,29 @@ class _BuildingDetailState extends State<BuildingDetail> {
                 ),
                 const Divider(
                   color: AppColors.dividerColor,
-                  indent: 1,
+                  thickness: 1,
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Text(
+                  'Description',
+                  style: detailFormStyle,
+                ),
+                SizedBox(
+                  height: 8.h,
+                ),
+                Text(
+                  detail.getDetailBuilding.description!,
+                  maxLines: 5,
+                  style: detailBuilidingStyle,
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                const Divider(
+                  color: AppColors.dividerColor,
+                  thickness: 1,
                 ),
                 SizedBox(
                   height: 16.h,
@@ -186,81 +319,83 @@ class _BuildingDetailState extends State<BuildingDetail> {
                 ),
                 const Divider(
                   color: AppColors.dividerColor,
-                  indent: 1,
+                  thickness: 1,
                 ),
                 SizedBox(
-                  height: 16.h,
+                  height: 85.h,
                 ),
               ],
             ),
           ),
         ),
         bottomNavigationBar: Container(
-          margin: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 16.h),
-          height: 171.h,
+          margin: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
+          height: 54.h,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Price',
-                style: detailFormStyle,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Monthly',
-                    style: detailBuilidingStyle,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                          'IDR ${formater.format(detail.getDetailBuilding.price!.monthly!)}',
-                          style: priceBold),
-                      const Text(' / month')
-                    ],
-                  ),
-                  Consumer<SetStateProvider>(
-                    builder: (context, numChange, _) => Radio(
-                      value: 0,
-                      groupValue: numChange.number,
-                      onChanged: (value) {
-                        numChange.number = value;
-                      },
-                    ),
-                  )
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Annual',
-                    style: detailBuilidingStyle,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'IDR ${formater.format(detail.getDetailBuilding.price!.annual!)}',
-                        style: priceBold,
-                      ),
-                      const Text(' / year')
-                    ],
-                  ),
-                  Consumer<SetStateProvider>(
-                    builder: (context, numChange, _) => Radio(
-                      value: 1,
-                      groupValue: numChange.number,
-                      onChanged: (value) {
-                        numChange.number = value;
-                      },
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 8.h,
-              ),
+              // Text(
+              //   'Price',
+              //   style: detailFormStyle,
+              // ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Text(
+              //       'Monthly',
+              //       style: detailBuilidingStyle,
+              //     ),
+              //     Row(
+              //       children: [
+              //         Text(
+              //             // 'IDR ${formater.format(detail.getDetailBuilding.price!.monthly!)}',
+              //             // style: priceBold),
+              //             'asd'),
+              //         const Text(' / month')
+              //       ],
+              //     ),
+              //     Consumer<SetStateProvider>(
+              //       builder: (context, numChange, _) => Radio(
+              //         value: 0,
+              //         groupValue: numChange.number,
+              //         onChanged: (value) {
+              //           numChange.number = value;
+              //         },
+              //       ),
+              //     )
+              //   ],
+              // ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Text(
+              //       'Annual',
+              //       style: detailBuilidingStyle,
+              //     ),
+              //     Row(
+              //       children: [
+              //         Text(
+              //           // 'IDR ${formater.format(detail.getDetailBuilding.price!.annual!)}',
+              //           'asd',
+              //           style: priceBold,
+              //         ),
+              //         const Text(' / year')
+              //       ],
+              //     ),
+              //     Consumer<SetStateProvider>(
+              //       builder: (context, numChange, _) => Radio(
+              //         value: 1,
+              //         groupValue: numChange.number,
+              //         onChanged: (value) {
+              //           numChange.number = value;
+              //         },
+              //       ),
+              //     )
+              //   ],
+              // ),
+              // SizedBox(
+              //   height: 8.h,
+              // ),
               Row(
                 children: [
                   Material(
@@ -289,27 +424,21 @@ class _BuildingDetailState extends State<BuildingDetail> {
                   SizedBox(
                     width: 12.w,
                   ),
-                  Consumer<SetStateProvider>(
-                    builder: (context, numChange, _) => ButtonComponent(
-                        onPress: () {
-                          Navigator.pushNamed(context, '/form-page',
-                              arguments: {
-                                'building-image': detail
-                                    .getDetailBuilding.pictures!.first.url!,
-                                'building-name': detail.getDetailBuilding.name,
-                                'building-address':
-                                    '${detail.getDetailBuilding.location!.district!} - ${detail.getDetailBuilding.location!.city!}',
-                                'building-price': numChange.number == 0
-                                    ? formater.format(
-                                        detail.getDetailBuilding.price!.monthly)
-                                    : formater.format(
-                                        detail.getDetailBuilding.price!.annual)
-                              });
-                        },
-                        textButton: 'Book Now',
-                        buttonHeight: 37.h,
-                        buttonWidth: 274.w),
-                  ),
+                  ButtonComponent(
+                      onPress: () {
+                        Navigator.pushNamed(context, '/form-page', arguments: {
+                          'building-image':
+                              detail.getDetailBuilding.pictures!.first.url!,
+                          'building-name': detail.getDetailBuilding.name,
+                          'building-address':
+                              '${detail.getDetailBuilding.location!.district!} - ${detail.getDetailBuilding.location!.city!}',
+                          'building-price': formater
+                              .format(detail.getDetailBuilding.price!.monthly)
+                        });
+                      },
+                      textButton: 'Book Now',
+                      buttonHeight: 37.h,
+                      buttonWidth: 274.w),
                 ],
               ),
             ],

@@ -10,7 +10,7 @@ class BuildingApi {
       String? dateStart, String? dateEnd) async {
     try {
       final response = await _dio.get(
-          '${Api.baseUrl}${Api.building}?city=$city&district=$district&startDate=$dateStart&endDate=$dateEnd');
+          '${Api.baseUrl}${Api.building}?limit=10&page=1&city=$city&district=$district&startDate=$dateStart&endDate=$dateEnd');
       List<BuildingModel> building = (response.data['data'] as List)
           .map((e) => BuildingModel.fromJson(e))
           .toList();

@@ -125,3 +125,13 @@ TextStyle blackPaymentVeryLarge = TextStyle(
   fontSize: 18.sp,
   fontWeight: FontWeight.w700,
 );
+TextStyle blueDetailPage = TextStyle(
+  fontSize: 12.sp,
+  color: AppColors.primary6,
+  fontWeight: FontWeight.bold,
+);
+TextStyle blackBooking = TextStyle(
+  color: AppColors.black,
+  fontSize: 14.sp,
+  fontWeight: FontWeight.w700,
+);

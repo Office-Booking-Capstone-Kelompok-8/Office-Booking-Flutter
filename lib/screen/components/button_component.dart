@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../utils/constant/app_text_style.dart';
 import '../../utils/constant/app_colors.dart';
 
 class ButtonComponent extends StatelessWidget {
@@ -10,21 +9,29 @@ class ButtonComponent extends StatelessWidget {
       required this.textButton,
       required this.buttonHeight,
       required this.buttonWidth,
-      this.isMessage});
+      this.isMessage,
+      this.isWhite});
   final Function() onPress;
   final String textButton;
   final double buttonHeight;
   final double buttonWidth;
   final bool? isMessage;
+  final bool? isWhite;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
           elevation: 0,
-          backgroundColor: AppColors.primary4,
+          backgroundColor:
+              isWhite == true ? AppColors.white : AppColors.primary4,
+          side: const BorderSide(width: 1, color: AppColors.borderButton),
           alignment: Alignment.center,
-          textStyle: buttonStyle,
+          textStyle: TextStyle(
+            color: isWhite == true ? AppColors.primary4 : AppColors.neutral2,
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w700,
+          ),
           minimumSize: Size(buttonWidth, buttonHeight),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.w),
@@ -38,7 +45,12 @@ class ButtonComponent extends StatelessWidget {
             )
           : Text(
               textButton,
-              style: buttonStyle,
+              style: TextStyle(
+                color:
+                    isWhite == true ? AppColors.primary4 : AppColors.neutral2,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w700,
+              ),
             ),
     );
   }

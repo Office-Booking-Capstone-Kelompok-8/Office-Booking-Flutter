@@ -4,14 +4,14 @@ import 'package:office_booking_app/screen/components/appbar_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
 
-class BookingDetailPage extends StatefulWidget {
-  const BookingDetailPage({super.key});
+class TransactionDetailPage extends StatefulWidget {
+  const TransactionDetailPage({super.key});
 
   @override
-  State<BookingDetailPage> createState() => _BookingDetailPageState();
+  State<TransactionDetailPage> createState() => _TransactionDetailPageState();
 }
 
-class _BookingDetailPageState extends State<BookingDetailPage> {
+class _TransactionDetailPageState extends State<TransactionDetailPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(

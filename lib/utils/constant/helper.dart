@@ -8,8 +8,8 @@ class Helper {
     Tab(text: "Crypto 101"),
   ];
   static List<Widget> tabview = const [
-    DescriptioPage(),
-    ReviewPage(),
+    // DescriptioPage(),
+    // ReviewPage(),
   ];
 
   static List<String> iconName = [

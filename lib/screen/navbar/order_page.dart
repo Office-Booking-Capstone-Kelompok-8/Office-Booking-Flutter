@@ -59,7 +59,7 @@ class _OrderPageState extends State<OrderPage> {
                       SizedBox(height: 16.h),
                       InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, '/order-detail');
+                          Navigator.pushNamed(context, '/booking-detail');
                         },
                         child: const StatusOrderComponent(
                           statusId: 1,
@@ -67,6 +67,15 @@ class _OrderPageState extends State<OrderPage> {
                       ),
                       const StatusOrderComponent(
                         statusId: 2,
+                      ),
+                      const StatusOrderComponent(
+                        statusId: 3,
+                      ),
+                      const StatusOrderComponent(
+                        statusId: 4,
+                      ),
+                      const StatusOrderComponent(
+                        statusId: 5,
                       ),
                     ],
                   ),
