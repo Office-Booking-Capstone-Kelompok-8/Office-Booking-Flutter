@@ -107,13 +107,14 @@ class FilterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  removeFilter(String key) async {
+  Future<void> removeFilter(String key) async {
     if (key == 'duration' || key == 'date') {
       _filterResult.remove('duration');
       _filterResult.remove('date');
     } else {
       _filterResult.remove(key);
     }
+    notifyListeners();
     await getAllBuilding();
     notifyListeners();
   }
@@ -135,11 +136,13 @@ class FilterProvider extends ChangeNotifier {
   Future<String?> getAllBuilding() async {
     try {
       myState = MyState.loading;
+      notifyListeners();
       final response = await _service.getAllBuildings(filterResult);
       if (response != null) {
         _buildings = response;
         myState = MyState.loaded;
         notifyListeners();
+        print(myState);
         return 'successfull';
       }
 
@@ -161,6 +164,7 @@ class FilterProvider extends ChangeNotifier {
   Future<String?> getDetail(String id) async {
     try {
       myState = MyState.loading;
+      notifyListeners();
       final response = await _service.getBuildingDetail(id);
       _detailBuilding = response;
       myState = MyState.loaded;

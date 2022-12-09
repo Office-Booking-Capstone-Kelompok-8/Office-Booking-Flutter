@@ -20,7 +20,8 @@ class _SearchResultState extends State<SearchResult> {
   @override
   Widget build(BuildContext context) {
     return Consumer<FilterProvider>(builder: (context, provider, _) {
-      showState(provider);
+      final helper = Provider.of<BuildingProvider>(context);
+      showState(provider, provider2: helper);
       return Scaffold(
           appBar: const AppbarComponent(
             title: 'Building Result',
@@ -47,8 +48,9 @@ class _SearchResultState extends State<SearchResult> {
                                       borderRadius: BorderRadius.circular(8.w),
                                     ),
                                     foregroundColor: AppColors.borderButton),
-                                onPressed: () {
-                                  provider.removeFilter(e.key);
+                                onPressed: () async {
+                                  await provider.removeFilter(e.key);
+                                  if (mounted) {}
                                   if (provider.filterResult.isEmpty) {
                                     Navigator.pushNamedAndRemoveUntil(
                                         context, '/navbar', (route) => false);
@@ -88,9 +90,7 @@ class _SearchResultState extends State<SearchResult> {
                                   .getDetail(provider.getBuilding[index].id!);
                               if (result == "successfull") {
                                 if (mounted) {}
-                                final helper = Provider.of<BuildingProvider>(
-                                    context,
-                                    listen: false);
+
                                 await helper
                                     .getDetail(provider.getBuilding[index].id!);
                                 if (mounted) {}
