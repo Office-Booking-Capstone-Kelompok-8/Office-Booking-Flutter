@@ -57,7 +57,7 @@ class _SearchResultState extends State<SearchResult> {
                                 child: Text(
                                   (e.key == 'location')
                                       ? e.value.text
-                                      : e.value,
+                                      : '${e.key} ${e.value}',
                                   style: const TextStyle(
                                     color: AppColors.white,
                                   ),
@@ -95,10 +95,8 @@ class _SearchResultState extends State<SearchResult> {
                                     .getDetail(provider.getBuilding[index].id!);
                                 if (mounted) {}
                                 Navigator.pushNamed(
-                                  context, '/building-detail',
-                                  // arguments: {
-                                  //   'id': building.getBuilding[index].id,
-                                  // }
+                                  context,
+                                  '/building-detail',
                                 );
                               }
                             },

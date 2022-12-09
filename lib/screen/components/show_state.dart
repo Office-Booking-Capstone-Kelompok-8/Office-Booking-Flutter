@@ -29,9 +29,11 @@ void showState(dynamic provider, {dynamic provider2}) {
       SmartDialog.dismiss();
     }
   } else {
-    if (provider.myState == MyState.loading) {
+    if (provider.myState == MyState.loading ||
+        provider2.myState == MyState.loading) {
       SmartDialog.showLoading();
-    } else if (provider.myState == MyState.failed) {
+    } else if (provider.myState == MyState.failed ||
+        provider.myState == MyState.failed) {
       SmartDialog.dismiss();
       SmartDialog.show(
           builder: (context) {

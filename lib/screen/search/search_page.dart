@@ -85,6 +85,7 @@ class _SearchPageState extends State<SearchPage> {
                       title: Text(provider.listLocation[index].text),
                       value: provider.listLocation[index].location,
                       groupValue: provider.location,
+                      toggleable: true,
                       onChanged: (value) {
                         provider.changeLocation(provider.listLocation[index]);
                       },
@@ -98,13 +99,33 @@ class _SearchPageState extends State<SearchPage> {
                   childrenPadding: EdgeInsets.all(16.w),
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
-                          height: 48.h,
                           width: 156.w,
-                          child: TextField(
+                          child: TextFormField(
                             onTap: () {},
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value != null) {
+                                if (value.isEmpty) {
+                                  return null;
+                                } else if (int.tryParse(value) != null) {
+                                  if (int.tryParse(value)! < 0 ||
+                                      int.tryParse(value)! > 100) {
+                                    return 'value Capacity must greeter than 0 and less than 100';
+                                  } else {
+                                    return null;
+                                  }
+                                } else {
+                                  return 'value Capacity can only contain number';
+                                }
+                              } else {
+                                return null;
+                              }
+                            },
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               hintText: 'Minimal',
@@ -129,10 +150,29 @@ class _SearchPageState extends State<SearchPage> {
                           ),
                         ),
                         SizedBox(
-                          height: 48.h,
                           width: 156.w,
-                          child: TextField(
+                          child: TextFormField(
                             onTap: () {},
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value != null) {
+                                if (value.isEmpty) {
+                                  return null;
+                                } else if (int.tryParse(value) != null) {
+                                  if (int.tryParse(value)! < 0 ||
+                                      int.tryParse(value)! > 100) {
+                                    return 'value Capacity must greeter than 0 and less than 100';
+                                  } else {
+                                    return null;
+                                  }
+                                } else {
+                                  return 'value Capacity can only contain number';
+                                }
+                              } else {
+                                return null;
+                              }
+                            },
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               hintText: 'Maximal',
@@ -159,7 +199,7 @@ class _SearchPageState extends State<SearchPage> {
                       ],
                     ),
                     SizedBox(
-                      height: 8.h,
+                      height: 16.h,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -344,7 +384,7 @@ class ButtonCapacity extends StatelessWidget {
           ),
           onPressed: onPress,
           child: Text(
-            textButton,
+            '< $textButton',
             style: TextStyle(
               color: (activ == textButton) ? AppColors.white : AppColors.black,
             ),

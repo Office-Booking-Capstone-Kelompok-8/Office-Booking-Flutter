@@ -67,8 +67,13 @@ class FilterProvider extends ChangeNotifier {
   }
 
   changeLocation(Location newLocation) {
-    _location = newLocation.location;
-    _filterResult['location'] = newLocation;
+    if (_location == newLocation.location) {
+      _location = Districts.none;
+      _filterResult.remove('location');
+    } else {
+      _location = newLocation.location;
+      _filterResult['location'] = newLocation;
+    }
     notifyListeners();
   }
 
@@ -109,9 +114,8 @@ class FilterProvider extends ChangeNotifier {
     } else {
       _filterResult.remove(key);
     }
-
-    notifyListeners();
     await getAllBuilding();
+    notifyListeners();
   }
 
   changeDate(DateTime date) {
