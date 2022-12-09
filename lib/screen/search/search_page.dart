@@ -255,7 +255,7 @@ class _SearchPageState extends State<SearchPage> {
                                 decoration: InputDecoration(
                                   hintText: provider.hintDate ?? 'Select Date',
                                   border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(9.r),
+                                    borderRadius: BorderRadius.circular(8.r),
                                     borderSide: const BorderSide(
                                       width: 1,
                                       color: AppColors.borderButton,
@@ -298,7 +298,7 @@ class _SearchPageState extends State<SearchPage> {
                                 textFieldDecoration: InputDecoration(
                                   hintText: 'Select Duration',
                                   border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(9.r),
+                                    borderRadius: BorderRadius.circular(8.r),
                                     borderSide: const BorderSide(
                                       width: 1,
                                       color: AppColors.borderButton,
@@ -369,22 +369,24 @@ class ButtonCapacity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 40.w,
+      height: 30.w,
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             elevation: 0,
             alignment: Alignment.center,
             backgroundColor:
                 (activ == textButton) ? AppColors.primary4 : AppColors.white,
-            minimumSize: Size(60.w, 40.w),
+            minimumSize: Size(60.w, 30.w),
             shape: RoundedRectangleBorder(
-              side: const BorderSide(width: 1, color: AppColors.primary4),
-              borderRadius: BorderRadius.circular(8.w),
+              side: BorderSide(
+                  width: (activ == textButton) ? 0 : 1,
+                  color: AppColors.neutral7),
+              borderRadius: BorderRadius.circular(4.r),
             ),
           ),
           onPressed: onPress,
           child: Text(
-            '< $textButton',
+            '$textButton person',
             style: TextStyle(
               color: (activ == textButton) ? AppColors.white : AppColors.black,
             ),
