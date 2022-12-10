@@ -19,20 +19,39 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Consumer<FilterProvider>(
       builder: (context, provider, _) {
+        final listSort = provider.listSort;
         showState(provider);
         return Scaffold(
-          bottomNavigationBar: Container(
-            padding: EdgeInsets.only(bottom: 16.h, left: 16.w, right: 16.w),
-            child: ButtonComponent(
-              onPress: () async {
-                if (provider.filterResult.isNotEmpty) {
-                  if (provider.hintDate != null || provider.duration != null) {
-                    if (provider.hintDate != null &&
+          bottomNavigationBar: Form(
+            key: _formKey,
+            child: Container(
+              padding: EdgeInsets.only(bottom: 16.h, left: 16.w, right: 16.w),
+              child: ButtonComponent(
+                onPress: () async {
+                  _formKey.currentState!.save();
+                  if (provider.filterResult.isNotEmpty) {
+                    if (provider.hintDate != null ||
                         provider.duration != null) {
+                      if (provider.hintDate != null &&
+                          provider.duration != null) {
+                        final result = await provider.getAllBuilding();
+                        if (result == "successfull") {
+                          if (mounted) {}
+                          Navigator.pushNamed(context, '/search-result');
+                        } else if (result != null) {
+                          if (mounted) {}
+                          showNotification(context, result);
+                        }
+                      } else {
+                        showNotification(context,
+                            'start date must be accompanied by a duration, and vice versa.');
+                      }
+                    } else {
                       final result = await provider.getAllBuilding();
                       if (result == "successfull") {
                         if (mounted) {}
@@ -41,27 +60,15 @@ class _SearchPageState extends State<SearchPage> {
                         if (mounted) {}
                         showNotification(context, result);
                       }
-                    } else {
-                      showNotification(context,
-                          'start date must be accompanied by a duration, and vice versa.');
                     }
                   } else {
-                    final result = await provider.getAllBuilding();
-                    if (result == "successfull") {
-                      if (mounted) {}
-                      Navigator.pushNamed(context, '/search-result');
-                    } else if (result != null) {
-                      if (mounted) {}
-                      showNotification(context, result);
-                    }
+                    showNotification(context, 'must choose one of the filters');
                   }
-                } else {
-                  showNotification(context, 'must choose one of the filters');
-                }
-              },
-              textButton: 'View Building',
-              buttonHeight: 40.h,
-              buttonWidth: double.infinity,
+                },
+                textButton: 'View Building',
+                buttonHeight: 40.h,
+                buttonWidth: double.infinity,
+              ),
             ),
           ),
           appBar: const AppbarComponent(
@@ -108,14 +115,14 @@ class _SearchPageState extends State<SearchPage> {
                             onTap: () {},
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
+                            controller: provider.minCapacity,
                             validator: (value) {
                               if (value != null) {
                                 if (value.isEmpty) {
                                   return null;
                                 } else if (int.tryParse(value) != null) {
-                                  if (int.tryParse(value)! < 0 ||
-                                      int.tryParse(value)! > 100) {
-                                    return 'value Capacity must greeter than 0 and less than 100';
+                                  if (int.tryParse(value)! < 0) {
+                                    return 'value Capacity must greeter than 0 ';
                                   } else {
                                     return null;
                                   }
@@ -137,10 +144,11 @@ class _SearchPageState extends State<SearchPage> {
                                 ),
                               ),
                             ),
-                            onChanged: (value) {
-                              if (value.isNotEmpty) {
-                                if (int.tryParse(value) != null) {
-                                  provider.changeMinCapacity(value);
+                            onSaved: (newValue) {
+                              if (newValue != null) {
+                                if (int.tryParse(newValue) != null ||
+                                    newValue.isNotEmpty) {
+                                  provider.changeMinCapacity(newValue);
                                 } else {
                                   showNotification(context,
                                       'Field Min Capacity can only contain number');
@@ -155,14 +163,14 @@ class _SearchPageState extends State<SearchPage> {
                             onTap: () {},
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
+                            controller: provider.maxCapacity,
                             validator: (value) {
                               if (value != null) {
                                 if (value.isEmpty) {
                                   return null;
                                 } else if (int.tryParse(value) != null) {
-                                  if (int.tryParse(value)! < 0 ||
-                                      int.tryParse(value)! > 100) {
-                                    return 'value Capacity must greeter than 0 and less than 100';
+                                  if (int.tryParse(value)! < 0) {
+                                    return 'value Capacity must greeter than 0';
                                   } else {
                                     return null;
                                   }
@@ -184,15 +192,19 @@ class _SearchPageState extends State<SearchPage> {
                                 ),
                               ),
                             ),
-                            onChanged: (value) {
-                              if (value.isNotEmpty) {
-                                if (int.tryParse(value) != null) {
-                                  provider.changeMaxCapacity(value);
+                            onSaved: (newValue) {
+                              if (newValue != null) {
+                                if (int.tryParse(newValue) != null ||
+                                    newValue.isNotEmpty) {
+                                  provider.changeMinCapacity(newValue);
                                 } else {
                                   showNotification(context,
-                                      'Field Max Capacity can only contain number');
+                                      'Field Min Capacity can only contain number');
                                 }
                               }
+                            },
+                            onChanged: (value) {
+                              provider.clearButtonCapacity();
                             },
                           ),
                         ),
@@ -207,7 +219,7 @@ class _SearchPageState extends State<SearchPage> {
                         provider.dataButton.length,
                         (index) => ButtonCapacity(
                             onPress: () {
-                              provider.changeMaxCapacityButton(
+                              provider.changeCapacityButton(
                                   provider.dataButton[index]);
                             },
                             textButton: provider.dataButton[index],
@@ -346,7 +358,27 @@ class _SearchPageState extends State<SearchPage> {
                       ],
                     ),
                   ],
-                )
+                ),
+                ExpansionTile(
+                  title: Text(
+                    'Sort by',
+                    style:
+                        TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+                  ),
+                  expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                  children: List.generate(
+                    listSort.length,
+                    (index) => RadioListTile(
+                      title: Text(listSort[index]),
+                      value: listSort[index],
+                      groupValue: provider.activSort,
+                      toggleable: true,
+                      onChanged: (value) {
+                        provider.changeSort(listSort[index]);
+                      },
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -371,26 +403,27 @@ class ButtonCapacity extends StatelessWidget {
     return SizedBox(
       height: 30.w,
       child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            elevation: 0,
-            alignment: Alignment.center,
-            backgroundColor:
-                (activ == textButton) ? AppColors.primary4 : AppColors.white,
-            minimumSize: Size(60.w, 30.w),
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  width: (activ == textButton) ? 0 : 1,
-                  color: AppColors.neutral7),
-              borderRadius: BorderRadius.circular(4.r),
-            ),
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+          alignment: Alignment.center,
+          backgroundColor:
+              (activ == textButton) ? AppColors.primary4 : AppColors.white,
+          minimumSize: Size(60.w, 30.w),
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+                width: (activ == textButton) ? 0 : 1,
+                color: AppColors.neutral7),
+            borderRadius: BorderRadius.circular(20.r),
           ),
-          onPressed: onPress,
-          child: Text(
-            '$textButton person',
-            style: TextStyle(
-              color: (activ == textButton) ? AppColors.white : AppColors.black,
-            ),
-          )),
+        ),
+        onPressed: onPress,
+        child: Text(
+          textButton,
+          style: TextStyle(
+            color: (activ == textButton) ? AppColors.white : AppColors.black,
+          ),
+        ),
+      ),
     );
   }
 }
