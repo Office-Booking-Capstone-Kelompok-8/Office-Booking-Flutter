@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:office_booking_app/model/auth/signin_model.dart';
 import 'package:office_booking_app/model/user/user_model.dart';
 import 'package:office_booking_app/utils/constant/api_constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,8 +13,10 @@ class UserApi {
   UserApi() {
     _dio.interceptors.add(
       InterceptorsWrapper(
-        onRequest: (options, handler) {
-          // options.headers['Authorization'] = 'Bearer$accessToken';
+        onRequest: (options, handler) async {
+          final helper = await SharedPreferences.getInstance();
+          final accessToken = helper.getString('accessToken');
+          options.headers['Authorization'] = 'Bearer $accessToken';
           return handler.next(options);
         },
         onResponse: (response, handler) {
@@ -25,7 +28,8 @@ class UserApi {
             final refreshToken = helper.getString('refreshToken');
             if (refreshToken != null) {
               await refreshTokenApi();
-              return handler.resolve(await retry(error.requestOptions));
+              final data = await retry(error.requestOptions);
+              return handler.resolve(data);
             }
           }
           return handler.next(error);
@@ -36,10 +40,12 @@ class UserApi {
 
   Future<UserModel> getUser(String token) async {
     try {
-      final response = await _dio.get(Api.baseUrl + Api.userDetail,
-          options: Options(headers: {
-            "Authorization": "Bearer $token",
-          }));
+      final response = await _dio.get(
+        Api.baseUrl + Api.userDetail,
+        // options: Options(headers: {
+        //   "Authorization": "Bearer $token",
+        // }),
+      );
       return UserModel.fromJson(response.data['data']);
     } on DioError catch (_) {
       rethrow;
@@ -107,16 +113,18 @@ class UserApi {
     final helper = await SharedPreferences.getInstance();
 
     final refreshToken = helper.getString('refreshToken');
-
+    print(refreshToken);
     if (refreshToken != null) {
-      final response = await _dio.post(Api.baseUrl + Api.refreshToken,
-          data: {'refreshToken': refreshToken});
-      if (response.statusCode == 201) {
+      try {
+        final response = await _dio.post(
+            'https://dev.fortyfourvisual.com/v1/auth/refresh',
+            data: {'refreshToken': refreshToken});
+        var user = SignInModel.fromJson(response.data['data']);
         // successfully got the new access token
-
-      } else {
-        // refresh token is wrong so log out user.
-
+        await helper.setString('accessToken', user.accessToken!);
+        await helper.setString('refreshToken', user.refreshToken!);
+      } on DioError catch (e) {
+        print(e.response!.statusCode);
       }
     }
   }
