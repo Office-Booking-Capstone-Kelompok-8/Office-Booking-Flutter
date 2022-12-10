@@ -3,12 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:office_booking_app/provider/building_provider.dart';
+import 'package:office_booking_app/provider/filter_provider.dart';
 import 'package:office_booking_app/provider/set_state_provider.dart';
 import 'package:office_booking_app/provider/login_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/screen/booking/booking_detail_page.dart';
 import 'package:office_booking_app/screen/booking/booking_success_page.dart';
 import 'package:office_booking_app/screen/building/building_detail_page.dart';
+import 'package:office_booking_app/screen/navbar/homepage.dart';
 import 'package:office_booking_app/screen/payment/payment_detail_page.dart';
 import 'package:office_booking_app/screen/payment/transaction_detail_page.dart';
 import 'package:office_booking_app/screen/profile_tile_page/change_password_page.dart';
@@ -51,6 +53,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SignInProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => BuildingProvider()),
+        ChangeNotifierProvider(create: (context) => FilterProvider()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 831),
@@ -58,21 +61,44 @@ class MyApp extends StatelessWidget {
           builder: (context, onboard, child) => MaterialApp(
             navigatorObservers: [FlutterSmartDialog.observer],
             builder: FlutterSmartDialog.init(
-                // loadingBuilder: (String msg) => ,
+              loadingBuilder: (String msg) => Container(
+                height: 150.w,
+                width: 150.w,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
                 ),
+                alignment: Alignment.center,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const CircularProgressIndicator(
+                        color: AppColors.primary4,
+                      ),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      const Text('Loading...',
+                          style: TextStyle(color: AppColors.primary4)),
+                    ],
+                  ),
+                ),
+              ),
+            ),
             debugShowCheckedModeBanner: false,
             title: 'Office Zone',
             routes: {
               '/': (context) => onboard.userOpenApp == false
-                  ? const OnboardPage()
-                  : const Navbar(),
+                  ? const Navbar()
+                  : const Homepage(),
               '/form-page': (context) => const FormReservationPage(),
               '/login': (context) => const LoginPage(),
               '/register': (context) => const RegisterPage(),
               '/navbar': (context) => const Navbar(),
-              // '/onboard': (context) => const OnboardPage(),
+              '/onboard': (context) => const OnboardPage(),
               '/edit-profile': (context) => const EditProfile(),
-              '/booking-detail': (context) => const BookingDetail(),
+              '/order-detail': (context) => const BookingDetail(),
               '/order': (context) => const OrderPage(),
               '/building-detail': (context) => const BuildingDetail(),
               '/search': (context) => const SearchPage(),
@@ -82,11 +108,8 @@ class MyApp extends StatelessWidget {
               '/verify-otp': (context) => const VerifyOtp(),
               '/change-password': (context) => const ChangePassword(),
               '/help-center': (center) => const HelpCenter(),
-              '/payment-detail': (context) => const PaymentDetailPage(),
-              '/transaction-detail': (context) => const TransactionDetailPage(),
-              '/booking-success': (context) => const BookingSuccessPage(),
             },
-            initialRoute: '/',
+            initialRoute: '/onboard',
             theme: ThemeData(
               disabledColor: AppColors.neutral7,
               canvasColor: AppColors.white,

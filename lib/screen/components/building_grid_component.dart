@@ -28,7 +28,7 @@ class BuildingGridComponent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 120.h,
+              height: 110.w,
               width: 180.w,
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
@@ -40,48 +40,46 @@ class BuildingGridComponent extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              height: 85.w,
-              padding: EdgeInsets.symmetric(horizontal: 8.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        buildingName,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: TextStyle(
-                            fontSize: 14.sp, color: AppColors.neutral9),
-                      ),
-                      Text(
-                        buildingLoc,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        style: TextStyle(
-                            fontSize: 12.sp, color: AppColors.neutral8),
-                      ),
-                      SizedBox(
-                        height: 16.h,
-                      ),
-                    ],
-                  ),
-                  Text(
-                    'Start From $buildingPrice',
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: TextStyle(
-                        fontSize: 12.sp,
-                        color: AppColors.primary5,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.all(8.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          buildingName,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                              fontSize: 14.sp, color: AppColors.neutral9),
+                        ),
+                        Text(
+                          buildingLoc,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: TextStyle(
+                              fontSize: 12.sp, color: AppColors.neutral8),
+                        ),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                      ],
+                    ),
+                    Text(
+                      'Start From $buildingPrice',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          color: AppColors.primary5,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
             )
           ],
