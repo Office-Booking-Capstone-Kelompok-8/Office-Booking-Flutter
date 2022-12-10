@@ -21,6 +21,14 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   final _formKey = GlobalKey<FormState>();
   @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero).then((value) {
+      Provider.of<FilterProvider>(context, listen: false).clearState();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<FilterProvider>(
       builder: (context, provider, _) {
@@ -144,12 +152,15 @@ class _SearchPageState extends State<SearchPage> {
                                 ),
                               ),
                             ),
-                            onSaved: (newValue) {
-                              if (newValue != null) {
-                                if (int.tryParse(newValue) != null ||
-                                    newValue.isNotEmpty) {
-                                  provider.changeMinCapacity(newValue);
+                            onChanged: (value) {
+                              provider.clearButtonCapacity();
+                              if (value.isEmpty) {
+                                provider.changeMinCapacity(value);
+                              } else {
+                                if (int.tryParse(value) != null) {
+                                  provider.changeMinCapacity(value);
                                 } else {
+                                  provider.changeMinCapacity(value);
                                   showNotification(context,
                                       'Field Min Capacity can only contain number');
                                 }
@@ -192,19 +203,19 @@ class _SearchPageState extends State<SearchPage> {
                                 ),
                               ),
                             ),
-                            onSaved: (newValue) {
-                              if (newValue != null) {
-                                if (int.tryParse(newValue) != null ||
-                                    newValue.isNotEmpty) {
-                                  provider.changeMinCapacity(newValue);
-                                } else {
-                                  showNotification(context,
-                                      'Field Min Capacity can only contain number');
-                                }
-                              }
-                            },
                             onChanged: (value) {
                               provider.clearButtonCapacity();
+                              if (value.isEmpty) {
+                                provider.changeMaxCapacity(value);
+                              } else {
+                                if (int.tryParse(value) != null) {
+                                  provider.changeMaxCapacity(value);
+                                } else {
+                                  provider.changeMaxCapacity(value);
+                                  showNotification(context,
+                                      'Field Max Capacity can only contain number');
+                                }
+                              }
                             },
                           ),
                         ),

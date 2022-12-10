@@ -111,7 +111,7 @@ class FilterProvider extends ChangeNotifier {
         case 'Annual Lowest Price':
           _activSort = sort;
           _filterResult['sortBy'] = 'annual_price';
-          _filterResult['order'] = 'acs';
+          _filterResult['order'] = 'asc';
           break;
         case 'Monthly Highest Price':
           _activSort = sort;
@@ -149,14 +149,21 @@ class FilterProvider extends ChangeNotifier {
   }
 
   changeMinCapacity(String capacity) {
-    _minCapacity.text = capacity;
-    _filterResult['capacityMin'] = capacity;
+    if (capacity == '') {
+      _filterResult.remove('capacityMin');
+    } else {
+      _filterResult['capacityMin'] = capacity;
+    }
     notifyListeners();
   }
 
   changeMaxCapacity(String capacity) {
-    _maxCapacity.text = capacity;
-    _filterResult['capacityMax'] = capacity;
+    if (capacity == '') {
+      _filterResult.remove('capacityMax');
+    } else {
+      _filterResult['capacityMax'] = capacity;
+    }
+
     notifyListeners();
   }
 
@@ -211,6 +218,17 @@ class FilterProvider extends ChangeNotifier {
     }
     notifyListeners();
     await getAllBuilding();
+    notifyListeners();
+  }
+
+  Future<void> clearState() async {
+    _activButton = null;
+    _activSort = '';
+    _date = null;
+    _maxCapacity.clear();
+    _minCapacity.clear();
+    _location = Districts.none;
+    _filterResult.clear();
     notifyListeners();
   }
 

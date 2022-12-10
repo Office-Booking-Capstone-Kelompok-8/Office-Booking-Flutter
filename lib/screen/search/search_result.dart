@@ -50,8 +50,10 @@ class _SearchResultState extends State<SearchResult> {
                                     foregroundColor: AppColors.borderButton),
                                 onPressed: () async {
                                   await provider.removeFilter(e.key);
-                                  if (mounted) {}
+
                                   if (provider.filterResult.isEmpty) {
+                                    await provider.clearState();
+                                    if (mounted) {}
                                     Navigator.pushNamedAndRemoveUntil(
                                         context, '/navbar', (route) => false);
                                   }
