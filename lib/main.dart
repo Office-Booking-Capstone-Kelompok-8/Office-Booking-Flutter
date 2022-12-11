@@ -89,16 +89,16 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Office Zone',
             routes: {
-              '/': (context) => onboard.userOpenApp == false
+              '/': (context) => onboard.userOpenApp == true
                   ? const Navbar()
-                  : const Homepage(),
+                  : const OnboardPage(),
               '/form-page': (context) => const FormReservationPage(),
               '/login': (context) => const LoginPage(),
               '/register': (context) => const RegisterPage(),
               '/navbar': (context) => const Navbar(),
               '/onboard': (context) => const OnboardPage(),
               '/edit-profile': (context) => const EditProfile(),
-              '/order-detail': (context) => const BookingDetail(),
+              '/booking-detail': (context) => const BookingDetail(),
               '/order': (context) => const OrderPage(),
               '/building-detail': (context) => const BuildingDetail(),
               '/search': (context) => const SearchPage(),
@@ -108,8 +108,11 @@ class MyApp extends StatelessWidget {
               '/verify-otp': (context) => const VerifyOtp(),
               '/change-password': (context) => const ChangePassword(),
               '/help-center': (center) => const HelpCenter(),
+              '/payment-detail': (context) => const PaymentDetailPage(),
+              '/transaction-detail': (context) => const TransactionDetailPage(),
+              '/booking-success': (context) => const BookingSuccessPage(),
             },
-            initialRoute: '/onboard',
+            initialRoute: '/',
             theme: ThemeData(
               disabledColor: AppColors.neutral7,
               canvasColor: AppColors.white,

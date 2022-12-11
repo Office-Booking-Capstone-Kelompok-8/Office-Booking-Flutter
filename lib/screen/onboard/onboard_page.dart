@@ -85,6 +85,7 @@ class _OnboardPageState extends State<OnboardPage> {
                                           ),
                                           onPressed: () async {
                                             onboard.userStatus = true;
+
                                             Navigator.pushNamedAndRemoveUntil(
                                                 context,
                                                 '/navbar',

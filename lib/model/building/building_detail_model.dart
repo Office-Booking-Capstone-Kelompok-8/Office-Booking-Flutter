@@ -16,6 +16,7 @@ class BuildingDetailModel {
   String? description;
   List<Facilities>? facilities;
   int? capacity;
+  int? size;
   Price? price;
   String? owner;
   Location? location;
@@ -30,6 +31,7 @@ class BuildingDetailModel {
         .map((e) => Facilities.fromJson(e))
         .toList();
     capacity = json['capacity'];
+    size = json['size'];
     price = Price.fromJson(json['price']);
     owner = json['owner'];
     location = Location.fromJson(json['location']);
@@ -43,6 +45,7 @@ class BuildingDetailModel {
     data['description'] = description;
     data['facilities'] = facilities!.map((e) => e.toJson()).toList();
     data['capacity'] = capacity;
+    data['size'] = size;
     data['price'] = price!.toJson();
     data['owner'] = owner;
     data['location'] = location!.toJson();

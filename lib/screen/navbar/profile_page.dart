@@ -18,21 +18,20 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  // }
 
   @override
-  void initState() {
+  void didChangeDependencies() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final data = Provider.of<SignInProvider>(context, listen: false);
       if (data.dataUser?.accessToken != null) {
-        Provider.of<UserProvider>(context, listen: false)
-            .getUsersDetail(data.dataUser!.accessToken!);
+        Provider.of<UserProvider>(context, listen: false).getUsersDetail();
       }
     });
-    super.initState();
+    super.didChangeDependencies();
   }
 
   @override

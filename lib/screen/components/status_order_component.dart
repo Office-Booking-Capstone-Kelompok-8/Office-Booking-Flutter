@@ -22,9 +22,9 @@ class StatusOrderComponent extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                width: 160.w,
-                child: Expanded(
+              Expanded(
+                child: SizedBox(
+                  width: 160.w,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,

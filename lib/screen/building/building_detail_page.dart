@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:office_booking_app/provider/building_provider.dart';
 import 'package:office_booking_app/screen/components/button_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
 import 'package:office_booking_app/utils/constant/helper.dart';
+import 'package:office_booking_app/utils/state/finite_state.dart';
 import 'package:provider/provider.dart';
 import '../../screen/components/appbar_component.dart';
 
@@ -103,9 +105,9 @@ class _BuildingDetailState extends State<BuildingDetail> {
                   height: 57.h,
                   child: Row(
                     children: [
-                      SizedBox(
-                        width: 109.w,
-                        child: Expanded(
+                      Expanded(
+                        child: SizedBox(
+                          width: 109.w,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -134,9 +136,9 @@ class _BuildingDetailState extends State<BuildingDetail> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 109.w,
-                        child: Expanded(
+                      Expanded(
+                        child: SizedBox(
+                          width: 109.w,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -166,9 +168,9 @@ class _BuildingDetailState extends State<BuildingDetail> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 109.w,
-                        child: Expanded(
+                      Expanded(
+                        child: SizedBox(
+                          width: 109.w,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -188,7 +190,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
                                     width: 4.w,
                                   ),
                                   Text(
-                                    '350 m2',
+                                    '${detail.getDetailBuilding.size.toString()} m2',
                                     style: blueDetailPage,
                                   ),
                                 ],
@@ -300,7 +302,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
                   style: detailFormStyle,
                 ),
                 SizedBox(
-                  height: 8.h,
+                  height: 16.h,
                 ),
                 SizedBox(
                   height: detail.getDetailBuilding.facilities!.length < 5
@@ -320,9 +322,9 @@ class _BuildingDetailState extends State<BuildingDetail> {
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
-                          Icon(
-                            Helper.icon[index],
-                            size: 20.sm,
+                          SvgPicture.network(
+                            detail.getDetailBuilding.facilities![index].icon!,
+                            height: 20.h,
                             color: AppColors.primary4,
                           ),
                           Text(detail
