@@ -130,6 +130,7 @@ class FilterProvider extends ChangeNotifier {
   }
 
   Future<void> removeFilter(String key) async {
+    _showFilterResult.remove(key);
     if (key == 'duration' || key == 'date') {
       _filterResult.remove('duration');
       _filterResult.remove('date');
