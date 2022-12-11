@@ -169,6 +169,10 @@ class FilterProvider extends ChangeNotifier {
       _filterResult.remove('sortBy');
     } else {
       _filterResult['sortBy'] = sort;
+      if (_activOrder == '') {
+        _activOrder = 'Low To High';
+        _filterResult['order'] = 'asc';
+      }
     }
     notifyListeners();
   }
@@ -267,13 +271,18 @@ class FilterProvider extends ChangeNotifier {
   Future<void> clearState() async {
     _activButton = null;
     _activOrder = '';
-    _date = null;
     _maxCapacity.clear();
     _minCapacity.clear();
     _location = Districts.none;
     _filterResult.clear();
     _date = null;
     _showFilterResult.clear();
+    notifyListeners();
+  }
+
+  clearDate() {
+    _date = null;
+    _filterResult.remove('date');
     notifyListeners();
   }
 

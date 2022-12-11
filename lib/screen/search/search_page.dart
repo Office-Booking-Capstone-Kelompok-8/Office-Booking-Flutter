@@ -288,21 +288,33 @@ class _SearchPageState extends State<SearchPage> {
                                       color: AppColors.borderButton,
                                     ),
                                   ),
-                                  suffixIcon: IconButton(
-                                    onPressed: (() async {
-                                      final selectDate = await showDatePicker(
-                                          context: context,
-                                          initialDate: provider.getDateStart,
-                                          firstDate: DateTime.now(),
-                                          lastDate: DateTime(
-                                              provider.getDateStart.year + 5));
-                                      if (selectDate != null) {
-                                        provider.setDateStart = selectDate;
-                                        provider.changeDate(selectDate);
-                                      }
-                                    }),
-                                    icon: const Icon(Icons.calendar_today),
-                                  ),
+                                  suffixIcon: (provider.hintDate == null)
+                                      ? IconButton(
+                                          onPressed: (() async {
+                                            final selectDate =
+                                                await showDatePicker(
+                                                    context: context,
+                                                    initialDate:
+                                                        provider.getDateStart,
+                                                    firstDate: DateTime.now(),
+                                                    lastDate: DateTime(provider
+                                                            .getDateStart.year +
+                                                        5));
+                                            if (selectDate != null) {
+                                              provider.setDateStart =
+                                                  selectDate;
+                                              provider.changeDate(selectDate);
+                                            }
+                                          }),
+                                          icon:
+                                              const Icon(Icons.calendar_today),
+                                        )
+                                      : IconButton(
+                                          onPressed: () {
+                                            provider.clearDate();
+                                          },
+                                          icon: const Icon(Icons.close),
+                                        ),
                                 ),
                               ),
                             ),
@@ -332,7 +344,6 @@ class _SearchPageState extends State<SearchPage> {
                                     ),
                                   ),
                                 ),
-                                listSpace: 20,
                                 listPadding: ListPadding(top: 20),
                                 validator: (value) {
                                   if (value == null) {
@@ -358,7 +369,7 @@ class _SearchPageState extends State<SearchPage> {
                                   DropDownValueModel(
                                       name: '12 Month', value: 12),
                                 ],
-                                dropDownItemCount: 8,
+                                dropDownItemCount: 5,
                                 onChanged: (val) {
                                   if (val != null &&
                                       val.runtimeType == DropDownValueModel) {
@@ -397,7 +408,6 @@ class _SearchPageState extends State<SearchPage> {
                             ),
                           ),
                         ),
-                        listSpace: 20,
                         listPadding: ListPadding(top: 20),
                         validator: (value) {
                           if (value == null) {
@@ -427,22 +437,39 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                     SizedBox(
                       height: 60.h,
-                      child: Row(
-                        children: List.generate(
-                          listSort.length,
-                          (index) => Expanded(
-                            child: RadioListTile(
-                              title: Text(listSort[index]),
-                              value: listSort[index],
-                              groupValue: provider.activOrder,
-                              toggleable: true,
-                              onChanged: (value) {
-                                provider.changeorder(listSort[index]);
-                              },
-                            ),
+                      child: Row(children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: 8.w),
+                          child: Text(
+                            'From',
+                            style: TextStyle(
+                                fontSize: 12.sp, fontWeight: FontWeight.bold),
                           ),
                         ),
-                      ),
+                        Expanded(
+                          child: Row(
+                            children: List.generate(
+                              listSort.length,
+                              (index) => Expanded(
+                                child: RadioListTile(
+                                  title: Text(
+                                    listSort[index],
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                    ),
+                                  ),
+                                  value: listSort[index],
+                                  groupValue: provider.activOrder,
+                                  toggleable: true,
+                                  onChanged: (value) {
+                                    provider.changeorder(listSort[index]);
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ]),
                     ),
                   ],
                 ),
