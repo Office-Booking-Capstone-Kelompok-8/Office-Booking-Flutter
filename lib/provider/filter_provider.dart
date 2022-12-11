@@ -38,12 +38,8 @@ class FilterProvider extends ChangeNotifier {
         text: 'Thousand Island', location: Districts.thousandIsland, id: '153'),
   ];
   final List<String> _listSort = [
-    'Annual Highest Price',
-    'Annual Lowest Price',
-    'Monthly Highest Price',
-    'Monthly Lowest Price',
-    'Least Capacity To Maximum Capacity',
-    'Maximum Capacity To The Least Capacity',
+    'Low To High',
+    'High To Low',
   ];
   MyState myState = MyState.initial;
   Districts _location = Districts.none;
@@ -53,20 +49,23 @@ class FilterProvider extends ChangeNotifier {
     '40-60 People'
   ];
   final Map<String, dynamic> _filterResult = {};
+  final Map<String, dynamic> _showFilterResult = {};
   DateTime _dateStart = DateTime.now();
   String? _date;
-  String? _duration;
+  int? _duration;
   final TextEditingController _minCapacity = TextEditingController();
   final TextEditingController _maxCapacity = TextEditingController();
   String? _activButton;
-  String _activSort = '';
+  String _activOrder = '';
 
   //Gether
+
   List<String> get listSort => _listSort;
   String? get activButton => _activButton;
-  String get activSort => _activSort;
-  String? get duration => _duration;
+  String get activOrder => _activOrder;
+  int? get duration => _duration;
   List<String> get dataButton => _dataButton;
+  Map<String, dynamic> get showFilterResult => _showFilterResult;
   Map<String, dynamic> get filterResult => _filterResult;
   List<Location> get listLocation => _listLocation;
   Districts get location => _location;
@@ -77,6 +76,74 @@ class FilterProvider extends ChangeNotifier {
 
   set setDateStart(DateTime date) {
     _dateStart = date;
+    notifyListeners();
+  }
+
+  Future<void> showResult() async {
+    //location
+    if (_filterResult['location'] != null) {
+      _showFilterResult['location'] =
+          'Location ${_filterResult['location'].text}';
+    }
+    //capacity
+    if (_filterResult['capacityMin'] != null &&
+        _filterResult['capacityMax'] != null) {
+      _showFilterResult['allCapacity'] =
+          '${_filterResult['capacityMin']}-${_filterResult['capacityMax']} People';
+    } else if (_filterResult['capacityMin'] != null) {
+      _showFilterResult['capacityMin'] =
+          _filterResult['capacityMin'] + ' People';
+    } else if (_filterResult['capacityMax'] != null) {
+      _showFilterResult['capacityMax'] =
+          _filterResult['capacityMax'] + ' People';
+    }
+    //date
+    if (_filterResult['startDate'] != null &&
+        _filterResult['duration'] != null) {
+      _showFilterResult['date'] =
+          'Date ${_filterResult['startDate']} ${_filterResult['duration']} Month';
+    }
+    //
+    if (_filterResult['sortBy'] != null) {
+      switch (_filterResult['sortBy']) {
+        case 'annual_price':
+          _showFilterResult['sortBy'] = 'Sort by Annual Price';
+          break;
+        case 'monthly_price':
+          _showFilterResult['sortBy'] = 'Sort by Monthly Price';
+          break;
+        case 'capacity':
+          _showFilterResult['sortBy'] = 'Sort by Capacity';
+          break;
+        default:
+      }
+    }
+    //Order
+    if (_filterResult['order'] != null) {
+      if (_filterResult['order'] == 'asc') {
+        _showFilterResult['order'] = 'Low To High';
+      } else {
+        _showFilterResult['order'] = 'High To Low';
+      }
+    }
+    notifyListeners();
+  }
+
+  Future<void> removeFilter(String key) async {
+    if (key == 'duration' || key == 'date') {
+      _filterResult.remove('duration');
+      _filterResult.remove('date');
+    } else if (key == 'order' || key == 'sortBy') {
+      _filterResult.remove('order');
+      _filterResult.remove('sortBy');
+    } else if (key == 'allCapacity') {
+      _filterResult.remove('capacityMin');
+      _filterResult.remove('capacityMax');
+    } else {
+      _filterResult.remove(key);
+    }
+    notifyListeners();
+    await getAllBuilding();
     notifyListeners();
   }
 
@@ -97,54 +164,44 @@ class FilterProvider extends ChangeNotifier {
   }
 
   changeSort(String sort) {
-    if (sort == _activSort) {
-      _activSort = '';
+    if (sort == '' || sort.isEmpty) {
       _filterResult.remove('sortBy');
-      _filterResult.remove('order');
     } else {
-      switch (sort) {
-        case 'Annual Highest Price':
-          _activSort = sort;
-          _filterResult['sortBy'] = 'annual_price';
-          _filterResult['order'] = 'desc';
-          break;
-        case 'Annual Lowest Price':
-          _activSort = sort;
-          _filterResult['sortBy'] = 'annual_price';
+      _filterResult['sortBy'] = sort;
+    }
+    notifyListeners();
+  }
+
+  changeorder(String order) {
+    if (order == '' || order.isEmpty || order == _activOrder) {
+      _filterResult.remove('order');
+      _activOrder = '';
+    } else {
+      switch (order) {
+        case 'Low To High':
+          _activOrder = order;
           _filterResult['order'] = 'asc';
           break;
-        case 'Monthly Highest Price':
-          _activSort = sort;
-          _filterResult['sortBy'] = 'monthly_price';
-          _filterResult['order'] = 'desc';
-          break;
-        case 'Monthly Lowest Price':
-          _activSort = sort;
-          _filterResult['sortBy'] = 'monthly_price';
-          _filterResult['order'] = 'asc';
-          break;
-        case 'Least Capacity To Maximum Capacity':
-          _activSort = sort;
-          _filterResult['sortBy'] = 'capacity';
-          _filterResult['order'] = 'asc';
-          break;
-        case 'Maximum Capacity To The Least Capacity':
-          _activSort = sort;
-          _filterResult['sortBy'] = 'capacity';
+        case 'High To Low':
+          _activOrder = order;
           _filterResult['order'] = 'desc';
           break;
         default:
-          _activSort = '';
-          _filterResult.remove('sortBy');
+          _activOrder = '';
           _filterResult.remove('order');
       }
     }
     notifyListeners();
   }
 
-  changeDuration(String duration) {
-    _duration = duration;
-    _filterResult['duration'] = duration;
+  changeDuration(int duration) {
+    if (duration == 0) {
+      _duration = null;
+      _filterResult.remove('duration');
+    } else {
+      _duration = duration;
+      _filterResult['duration'] = duration;
+    }
     notifyListeners();
   }
 
@@ -206,29 +263,16 @@ class FilterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> removeFilter(String key) async {
-    if (key == 'duration' || key == 'date') {
-      _filterResult.remove('duration');
-      _filterResult.remove('date');
-    } else if (key == 'order' || key == 'sortBy') {
-      _filterResult.remove('order');
-      _filterResult.remove('sortBy');
-    } else {
-      _filterResult.remove(key);
-    }
-    notifyListeners();
-    await getAllBuilding();
-    notifyListeners();
-  }
-
   Future<void> clearState() async {
     _activButton = null;
-    _activSort = '';
+    _activOrder = '';
     _date = null;
     _maxCapacity.clear();
     _minCapacity.clear();
     _location = Districts.none;
     _filterResult.clear();
+    _date = null;
+    _showFilterResult.clear();
     notifyListeners();
   }
 

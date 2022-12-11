@@ -47,6 +47,7 @@ class _SearchPageState extends State<SearchPage> {
                         provider.duration != null) {
                       if (provider.hintDate != null &&
                           provider.duration != null) {
+                        await provider.showResult();
                         final result = await provider.getAllBuilding();
                         if (result == "successfull") {
                           if (mounted) {}
@@ -60,6 +61,7 @@ class _SearchPageState extends State<SearchPage> {
                             'start date must be accompanied by a duration, and vice versa.');
                       }
                     } else {
+                      await provider.showResult();
                       final result = await provider.getAllBuilding();
                       if (result == "successfull") {
                         if (mounted) {}
@@ -118,6 +120,7 @@ class _SearchPageState extends State<SearchPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
+                          height: 48.h,
                           width: 156.w,
                           child: TextFormField(
                             onTap: () {},
@@ -169,6 +172,7 @@ class _SearchPageState extends State<SearchPage> {
                           ),
                         ),
                         SizedBox(
+                          height: 48.h,
                           width: 156.w,
                           child: TextFormField(
                             onTap: () {},
@@ -358,8 +362,9 @@ class _SearchPageState extends State<SearchPage> {
                                 onChanged: (val) {
                                   if (val != null &&
                                       val.runtimeType == DropDownValueModel) {
-                                    provider
-                                        .changeDuration(val.value.toString());
+                                    provider.changeDuration(val.value);
+                                  } else {
+                                    provider.changeDuration(0);
                                   }
                                 },
                               ),
@@ -377,18 +382,69 @@ class _SearchPageState extends State<SearchPage> {
                         TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
                   ),
                   expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                  children: List.generate(
-                    listSort.length,
-                    (index) => RadioListTile(
-                      title: Text(listSort[index]),
-                      value: listSort[index],
-                      groupValue: provider.activSort,
-                      toggleable: true,
-                      onChanged: (value) {
-                        provider.changeSort(listSort[index]);
-                      },
+                  childrenPadding: EdgeInsets.all(16.w),
+                  children: [
+                    SizedBox(
+                      height: 48.h,
+                      child: DropDownTextField(
+                        textFieldDecoration: InputDecoration(
+                          hintText: 'Select Sort',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: const BorderSide(
+                              width: 1,
+                              color: AppColors.borderButton,
+                            ),
+                          ),
+                        ),
+                        listSpace: 20,
+                        listPadding: ListPadding(top: 20),
+                        validator: (value) {
+                          if (value == null) {
+                            return "Required field";
+                          } else {
+                            return null;
+                          }
+                        },
+                        dropDownList: const [
+                          DropDownValueModel(
+                              name: 'Annual Price', value: 'annual_price'),
+                          DropDownValueModel(
+                              name: 'Monthly Price', value: 'monthly_price'),
+                          DropDownValueModel(
+                              name: 'Capacity', value: 'capacity'),
+                        ],
+                        dropDownItemCount: 3,
+                        onChanged: (val) {
+                          if (val != null &&
+                              val.runtimeType == DropDownValueModel) {
+                            provider.changeSort(val.value);
+                          } else {
+                            provider.changeSort('');
+                          }
+                        },
+                      ),
                     ),
-                  ),
+                    SizedBox(
+                      height: 60.h,
+                      child: Row(
+                        children: List.generate(
+                          listSort.length,
+                          (index) => Expanded(
+                            child: RadioListTile(
+                              title: Text(listSort[index]),
+                              value: listSort[index],
+                              groupValue: provider.activOrder,
+                              toggleable: true,
+                              onChanged: (value) {
+                                provider.changeorder(listSort[index]);
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
