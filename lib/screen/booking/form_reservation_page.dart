@@ -328,13 +328,9 @@ class _FormReservationPageState extends State<FormReservationPage> {
                           ButtonComponent(
                               onPress: () async {
                                 int durationBook = int.parse(filter.duration!);
-                                String finalDate = DateFormat('dd-MM-yyy')
+                                String finalDate = DateFormat('yyyy-MM-dd')
                                     .format(date.getDateStart);
-                                print(argsForm['building-id']);
-                                print(durationBook);
-                                print(finalDate);
-                                print(_companyNameController.text);
-                                final response =
+                                String response =
                                     await reservation.postReservation(
                                         argsForm['building-id'],
                                         _companyNameController.text,

@@ -62,6 +62,10 @@ class ReservationApi {
         "startDate": startDate,
         "duration": duration,
       });
+      if (response.statusCode == 409) {
+        return response.data;
+      }
+
       return response.data['message'];
     } on DioError catch (_) {
       rethrow;
