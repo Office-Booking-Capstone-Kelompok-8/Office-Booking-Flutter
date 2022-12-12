@@ -54,13 +54,8 @@ class ReservationApi {
   }
 
   //belom fix dri Be
-  Future<String> postReservation(
-      String buildingId,
-      String companyName,
-      String startDate,
-      int duration,
-      String tenantName,
-      String phoneNumber) async {
+  Future<String> postReservation(String buildingId, String companyName,
+      String startDate, int duration) async {
     try {
       final response = await _dio.post(Api.baseUrl + Api.reservation, data: {
         {
