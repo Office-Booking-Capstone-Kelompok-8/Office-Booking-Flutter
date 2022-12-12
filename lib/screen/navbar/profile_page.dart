@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:office_booking_app/provider/login_provider.dart';
-import 'package:office_booking_app/provider/user_provider.dart';
-import 'package:office_booking_app/screen/components/snackbar_component.dart';
-import 'package:office_booking_app/screen/login/login_page.dart';
-import 'package:provider/provider.dart';
 
 import '../../screen/components/tile_component.dart';
 import '../../utils/constant/app_colors.dart';
-import '../components/show_state.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -19,137 +13,96 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final data = Provider.of<SignInProvider>(context, listen: false);
-      if (data.dataUser?.accessToken != null) {
-        Provider.of<UserProvider>(context, listen: false)
-            .getUsersDetail(data.dataUser!.accessToken!);
-      }
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final profile = Provider.of<UserProvider>(context, listen: true);
-    final data = Provider.of<SignInProvider>(context, listen: true);
-    // showState(profile);
     return SafeArea(
       child: Scaffold(
-        body: data.dataUser?.accessToken == null
-            ? const LoginPage()
-            : Column(
+        body: Column(
+          children: [
+            Container(
+              height: 60.h,
+              margin: EdgeInsets.all(16.w),
+              child: Row(
                 children: [
-                  Container(
-                    height: 60.h,
-                    margin: EdgeInsets.all(16.w),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 35.r,
-                          backgroundImage: NetworkImage(profile
-                                  .getUsers.picture ??
-                              'https://unsplash.com/photos/OLLtavHHBKg/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8M3x8aWNvbiUyMHBlcnNvbnxlbnwwfDJ8fHwxNjcwMjE3NjIz&force=true&w=640'),
-                        ),
-                        SizedBox(
-                          width: 16.w,
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    profile.getUsers.name ?? 'sabrina',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14.sp),
-                                  ),
-                                  InkWell(
-                                    splashFactory: NoSplash.splashFactory,
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, '/edit-profile');
-                                    },
-                                    child: Container(
-                                      margin: EdgeInsets.only(right: 10.w),
-                                      child: Icon(
-                                        Icons.edit,
-                                        size: 16.w,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Text(
-                                profile.getUsers.email ?? 'sabrina07@upi.edu',
-                                style: TextStyle(
-                                    fontSize: 12.sp, color: AppColors.neutral7),
-                              ),
-                              Text(
-                                profile.getUsers.phone ?? '+6282110766872',
-                                style: TextStyle(
-                                    fontSize: 12.sp, color: AppColors.neutral7),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
+                  CircleAvatar(
+                    radius: 35.r,
+                    backgroundColor: AppColors.bg1,
+                    foregroundColor: Colors.black,
+                    child: Icon(
+                      Icons.person_rounded,
+                      size: 59.sm,
                     ),
                   ),
-                  const SizedBox(
-                    height: 4,
+                  SizedBox(
+                    width: 16.w,
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(8.h),
+                  Expanded(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        TileCompnent(
-                          text: 'Transaction History',
-                          onPress: () {
-                            Navigator.pushNamed(context, '/order');
-                          },
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Sabrina Maharani',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14.sp),
+                            ),
+                            InkWell(
+                              splashFactory: NoSplash.splashFactory,
+                              onTap: () {
+                                Navigator.pushNamed(context, '/edit-profile');
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 10.w),
+                                child: Icon(
+                                  Icons.edit,
+                                  size: 16.w,
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                        TileCompnent(
-                          text: 'Change Password',
-                          onPress: () {
-                            Navigator.pushNamed(context, '/change-password');
-                          },
+                        Text(
+                          'sabrina07@upi.edu',
+                          style: TextStyle(
+                              fontSize: 12.sp, color: AppColors.neutral7),
                         ),
-                        TileCompnent(
-                          text: 'Help Center',
-                          onPress: () {
-                            Navigator.pushNamed(context, '/help-center');
-                          },
-                        ),
-                        TileCompnent(
-                          text: 'Logout',
-                          textColor: AppColors.error5,
-                          onPress: () async {
-                            final result = await data.logOut();
-                            if (result != null) {
-                              if (mounted) {}
-                              showNotification(context, result);
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, '/login', (route) => false);
-                            }
-                          },
-                        ),
+                        Text(
+                          '+6282110766872',
+                          style: TextStyle(
+                              fontSize: 12.sp, color: AppColors.neutral7),
+                        )
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
+            ),
+            const SizedBox(
+              height: 4,
+            ),
+            Padding(
+              padding: EdgeInsets.all(8.h),
+              child: Column(
+                children: [
+                  TileCompnent(
+                    text: 'Transaction History',
+                    onPress: () {
+                      Navigator.pushNamed(context, '/order');
+                    },
+                  ),
+                  TileCompnent(text: 'Change Password'),
+                  TileCompnent(text: 'Help Center'),
+                  TileCompnent(
+                    text: 'Logout',
+                    textColor: AppColors.error5,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

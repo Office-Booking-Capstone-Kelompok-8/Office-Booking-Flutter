@@ -4,24 +4,16 @@ import '../../utils/constant/app_colors.dart';
 import '../../utils/constant/app_text_style.dart';
 
 class AppbarComponent extends StatelessWidget with PreferredSizeWidget {
-  const AppbarComponent({super.key, required this.title, this.elevation});
+  const AppbarComponent({super.key, required this.title});
   final String title;
-  final double? elevation;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       toolbarHeight: 50.h,
-      leading: IconButton(
-        icon: Icon(
-          Icons.arrow_back,
-          size: 25.sm,
-        ),
-        onPressed: () => Navigator.pop(context),
-      ),
       foregroundColor: AppColors.black,
       backgroundColor: AppColors.white,
-      elevation: elevation ?? 1,
+      elevation: 0,
       centerTitle: true,
       title: Text(
         title,

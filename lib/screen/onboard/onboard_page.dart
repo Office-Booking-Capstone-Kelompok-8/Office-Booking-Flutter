@@ -66,14 +66,32 @@ class _OnboardPageState extends State<OnboardPage> {
                       value.pageIndex == 2
                           ? Column(
                               children: [
-                                ButtonComponent(
-                                    onPress: () {
-                                      Navigator.pushNamedAndRemoveUntil(
-                                          context, '/login', (route) => false);
-                                    },
-                                    textButton: 'Join Now',
-                                    buttonHeight: 40.h,
-                                    buttonWidth: double.infinity),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    ButtonComponent(
+                                        onPress: () {
+                                          Navigator.pushNamedAndRemoveUntil(
+                                              context,
+                                              '/register',
+                                              (route) => false);
+                                        },
+                                        textButton: 'Register',
+                                        buttonHeight: 40.h,
+                                        buttonWidth: 108.w),
+                                    ButtonComponent(
+                                        onPress: () {
+                                          Navigator.pushNamedAndRemoveUntil(
+                                              context,
+                                              '/login',
+                                              (route) => false);
+                                        },
+                                        textButton: 'Login',
+                                        buttonHeight: 40.h,
+                                        buttonWidth: 108.w),
+                                  ],
+                                ),
                                 SizedBox(
                                   height: 12.h,
                                 ),
@@ -86,7 +104,7 @@ class _OnboardPageState extends State<OnboardPage> {
                                           animationType:
                                               SmartAnimationType.scale);
                                       await Future.delayed(
-                                          const Duration(seconds: 2));
+                                          Duration(seconds: 2));
                                       SmartDialog.dismiss();
                                       Navigator.pushNamedAndRemoveUntil(
                                           context, '/navbar', (route) => false);

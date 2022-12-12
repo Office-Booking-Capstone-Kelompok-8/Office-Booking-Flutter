@@ -30,7 +30,7 @@ class _OrderDetailState extends State<OrderDetail> {
               ),
               Text(
                 'Lily Meeting Room',
-                style: detailFormStyle,
+                style: textEmptyReservation,
               ),
               SizedBox(
                 height: 28.h,
