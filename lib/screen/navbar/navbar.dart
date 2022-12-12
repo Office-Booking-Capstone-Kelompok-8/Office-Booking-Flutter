@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:office_booking_app/provider/login_provider.dart';
+import 'package:office_booking_app/provider/reservation_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -25,6 +26,13 @@ class _NavbarState extends State<Navbar> {
   //     }
   //   });
   // }
+  @override
+  void didChangeDependencies() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<ReservationProvider>(context, listen: false).getReservation();
+    });
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {

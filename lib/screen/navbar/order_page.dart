@@ -16,14 +16,6 @@ class OrderPage extends StatefulWidget {
 
 class _OrderPageState extends State<OrderPage> {
   @override
-  void didChangeDependencies() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<ReservationProvider>(context, listen: false).getReservation();
-    });
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final reservation =
         Provider.of<ReservationProvider>(context, listen: false);
