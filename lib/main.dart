@@ -2,12 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:office_booking_app/provider/date_provider.dart';
+import 'package:office_booking_app/provider/building_provider.dart';
+import 'package:office_booking_app/provider/filter_provider.dart';
+import 'package:office_booking_app/provider/set_state_provider.dart';
+import 'package:office_booking_app/provider/login_provider.dart';
+import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/screen/building/building_detail_page.dart';
+import 'package:office_booking_app/screen/profile_tile_page/change_password_page.dart';
 import 'package:office_booking_app/screen/edit_profile/edit_profile_page.dart';
+import 'package:office_booking_app/screen/login/forgot_password.dart';
+import 'package:office_booking_app/screen/login/send_otp.dart';
+import 'package:office_booking_app/screen/login/verify_otp.dart';
 import 'package:office_booking_app/screen/navbar/order_page.dart';
 import 'package:office_booking_app/screen/onboard/onboard_page.dart';
 import 'package:office_booking_app/screen/order/order_detail_page.dart';
+import 'package:office_booking_app/screen/profile_tile_page/help_center_page.dart';
+import 'package:office_booking_app/screen/search/search_page.dart';
+import 'package:office_booking_app/screen/search/search_result.dart';
 import 'provider/onboard_provider.dart';
 import 'screen/navbar/navbar.dart';
 import 'utils/constant/app_colors.dart';
@@ -35,16 +46,43 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => NavbarProvider()),
         ChangeNotifierProvider(create: (context) => OnboardProvider()),
         ChangeNotifierProvider(
-          create: (context) => DateProvider(),
+          create: (context) => SetStateProvider(),
         ),
+        ChangeNotifierProvider(create: (context) => SignInProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => BuildingProvider()),
+        ChangeNotifierProvider(create: (context) => FilterProvider()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 831),
         builder: (context, child) => MaterialApp(
           navigatorObservers: [FlutterSmartDialog.observer],
           builder: FlutterSmartDialog.init(
-              // loadingBuilder: (String msg) => ,
+            loadingBuilder: (String msg) => Container(
+              height: 150.w,
+              width: 150.w,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
               ),
+              alignment: Alignment.center,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const CircularProgressIndicator(
+                      color: AppColors.primary4,
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    const Text('Loading...',
+                        style: TextStyle(color: AppColors.primary4)),
+                  ],
+                ),
+              ),
+            ),
+          ),
           debugShowCheckedModeBanner: false,
           title: 'Office Zone',
           routes: {
@@ -58,9 +96,17 @@ class MyApp extends StatelessWidget {
             '/order-detail': (context) => const OrderDetail(),
             '/order': (context) => const OrderPage(),
             '/building-detail': (context) => const BuildingDetail(),
+            '/search': (context) => const SearchPage(),
+            '/search-result': (context) => const SearchResult(),
+            '/forgot-password': (context) => const ForgotPassword(),
+            '/send-otp': (context) => const SendOtp(),
+            '/verify-otp': (context) => const VerifyOtp(),
+            '/change-password': (context) => const ChangePassword(),
+            '/help-center': (center) => const HelpCenter(),
           },
           initialRoute: '/onboard',
           theme: ThemeData(
+            disabledColor: AppColors.neutral7,
             canvasColor: AppColors.white,
             fontFamily: 'Inter',
             primarySwatch: Colors.blue,

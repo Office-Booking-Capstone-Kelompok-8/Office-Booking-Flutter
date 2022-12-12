@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:office_booking_app/screen/components/appbar_component.dart';
 import 'package:office_booking_app/screen/components/button_component.dart';
 import 'package:office_booking_app/screen/components/status_order_component.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
@@ -19,7 +18,6 @@ class _OrderPageState extends State<OrderPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // appBar: AppbarComponent(title: ''),
         body: _isEmpty == true
             ? Center(
                 child: Column(
@@ -35,7 +33,7 @@ class _OrderPageState extends State<OrderPage> {
                     ),
                     Text(
                       'Oops!! There are no active orders',
-                      style: textEmptyReservation,
+                      style: detailFormStyle,
                     ),
                     SizedBox(
                       height: 24.h,
@@ -49,7 +47,7 @@ class _OrderPageState extends State<OrderPage> {
                 ),
               )
             : Container(
-                padding: EdgeInsets.fromLTRB(16.w, 29.h, 16.w, 10.w),
+                padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 10.w),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,11 +61,11 @@ class _OrderPageState extends State<OrderPage> {
                         onTap: () {
                           Navigator.pushNamed(context, '/order-detail');
                         },
-                        child: StatusOrderComponent(
+                        child: const StatusOrderComponent(
                           statusId: 1,
                         ),
                       ),
-                      StatusOrderComponent(
+                      const StatusOrderComponent(
                         statusId: 2,
                       ),
                     ],
