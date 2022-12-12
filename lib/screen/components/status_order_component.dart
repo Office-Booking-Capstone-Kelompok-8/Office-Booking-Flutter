@@ -5,8 +5,20 @@ import 'package:office_booking_app/utils/constant/app_text_style.dart';
 import '../../utils/constant/app_colors.dart';
 
 class StatusOrderComponent extends StatelessWidget {
-  const StatusOrderComponent({super.key, required this.statusId});
+  const StatusOrderComponent(
+      {super.key,
+      required this.statusId,
+      required this.roomName,
+      required this.dateStart,
+      // required this.price,
+      required this.imgUrl,
+      required this.companyName});
   final int statusId;
+  final String roomName;
+  final String dateStart;
+  // final String price;
+  final String companyName;
+  final String imgUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +42,7 @@ class StatusOrderComponent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Lily Meeting Room',
+                        roomName,
                         style: titleReservation,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -39,7 +51,7 @@ class StatusOrderComponent extends StatelessWidget {
                         height: 2.h,
                       ),
                       Text(
-                        '16 Nov 2022',
+                        dateStart,
                         style: formTop,
                       ),
                     ],
@@ -171,8 +183,7 @@ class StatusOrderComponent extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.r),
                     child: FittedBox(
                       fit: BoxFit.fill,
-                      child: Image.network(
-                          'https://img.freepik.com/premium-photo/modern-office-with-office-supplies-table-with-office-environment-background_67155-5307.jpg?w=2000'),
+                      child: Image.network(imgUrl),
                     ),
                   )),
               SizedBox(
@@ -185,13 +196,13 @@ class StatusOrderComponent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text('Mr. Robert', style: personReservation),
+                      Text(companyName, style: personReservation),
                       Text(
                         '16 Nov 2022\t\t\t -\t\t\t 16 Dec 2022',
                         style: dateReservation,
                       ),
                       Text(
-                        'Rp 1.500.000',
+                        ' Total IDR 1.000.000',
                         style: titleReservation,
                       ),
                     ],

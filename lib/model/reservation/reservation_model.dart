@@ -1,35 +1,37 @@
 class ReservationModel {
   String? id;
-  Buildings? buildings;
+  Building? building;
   String? companyName;
   String? startDate;
   String? endDate;
   Status? status;
+  String? createdAt;
 
   ReservationModel(
       {this.id,
-      this.buildings,
+      this.building,
       this.companyName,
       this.startDate,
       this.endDate,
-      this.status});
+      this.status,
+      this.createdAt});
 
   ReservationModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    buildings = json['buildings'] != null
-        ? Buildings.fromJson(json['buildings'])
-        : null;
+    building =
+        json['building'] != null ? Building.fromJson(json['building']) : null;
     companyName = json['companyName'];
     startDate = json['startDate'];
     endDate = json['endDate'];
     status = json['status'] != null ? Status.fromJson(json['status']) : null;
+    createdAt = json['createdAt'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    if (buildings != null) {
-      data['buildings'] = buildings!.toJson();
+    if (building != null) {
+      data['building'] = building!.toJson();
     }
     data['companyName'] = companyName;
     data['startDate'] = startDate;
@@ -37,44 +39,51 @@ class ReservationModel {
     if (status != null) {
       data['status'] = status!.toJson();
     }
+    data['createdAt'] = createdAt;
     return data;
   }
 }
 
-class Buildings {
+class Building {
   String? id;
   String? name;
+  String? picture;
+  String? city;
 
-  Buildings({this.id, this.name});
+  Building({this.id, this.name, this.picture, this.city});
 
-  Buildings.fromJson(Map<String, dynamic> json) {
+  Building.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    picture = json['picture'];
+    city = json['city'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['name'] = name;
+    data['picture'] = picture;
+    data['city'] = city;
     return data;
   }
 }
 
 class Status {
   int? id;
-  String? message;
+  String? status;
 
-  Status({this.id, this.message});
+  Status({this.id, this.status});
 
   Status.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    message = json['message'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['message'] = message;
+    data['status'] = status;
     return data;
   }
 }

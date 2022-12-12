@@ -57,14 +57,11 @@ class ReservationApi {
       String startDate, int duration) async {
     try {
       final response = await _dio.post(Api.baseUrl + Api.reservation, data: {
-        {
-          "buildingId": buildingId,
-          "companyName": companyName,
-          "startDate": startDate,
-          "duration": duration,
-        }
+        "buildingId": buildingId,
+        "companyName": companyName,
+        "startDate": startDate,
+        "duration": duration,
       });
-      print(response.data);
       return response.data['message'];
     } on DioError catch (_) {
       rethrow;
@@ -121,7 +118,6 @@ class ReservationApi {
     final helper = await SharedPreferences.getInstance();
 
     final refreshToken = helper.getString('refreshToken');
-    print(refreshToken);
     if (refreshToken != null) {
       try {
         final response = await _dio.post(

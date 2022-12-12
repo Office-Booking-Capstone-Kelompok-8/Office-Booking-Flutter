@@ -261,7 +261,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
                   height: 8.h,
                 ),
                 Text(
-                  '${detail.getDetailBuilding.location!.address!}, ${detail.getDetailBuilding.location!.district!}, ${detail.getDetailBuilding.location!.city!}',
+                  '${detail.getDetailBuilding.location!.address!}, ${detail.getDetailBuilding.location!.district!.name!}, ${detail.getDetailBuilding.location!.city!.name!}',
                   maxLines: 5,
                   style: detailBuilidingStyle,
                 ),
@@ -450,9 +450,10 @@ class _BuildingDetailState extends State<BuildingDetail> {
                         Navigator.pushNamed(context, '/form-page', arguments: {
                           'building-image':
                               detail.getDetailBuilding.pictures!.first.url!,
+                          'building-id': detail.getDetailBuilding.id,
                           'building-name': detail.getDetailBuilding.name,
                           'building-address':
-                              '${detail.getDetailBuilding.location!.district!} - ${detail.getDetailBuilding.location!.city!}',
+                              '${detail.getDetailBuilding.location!.district!.name!} - ${detail.getDetailBuilding.location!.city!.name!}',
                           'building-price': formater
                               .format(detail.getDetailBuilding.price!.monthly)
                         });

@@ -1,6 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:dropdown_textfield/dropdown_textfield.dart';
+import 'package:office_booking_app/provider/filter_provider.dart';
 import 'package:office_booking_app/provider/reservation_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
@@ -37,8 +40,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
   @override
   Widget build(BuildContext context) {
     final data = Provider.of<UserProvider>(context, listen: false);
-    final reservation =
-        Provider.of<ReservationProvider>(context, listen: false);
+    final reservation = Provider.of<ReservationProvider>(context);
     _emailController.text = data.getUsers.email ?? 'asd';
     _phoneNumberController.text = data.getUsers.phone ?? 'asd';
     Map<String, dynamic> argsForm =
@@ -220,7 +222,8 @@ class _FormReservationPageState extends State<FormReservationPage> {
                                   decoration: InputDecoration(
                                     contentPadding:
                                         EdgeInsets.only(top: 12.h, left: 16.w),
-                                    hintText: 'Select Date',
+                                    hintText: DateFormat('dd/MM/yyy')
+                                        .format(date.getDateStart),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(9.r),
                                       borderSide: const BorderSide(
@@ -251,43 +254,64 @@ class _FormReservationPageState extends State<FormReservationPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Check out',
+                            'Duration',
                             style: formTop,
                           ),
                           SizedBox(
                             height: 9.h,
                           ),
-                          SizedBox(
-                            height: 48.h,
-                            width: 156.w,
-                            child: Consumer<SetStateProvider>(
-                              builder: (context, date, _) => TextFormField(
-                                  readOnly: true,
-                                  decoration: InputDecoration(
-                                    hintText: DateFormat('dd/MM/yyy')
-                                        .format(date.getDateEnd),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(9.r),
-                                      borderSide: const BorderSide(
-                                        width: 1,
-                                        color: AppColors.borderButton,
-                                      ),
+                          Consumer<FilterProvider>(
+                            builder: (context, provider, child) => SizedBox(
+                              height: 41.h,
+                              width: 156.w,
+                              child: DropDownTextField(
+                                textFieldDecoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.only(top: 12.h, left: 16.w),
+                                  hintText: 'Select Duration',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    borderSide: const BorderSide(
+                                      width: 1,
+                                      color: AppColors.borderButton,
                                     ),
-                                    suffixIcon: IconButton(
-                                      onPressed: (() async {
-                                        final selectDate = await showDatePicker(
-                                            context: context,
-                                            initialDate: date.getDateStart,
-                                            firstDate: date.getDateStart,
-                                            lastDate: DateTime(
-                                                date.getDateEnd.year + 5));
-                                        if (selectDate != null) {
-                                          date.setDateEnd = selectDate;
-                                        }
-                                      }),
-                                      icon: const Icon(Icons.calendar_today),
-                                    ),
-                                  )),
+                                  ),
+                                ),
+                                listSpace: 20,
+                                listPadding: ListPadding(top: 20),
+                                validator: (value) {
+                                  if (value == null) {
+                                    return "Required field";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                dropDownList: const [
+                                  DropDownValueModel(name: '1 Month', value: 1),
+                                  DropDownValueModel(name: '2 Month', value: 2),
+                                  DropDownValueModel(name: '3 Month', value: 3),
+                                  DropDownValueModel(name: '4 Month', value: 4),
+                                  DropDownValueModel(name: '5 Month', value: 5),
+                                  DropDownValueModel(name: '6 Month', value: 6),
+                                  DropDownValueModel(name: '7 Month', value: 7),
+                                  DropDownValueModel(name: '8 Month', value: 8),
+                                  DropDownValueModel(name: '9 Month', value: 9),
+                                  DropDownValueModel(
+                                      name: '10 Month', value: 10),
+                                  DropDownValueModel(
+                                      name: '11 Month', value: 11),
+                                  DropDownValueModel(
+                                      name: '12 Month', value: 12),
+                                ],
+                                dropDownItemCount: 8,
+                                onChanged: (val) {
+                                  if (val != null &&
+                                      val.runtimeType == DropDownValueModel) {
+                                    provider
+                                        .changeDuration(val.value.toString());
+                                  }
+                                },
+                              ),
                             ),
                           ),
                         ],
@@ -298,19 +322,30 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     height: 65.h,
                   ),
                   Center(
-                    child: ButtonComponent(
-                        onPress: () async {
-                          final response = await reservation.postReservation(
-                              '1299c27a-4dba-4c2d-bb2a-75e73f1d27dd',
-                              'Hehe',
-                              '2020-01-01',
-                              1);
-                          print(response);
-                          print('a');
-                        },
-                        textButton: 'BOOKING',
-                        buttonHeight: 41.h,
-                        buttonWidth: double.infinity),
+                    child: Consumer3<ReservationProvider, SetStateProvider,
+                        FilterProvider>(
+                      builder: (context, reservation, date, filter, _) =>
+                          ButtonComponent(
+                              onPress: () async {
+                                int durationBook = int.parse(filter.duration!);
+                                String finalDate = DateFormat('dd-MM-yyy')
+                                    .format(date.getDateStart);
+                                print(argsForm['building-id']);
+                                print(durationBook);
+                                print(finalDate);
+                                print(_companyNameController.text);
+                                final response =
+                                    await reservation.postReservation(
+                                        argsForm['building-id'],
+                                        _companyNameController.text,
+                                        finalDate,
+                                        durationBook);
+                                print(response);
+                              },
+                              textButton: 'BOOKING',
+                              buttonHeight: 41.h,
+                              buttonWidth: double.infinity),
+                    ),
                   )
                 ],
               ),
