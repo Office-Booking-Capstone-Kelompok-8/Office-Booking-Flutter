@@ -516,8 +516,8 @@ class ButtonCapacity extends StatelessWidget {
         child: Text(
           textButton,
           style: TextStyle(
-            color: (activ == textButton) ? AppColors.white : AppColors.black,
-          ),
+              color: (activ == textButton) ? AppColors.white : AppColors.black,
+              fontSize: 10.sp),
         ),
       ),
     );
