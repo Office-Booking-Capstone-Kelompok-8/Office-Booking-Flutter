@@ -13,7 +13,7 @@ class ReservationApi {
       onRequest: (options, handler) async {
         final helper = await SharedPreferences.getInstance();
         final accessToken = helper.getString('accessToken');
-        options.headers["Authorization"] = 'Bearer $accessToken';
+        options.headers['Authorization'] = 'Bearer $accessToken';
         return handler.next(options);
       },
       onResponse: (response, handler) {
@@ -53,17 +53,14 @@ class ReservationApi {
     }
   }
 
-  //belom fix dri Be
   Future<String> postReservation(String buildingId, String companyName,
       String startDate, int duration) async {
     try {
       final response = await _dio.post(Api.baseUrl + Api.reservation, data: {
-        {
-          "buildingId": buildingId,
-          "companyName": companyName,
-          "startDate": startDate,
-          "duration": duration,
-        }
+        "buildingId": buildingId,
+        "companyName": companyName,
+        "startDate": startDate,
+        "duration": duration,
       });
       return response.data['message'];
     } on DioError catch (_) {
@@ -121,7 +118,6 @@ class ReservationApi {
     final helper = await SharedPreferences.getInstance();
 
     final refreshToken = helper.getString('refreshToken');
-    print(refreshToken);
     if (refreshToken != null) {
       try {
         final response = await _dio.post(

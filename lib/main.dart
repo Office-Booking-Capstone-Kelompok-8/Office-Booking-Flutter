@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:office_booking_app/provider/building_provider.dart';
 import 'package:office_booking_app/provider/filter_provider.dart';
+import 'package:office_booking_app/provider/reservation_provider.dart';
 import 'package:office_booking_app/provider/set_state_provider.dart';
 import 'package:office_booking_app/provider/login_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => BuildingProvider()),
         ChangeNotifierProvider(create: (context) => FilterProvider()),
+        ChangeNotifierProvider(create: (context) => ReservationProvider()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 831),

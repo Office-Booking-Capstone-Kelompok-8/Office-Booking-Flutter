@@ -14,6 +14,6 @@ class Api {
   static const String buildingFacilities = 'buildings/faclities/category';
   static const String payment = 'payments';
   static const String picture = 'users/picture';
-  static const String reservation = 'reservation';
+  static const String reservation = 'reservations';
   static const String review = 'reviews';
 }
