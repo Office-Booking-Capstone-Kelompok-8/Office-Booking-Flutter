@@ -63,7 +63,7 @@ class ReservationApi {
         "duration": duration,
       });
       if (response.statusCode == 409) {
-        return response.data;
+        return response.data['message'];
       }
 
       return response.data['message'];

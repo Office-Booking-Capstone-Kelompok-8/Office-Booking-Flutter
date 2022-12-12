@@ -307,8 +307,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                                 onChanged: (val) {
                                   if (val != null &&
                                       val.runtimeType == DropDownValueModel) {
-                                    provider
-                                        .changeDuration(val.value.toString());
+                                    provider.changeDuration(val.value);
                                   }
                                 },
                               ),
@@ -327,7 +326,6 @@ class _FormReservationPageState extends State<FormReservationPage> {
                       builder: (context, reservation, date, filter, _) =>
                           ButtonComponent(
                               onPress: () async {
-                                int durationBook = int.parse(filter.duration!);
                                 String finalDate = DateFormat('yyyy-MM-dd')
                                     .format(date.getDateStart);
                                 String response =
@@ -335,7 +333,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                                         argsForm['building-id'],
                                         _companyNameController.text,
                                         finalDate,
-                                        durationBook);
+                                        filter.duration!);
                                 print(response);
                               },
                               textButton: 'BOOKING',
