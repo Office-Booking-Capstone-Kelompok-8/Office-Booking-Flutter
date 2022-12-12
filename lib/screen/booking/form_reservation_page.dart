@@ -36,8 +36,8 @@ class _FormReservationPageState extends State<FormReservationPage> {
   @override
   Widget build(BuildContext context) {
     final data = Provider.of<UserProvider>(context, listen: false);
-    _emailController.text = data.getUsers.email!;
-    _phoneNumberController.text = data.getUsers.phone!;
+    _emailController.text = data.getUsers.email ?? 'asd';
+    _phoneNumberController.text = data.getUsers.phone ?? 'asd';
     Map<String, dynamic> argsForm =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return SafeArea(
@@ -46,7 +46,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
           title: 'Reservation Form',
         ),
         body: SingleChildScrollView(
-          child: Container(
+          child: Padding(
             padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
             child: Form(
               key: _formkey,
@@ -70,13 +70,19 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8.r),
-                          child: SizedBox(
-                            height: 92.h,
-                            width: 83.w,
-                            child: Image.network(
-                              argsForm['building-image'],
+                        FittedBox(
+                          fit: BoxFit.fill,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.r),
+                            child: SizedBox(
+                              height: 90.h,
+                              width: 90.w,
+                              child: FittedBox(
+                                fit: BoxFit.fill,
+                                child: Image.network(
+                                  argsForm['building-image'],
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -100,13 +106,16 @@ class _FormReservationPageState extends State<FormReservationPage> {
                                   maxLines: 3,
                                   style: detailFormGrey,
                                 ),
+                                SizedBox(
+                                  width: 7.w,
+                                ),
                                 Row(
                                   children: [
+                                    const Text('Price/month\t'),
                                     Text(
                                       'IDR ${argsForm['building-price'].toString()}',
-                                      style: onboardSkip,
+                                      style: priceBlue,
                                     ),
-                                    const Text(' / year')
                                   ],
                                 ),
                               ],
@@ -127,6 +136,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     height: 9.h,
                   ),
                   FormComponent(
+                    hint: 'Enter your company name',
                     isForm: true,
                     controller: _companyNameController,
                     formHeight: 41.h,
@@ -143,6 +153,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     height: 9.h,
                   ),
                   FormComponent(
+                    hint: 'Enter your name',
                     isForm: true,
                     controller: _tenantNameController,
                     formHeight: 41.h,
@@ -198,14 +209,15 @@ class _FormReservationPageState extends State<FormReservationPage> {
                             height: 9.h,
                           ),
                           SizedBox(
-                            height: 48.h,
+                            height: 41.h,
                             width: 156.w,
                             child: Consumer<SetStateProvider>(
                               builder: (context, date, _) => TextFormField(
                                   readOnly: true,
                                   decoration: InputDecoration(
-                                    hintText: DateFormat('dd/MM/yyy')
-                                        .format(date.getDateStart),
+                                    contentPadding:
+                                        EdgeInsets.only(top: 12.h, left: 16.w),
+                                    hintText: 'Select Date',
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(9.r),
                                       borderSide: const BorderSide(

@@ -38,13 +38,10 @@ class UserApi {
     );
   }
 
-  Future<UserModel> getUser(String token) async {
+  Future<UserModel> getUser() async {
     try {
       final response = await _dio.get(
         Api.baseUrl + Api.userDetail,
-        // options: Options(headers: {
-        //   "Authorization": "Bearer $token",
-        // }),
       );
       return UserModel.fromJson(response.data['data']);
     } on DioError catch (_) {
@@ -52,35 +49,31 @@ class UserApi {
     }
   }
 
-  Future<String> changePassword(
-      String oldPassword, String newPassword, String token) async {
+  Future<String> changePassword(String oldPassword, String newPassword) async {
     try {
-      final response = await _dio.put(Api.baseUrl + Api.changePassword,
-          data: {
-            "oldPassword": oldPassword,
-            "newPassword": newPassword,
-          },
-          options: Options(headers: {
-            "Authorization": "Bearer $token",
-          }));
+      final response = await _dio.put(
+        Api.baseUrl + Api.changePassword,
+        data: {
+          "oldPassword": oldPassword,
+          "newPassword": newPassword,
+        },
+      );
       return response.data['message'];
     } on DioError catch (_) {
       rethrow;
     }
   }
 
-  Future<String> editProfile(
-      String name, String email, String phone, String token) async {
+  Future<String> editProfile(String name, String email, String phone) async {
     try {
-      final response = await _dio.put(Api.baseUrl + Api.userDetail,
-          data: {
-            "name": name,
-            "email": email,
-            "phone": phone,
-          },
-          options: Options(headers: {
-            "Authorization": "Bearer $token",
-          }));
+      final response = await _dio.put(
+        Api.baseUrl + Api.userDetail,
+        data: {
+          "name": name,
+          "email": email,
+          "phone": phone,
+        },
+      );
       return response.data['message'];
     } on DioError catch (_) {
       rethrow;
@@ -88,7 +81,7 @@ class UserApi {
   }
 
   //belom fix
-  Future<String> editPicture(File file, String token) async {
+  Future<String> editPicture(File file) async {
     FormData formData = FormData.fromMap({
       "picture": await MultipartFile.fromFile(
         file.path,
@@ -98,10 +91,6 @@ class UserApi {
       final response = await _dio.put(
         Api.baseUrl + Api.picture,
         data: formData,
-        options: Options(headers: {
-          "Authorization": "Bearer $token",
-          "content-type": "multipart/form-data",
-        }),
       );
       return response.data['message'];
     } on DioError catch (_) {

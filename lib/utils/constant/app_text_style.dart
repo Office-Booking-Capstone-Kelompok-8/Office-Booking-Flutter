@@ -37,6 +37,11 @@ TextStyle onboardSkip = TextStyle(
   fontSize: 14.sp,
   fontWeight: FontWeight.w700,
 );
+TextStyle priceBlue = TextStyle(
+  color: AppColors.primary4,
+  fontSize: 12.sp,
+  fontWeight: FontWeight.w400,
+);
 TextStyle onboardTitle = TextStyle(
   color: AppColors.neutral10,
   fontSize: 16.sp,
@@ -93,5 +98,45 @@ TextStyle detailBuilidingStyle = TextStyle(
 TextStyle priceBold = TextStyle(
   color: AppColors.neutral9,
   fontSize: 12.sp,
+  fontWeight: FontWeight.w700,
+);
+TextStyle greyPaymentMedium = TextStyle(
+  color: AppColors.greyPayment,
+  fontSize: 14.sp,
+  fontWeight: FontWeight.w400,
+);
+TextStyle greyPaymentSmall = TextStyle(
+  color: AppColors.greyPayment,
+  fontSize: 12.sp,
+  fontWeight: FontWeight.w400,
+);
+TextStyle blackPaymentSmall = TextStyle(
+  color: AppColors.blackPayment,
+  fontSize: 14.sp,
+  fontWeight: FontWeight.w400,
+);
+TextStyle blackPaymentMedium = TextStyle(
+  color: AppColors.blackPayment,
+  fontSize: 14.sp,
+  fontWeight: FontWeight.w700,
+);
+TextStyle blackPaymentLarge = TextStyle(
+  color: AppColors.blackPayment,
+  fontSize: 16.sp,
+  fontWeight: FontWeight.w700,
+);
+TextStyle blackPaymentVeryLarge = TextStyle(
+  color: AppColors.blackPayment,
+  fontSize: 18.sp,
+  fontWeight: FontWeight.w700,
+);
+TextStyle blueDetailPage = TextStyle(
+  fontSize: 12.sp,
+  color: AppColors.primary6,
+  fontWeight: FontWeight.bold,
+);
+TextStyle blackBooking = TextStyle(
+  color: AppColors.black,
+  fontSize: 14.sp,
   fontWeight: FontWeight.w700,
 );

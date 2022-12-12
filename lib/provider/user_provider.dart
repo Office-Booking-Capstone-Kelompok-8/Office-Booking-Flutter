@@ -12,10 +12,10 @@ class UserProvider extends ChangeNotifier {
   UserModel get getUsers => _users;
   MyState myState = MyState.loaded;
 
-  getUsersDetail(String token) async {
+  getUsersDetail() async {
     try {
       myState = MyState.loading;
-      final response = await service.getUser(token);
+      final response = await service.getUser();
       _users = response;
       myState = MyState.loaded;
       notifyListeners();
@@ -31,11 +31,10 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  changePassword(String oldPassword, String newPassword, String token) async {
+  changePassword(String oldPassword, String newPassword) async {
     try {
       myState = MyState.loading;
-      final response =
-          await service.changePassword(oldPassword, newPassword, token);
+      final response = await service.changePassword(oldPassword, newPassword);
       myState = MyState.loaded;
       notifyListeners();
       return response;
@@ -54,10 +53,10 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  editProfile(String name, String email, String phone, String token) async {
+  editProfile(String name, String email, String phone) async {
     try {
       myState = MyState.loading;
-      final response = await service.editProfile(name, email, phone, token);
+      final response = await service.editProfile(name, email, phone);
       myState = MyState.loaded;
       notifyListeners();
       return response;
@@ -78,13 +77,12 @@ class UserProvider extends ChangeNotifier {
 
   Future<String?> editPicture({
     required File file,
-    required String token,
   }) async {
     try {
       myState = MyState.loading;
       notifyListeners();
 
-      final response = await service.editPicture(file, token);
+      final response = await service.editPicture(file);
 
       myState = MyState.loaded;
       notifyListeners();
