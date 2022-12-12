@@ -6,14 +6,14 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 void showNotification(BuildContext context, String messages) {
   showTopSnackBar(
-    Overlay.of(context)!,
-    CustomSnackBar.info(
-      backgroundColor: AppColors.primary4,
-      icon: Icon(Icons.sentiment_neutral,
-          color: const Color.fromARGB(40, 0, 0, 0), size: 60.w),
-      maxLines: 2,
-      message: messages,
-      textStyle: TextStyle(fontSize: 12.sp, color: AppColors.white),
-    ),
-  );
+      Overlay.of(context)!,
+      CustomSnackBar.info(
+        backgroundColor: AppColors.primary4,
+        icon: Icon(Icons.sentiment_neutral,
+            color: const Color.fromARGB(40, 0, 0, 0), size: 60.w),
+        maxLines: 2,
+        message: messages,
+        textStyle: TextStyle(fontSize: 12.sp, color: AppColors.white),
+      ),
+      dismissType: DismissType.onTap);
 }

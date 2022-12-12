@@ -7,10 +7,10 @@ import '../model/auth/signin_model.dart';
 import '../utils/state/finite_state.dart';
 
 class SignInProvider extends ChangeNotifier {
-  final AuthApi service = AuthApi();
+  final AuthApi _service = AuthApi();
 
-  SignInModel? users;
-  SignInModel? get dataUser => users;
+  SignInModel? _users;
+  SignInModel? get dataUser => _users;
 
   MyState myState = MyState.initial;
 
@@ -25,25 +25,19 @@ class SignInProvider extends ChangeNotifier {
       myState = MyState.loading;
       notifyListeners();
 
-      final result = await service.signIn(
+      final result = await _service.signIn(
         email: email,
         password: password,
       );
-      if (result.runtimeType == SignInModel) {
-        users = result;
-        final helper = await SharedPreferences.getInstance();
-        helper.setString('accessToken', result!.accessToken!);
-        helper.setString('refreshToken', result!.refreshToken!);
-        myState = MyState.loaded;
-        notifyListeners();
-        return 'Login successful';
-      }
+      _users = result;
+      final helper = await SharedPreferences.getInstance();
+      await helper.setString('accessToken', result.accessToken!);
+      await helper.setString('refreshToken', result.refreshToken!);
       myState = MyState.loaded;
       notifyListeners();
-      return result;
+      return 'Login successful';
     } catch (e) {
       if (e is DioError) {
-        /// If want to check status code from service error
         myState = MyState.loaded;
         notifyListeners();
         return e.response!.data['message'];
@@ -65,7 +59,7 @@ class SignInProvider extends ChangeNotifier {
       myState = MyState.loading;
       notifyListeners();
 
-      final response = await service.signUp(
+      final response = await _service.signUp(
         name: name,
         phone: phone,
         email: email,
@@ -90,16 +84,26 @@ class SignInProvider extends ChangeNotifier {
     }
   }
 
-  getPref() async {
-    final helper = await SharedPreferences.getInstance();
-    final accesToken = helper.getString('accesToken');
-    final refreshToken = helper.getString('refreshToken');
-    if (accesToken != null && refreshToken != null) {
-      users = SignInModel(accessToken: accesToken, refreshToken: refreshToken);
+  Future<void> getPref() async {
+    try {
+      final helper = await SharedPreferences.getInstance();
+      final accesToken = helper.getString('accessToken');
+      final refreshToken = helper.getString('refreshToken');
+      _users = SignInModel(accessToken: accesToken, refreshToken: refreshToken);
       notifyListeners();
-    } else {
-      users = null;
+    } catch (_) {}
+  }
+
+  Future<String?> logOut() async {
+    try {
+      final helper = await SharedPreferences.getInstance();
+      await helper.remove('accessToken');
+      await helper.remove('refreshToken');
+      _users = null;
       notifyListeners();
+      return 'Logout successful';
+    } catch (e) {
+      return null;
     }
   }
 
@@ -110,7 +114,7 @@ class SignInProvider extends ChangeNotifier {
       myState = MyState.loading;
       notifyListeners();
 
-      final response = await service.sendOtp(email: email);
+      final response = await _service.sendOtp(email: email);
 
       myState = MyState.loaded;
       notifyListeners();
@@ -138,7 +142,7 @@ class SignInProvider extends ChangeNotifier {
       myState = MyState.loading;
       notifyListeners();
 
-      final response = await service.verifyOtp(email: email, code: code);
+      final response = await _service.verifyOtp(email: email, code: code);
 
       myState = MyState.loaded;
       notifyListeners();
@@ -167,7 +171,7 @@ class SignInProvider extends ChangeNotifier {
       myState = MyState.loading;
       notifyListeners();
 
-      final response = await service.resetPassword(
+      final response = await _service.resetPassword(
           email: email, password: password, key: key);
 
       myState = MyState.loaded;

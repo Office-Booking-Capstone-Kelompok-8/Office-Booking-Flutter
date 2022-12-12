@@ -22,7 +22,7 @@ class AuthApi {
     );
   }
 
-  Future<dynamic> signIn({
+  Future<SignInModel> signIn({
     required String email,
     required String password,
   }) async {
@@ -92,10 +92,7 @@ class AuthApi {
           'code': code,
         },
       );
-      if (response.statusCode == 200) {
-        return response.data;
-      }
-      return {'message': response.data['message']};
+      return response.data;
     } on DioError catch (_) {
       rethrow;
     }

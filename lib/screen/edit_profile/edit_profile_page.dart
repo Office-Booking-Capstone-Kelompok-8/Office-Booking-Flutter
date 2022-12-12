@@ -56,13 +56,14 @@ class _EditProfileState extends State<EditProfile> {
                         _nameController.text,
                         _emailController.text,
                         _phoneController.text,
-                        tkn.users!.accessToken!);
+                        tkn.dataUser!.accessToken!);
                     print(response);
                     if (value != null) {
                       final responseImage = await profile.editPicture(
-                          file: value, token: tkn.users!.accessToken!);
+                          file: value, token: tkn.dataUser!.accessToken!);
                       if (responseImage != null) {
-                        await profile.getUsersDetail(tkn.users!.accessToken!);
+                        await profile
+                            .getUsersDetail(tkn.dataUser!.accessToken!);
                         if (mounted) {}
                         showNotification(context, responseImage);
                       }

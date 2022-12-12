@@ -178,7 +178,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             phone: _phoneController.text,
                             password: _passwordController.text);
                         if (mounted) {}
-                        if (response == 'user created successfully') {
+                        if (response == 'user registered successfully') {
                           showNotification(context, '$response please login');
 
                           Navigator.pushNamedAndRemoveUntil(
