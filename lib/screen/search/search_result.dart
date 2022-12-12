@@ -29,14 +29,14 @@ class _SearchResultState extends State<SearchResult> {
           ),
           body: Column(
             children: [
-              (provider.filterResult.isNotEmpty)
+              (provider.showFilterResult.isNotEmpty)
                   ? Container(
                       height: 40.h,
                       margin: EdgeInsets.fromLTRB(16.w, 16.w, 16.w, 0),
                       child: ListView(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
-                        children: provider.filterResult.entries.map((e) {
+                        children: provider.showFilterResult.entries.map((e) {
                           return Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10.w),
                             child: ElevatedButton(
@@ -59,9 +59,7 @@ class _SearchResultState extends State<SearchResult> {
                                   }
                                 },
                                 child: Text(
-                                  (e.key == 'location')
-                                      ? e.value.text
-                                      : '${e.key} ${e.value}',
+                                  e.value,
                                   style: const TextStyle(
                                     color: AppColors.white,
                                   ),

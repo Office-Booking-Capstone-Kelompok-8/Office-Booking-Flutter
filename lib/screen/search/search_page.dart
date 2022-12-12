@@ -47,6 +47,9 @@ class _SearchPageState extends State<SearchPage> {
                         provider.duration != null) {
                       if (provider.hintDate != null &&
                           provider.duration != null) {
+                        await provider.showResult();
+                        print(provider.filterResult);
+                        print(provider.showFilterResult);
                         final result = await provider.getAllBuilding();
                         if (result == "successfull") {
                           if (mounted) {}
@@ -60,6 +63,7 @@ class _SearchPageState extends State<SearchPage> {
                             'start date must be accompanied by a duration, and vice versa.');
                       }
                     } else {
+                      await provider.showResult();
                       final result = await provider.getAllBuilding();
                       if (result == "successfull") {
                         if (mounted) {}
@@ -118,6 +122,7 @@ class _SearchPageState extends State<SearchPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
+                          height: 48.h,
                           width: 156.w,
                           child: TextFormField(
                             onTap: () {},
@@ -169,6 +174,7 @@ class _SearchPageState extends State<SearchPage> {
                           ),
                         ),
                         SizedBox(
+                          height: 48.h,
                           width: 156.w,
                           child: TextFormField(
                             onTap: () {},
@@ -284,21 +290,33 @@ class _SearchPageState extends State<SearchPage> {
                                       color: AppColors.borderButton,
                                     ),
                                   ),
-                                  suffixIcon: IconButton(
-                                    onPressed: (() async {
-                                      final selectDate = await showDatePicker(
-                                          context: context,
-                                          initialDate: provider.getDateStart,
-                                          firstDate: DateTime.now(),
-                                          lastDate: DateTime(
-                                              provider.getDateStart.year + 5));
-                                      if (selectDate != null) {
-                                        provider.setDateStart = selectDate;
-                                        provider.changeDate(selectDate);
-                                      }
-                                    }),
-                                    icon: const Icon(Icons.calendar_today),
-                                  ),
+                                  suffixIcon: (provider.hintDate == null)
+                                      ? IconButton(
+                                          onPressed: (() async {
+                                            final selectDate =
+                                                await showDatePicker(
+                                                    context: context,
+                                                    initialDate:
+                                                        provider.getDateStart,
+                                                    firstDate: DateTime.now(),
+                                                    lastDate: DateTime(provider
+                                                            .getDateStart.year +
+                                                        5));
+                                            if (selectDate != null) {
+                                              provider.setDateStart =
+                                                  selectDate;
+                                              provider.changeDate(selectDate);
+                                            }
+                                          }),
+                                          icon:
+                                              const Icon(Icons.calendar_today),
+                                        )
+                                      : IconButton(
+                                          onPressed: () {
+                                            provider.clearDate();
+                                          },
+                                          icon: const Icon(Icons.close),
+                                        ),
                                 ),
                               ),
                             ),
@@ -328,7 +346,6 @@ class _SearchPageState extends State<SearchPage> {
                                     ),
                                   ),
                                 ),
-                                listSpace: 20,
                                 listPadding: ListPadding(top: 20),
                                 validator: (value) {
                                   if (value == null) {
@@ -354,12 +371,13 @@ class _SearchPageState extends State<SearchPage> {
                                   DropDownValueModel(
                                       name: '12 Month', value: 12),
                                 ],
-                                dropDownItemCount: 8,
+                                dropDownItemCount: 5,
                                 onChanged: (val) {
                                   if (val != null &&
                                       val.runtimeType == DropDownValueModel) {
-                                    provider
-                                        .changeDuration(val.value.toString());
+                                    provider.changeDuration(val.value);
+                                  } else {
+                                    provider.changeDuration(0);
                                   }
                                 },
                               ),
@@ -377,18 +395,85 @@ class _SearchPageState extends State<SearchPage> {
                         TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
                   ),
                   expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                  children: List.generate(
-                    listSort.length,
-                    (index) => RadioListTile(
-                      title: Text(listSort[index]),
-                      value: listSort[index],
-                      groupValue: provider.activSort,
-                      toggleable: true,
-                      onChanged: (value) {
-                        provider.changeSort(listSort[index]);
-                      },
+                  childrenPadding: EdgeInsets.all(16.w),
+                  children: [
+                    SizedBox(
+                      height: 48.h,
+                      child: DropDownTextField(
+                        textFieldDecoration: InputDecoration(
+                          hintText: 'Select Sort',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: const BorderSide(
+                              width: 1,
+                              color: AppColors.borderButton,
+                            ),
+                          ),
+                        ),
+                        listPadding: ListPadding(top: 20),
+                        validator: (value) {
+                          if (value == null) {
+                            return "Required field";
+                          } else {
+                            return null;
+                          }
+                        },
+                        dropDownList: const [
+                          DropDownValueModel(
+                              name: 'Annual Price', value: 'annual_price'),
+                          DropDownValueModel(
+                              name: 'Monthly Price', value: 'monthly_price'),
+                          DropDownValueModel(
+                              name: 'Capacity', value: 'capacity'),
+                        ],
+                        dropDownItemCount: 3,
+                        onChanged: (val) {
+                          if (val != null &&
+                              val.runtimeType == DropDownValueModel) {
+                            provider.changeSort(val.value);
+                          } else {
+                            provider.changeSort('');
+                          }
+                        },
+                      ),
                     ),
-                  ),
+                    SizedBox(
+                      height: 60.h,
+                      child: Row(children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: 8.w),
+                          child: Text(
+                            'From',
+                            style: TextStyle(
+                                fontSize: 12.sp, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Expanded(
+                          child: Row(
+                            children: List.generate(
+                              listSort.length,
+                              (index) => Expanded(
+                                child: RadioListTile(
+                                  title: Text(
+                                    listSort[index],
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                    ),
+                                  ),
+                                  value: listSort[index],
+                                  groupValue: provider.activOrder,
+                                  toggleable: true,
+                                  onChanged: (value) {
+                                    provider.changeorder(listSort[index]);
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ]),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -431,8 +516,8 @@ class ButtonCapacity extends StatelessWidget {
         child: Text(
           textButton,
           style: TextStyle(
-            color: (activ == textButton) ? AppColors.white : AppColors.black,
-          ),
+              color: (activ == textButton) ? AppColors.white : AppColors.black,
+              fontSize: 10.sp),
         ),
       ),
     );
