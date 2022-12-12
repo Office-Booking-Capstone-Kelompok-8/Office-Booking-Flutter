@@ -277,6 +277,7 @@ class FilterProvider extends ChangeNotifier {
     _date = null;
     _showFilterResult.clear();
     notifyListeners();
+    _duration = null;
   }
 
   clearDate() {
