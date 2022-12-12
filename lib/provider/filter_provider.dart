@@ -55,7 +55,7 @@ class FilterProvider extends ChangeNotifier {
   final Map<String, dynamic> _filterResult = {};
   DateTime _dateStart = DateTime.now();
   String? _date;
-  int? _duration;
+  String? _duration;
   final TextEditingController _minCapacity = TextEditingController();
   final TextEditingController _maxCapacity = TextEditingController();
   String? _activButton;
@@ -65,7 +65,7 @@ class FilterProvider extends ChangeNotifier {
   List<String> get listSort => _listSort;
   String? get activButton => _activButton;
   String get activSort => _activSort;
-  int? get duration => _duration;
+  String? get duration => _duration;
   List<String> get dataButton => _dataButton;
   Map<String, dynamic> get filterResult => _filterResult;
   List<Location> get listLocation => _listLocation;
@@ -142,7 +142,7 @@ class FilterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  changeDuration(int duration) {
+  changeDuration(String duration) {
     _duration = duration;
     _filterResult['duration'] = duration;
     notifyListeners();
