@@ -13,7 +13,7 @@ class ReservationApi {
       onRequest: (options, handler) async {
         final helper = await SharedPreferences.getInstance();
         final accessToken = helper.getString('accessToken');
-        options.headers["Authorization"] = 'Bearer $accessToken';
+        options.headers['Authorization'] = 'Bearer $accessToken';
         return handler.next(options);
       },
       onResponse: (response, handler) {
@@ -53,7 +53,6 @@ class ReservationApi {
     }
   }
 
-  //belom fix dri Be
   Future<String> postReservation(String buildingId, String companyName,
       String startDate, int duration) async {
     try {
@@ -65,6 +64,7 @@ class ReservationApi {
           "duration": duration,
         }
       });
+      print(response.data);
       return response.data['message'];
     } on DioError catch (_) {
       rethrow;

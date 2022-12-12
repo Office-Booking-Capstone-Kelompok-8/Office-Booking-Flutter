@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:office_booking_app/provider/reservation_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:provider/provider.dart';
@@ -36,6 +37,8 @@ class _FormReservationPageState extends State<FormReservationPage> {
   @override
   Widget build(BuildContext context) {
     final data = Provider.of<UserProvider>(context, listen: false);
+    final reservation =
+        Provider.of<ReservationProvider>(context, listen: false);
     _emailController.text = data.getUsers.email ?? 'asd';
     _phoneNumberController.text = data.getUsers.phone ?? 'asd';
     Map<String, dynamic> argsForm =
@@ -296,7 +299,15 @@ class _FormReservationPageState extends State<FormReservationPage> {
                   ),
                   Center(
                     child: ButtonComponent(
-                        onPress: () {},
+                        onPress: () async {
+                          final response = await reservation.postReservation(
+                              '1299c27a-4dba-4c2d-bb2a-75e73f1d27dd',
+                              'Hehe',
+                              '2020-01-01',
+                              1);
+                          print(response);
+                          print('a');
+                        },
                         textButton: 'BOOKING',
                         buttonHeight: 41.h,
                         buttonWidth: double.infinity),
