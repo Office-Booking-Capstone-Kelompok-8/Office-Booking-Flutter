@@ -10,7 +10,7 @@ class FilterBuildingApi {
       Map<String, dynamic> data) async {
     try {
       final response = await _dio.get(
-          '${Api.baseUrl}${Api.building}?limit=10&page=1&city=${(data['location'] != null) ? data['location'].id : ''}&startDate=${data['date'] ?? ''}&duration=${data['duration'] ?? ''}&capacityMin=${data['capacityMin'] ?? ''}&capacityMax=${data['capacityMax'] ?? ''}&order=${data['order'] ?? ''}&sortBy=${data['sortBy'] ?? ''}');
+          '${Api.baseUrl}${Api.building}?limit=10&page=1&city=${(data['location'] != null) ? data['location'].id : ''}${(data['date'] != null) ? '&startDate=${data['date']}' : ''}&duration=${data['duration'] ?? ''}&capacityMin=${data['capacityMin'] ?? ''}&capacityMax=${data['capacityMax'] ?? ''}&order=${data['order'] ?? ''}&sortBy=${data['sortBy'] ?? ''}');
       if (response.data['data'] != null) {
         List<BuildingModel>? building = (response.data['data'] as List)
             .map((e) => BuildingModel.fromJson(e))

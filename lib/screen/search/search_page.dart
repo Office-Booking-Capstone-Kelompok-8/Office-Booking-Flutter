@@ -48,6 +48,8 @@ class _SearchPageState extends State<SearchPage> {
                       if (provider.hintDate != null &&
                           provider.duration != null) {
                         await provider.showResult();
+                        print(provider.filterResult);
+                        print(provider.showFilterResult);
                         final result = await provider.getAllBuilding();
                         if (result == "successfull") {
                           if (mounted) {}

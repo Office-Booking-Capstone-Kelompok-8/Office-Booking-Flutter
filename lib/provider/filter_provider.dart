@@ -98,10 +98,9 @@ class FilterProvider extends ChangeNotifier {
           _filterResult['capacityMax'] + ' People';
     }
     //date
-    if (_filterResult['startDate'] != null &&
-        _filterResult['duration'] != null) {
+    if (_filterResult['date'] != null && _filterResult['duration'] != null) {
       _showFilterResult['date'] =
-          'Date ${_filterResult['startDate']} ${_filterResult['duration']} Month';
+          'Date ${_filterResult['date']} ${_filterResult['duration']} Month';
     }
     //
     if (_filterResult['sortBy'] != null) {
