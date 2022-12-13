@@ -55,7 +55,6 @@ class _EditProfileState extends State<EditProfile> {
               return ButtonComponent(
                   onPress: () async {
                     if (_formKey.currentState!.validate()) {
-                      SmartDialog.showLoading();
                       final response = await profile.editProfile(
                         _nameController.text,
                         _emailController.text,
@@ -69,9 +68,8 @@ class _EditProfileState extends State<EditProfile> {
                           if (mounted) {}
                         }
                       }
-                      SmartDialog.dismiss();
                       showNotification(context, response);
-                      Navigator.pop(context);
+                      Navigator.popAndPushNamed(context, '/navbar');
                     }
                   },
                   textButton: 'Save',
