@@ -38,7 +38,7 @@ class _SearchResultState extends State<SearchResult> {
                         scrollDirection: Axis.horizontal,
                         children: provider.showFilterResult.entries.map((e) {
                           return Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                            padding: EdgeInsets.symmetric(horizontal: 8.w),
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     elevation: 0,
