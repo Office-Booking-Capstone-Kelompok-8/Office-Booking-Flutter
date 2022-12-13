@@ -36,20 +36,45 @@ void showState(dynamic provider, {dynamic provider2}) {
         provider.myState == MyState.failed) {
       SmartDialog.dismiss();
       SmartDialog.show(
-          builder: (context) {
-            return Container(
-              height: 100.w,
-              width: 180.w,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              alignment: Alignment.center,
-              child: const Text('Gagal',
-                  style: TextStyle(color: AppColors.error5)),
-            );
-          },
-          clickMaskDismiss: false);
+        builder: (context) {
+          return Container(
+            height: 100.w,
+            width: 180.w,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Something Error',
+                  style: TextStyle(
+                    color: AppColors.error5,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 8.h,
+                ),
+                Text(
+                  'Check Internet Connection',
+                  style: TextStyle(
+                    color: AppColors.error5,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        clickMaskDismiss: false,
+        backDismiss: false,
+      );
     } else if (provider.myState == MyState.loaded) {
       SmartDialog.dismiss();
     } else {

@@ -11,7 +11,6 @@ import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/screen/booking/booking_detail_page.dart';
 import 'package:office_booking_app/screen/booking/booking_success_page.dart';
 import 'package:office_booking_app/screen/building/building_detail_page.dart';
-import 'package:office_booking_app/screen/navbar/homepage.dart';
 import 'package:office_booking_app/screen/payment/payment_detail_page.dart';
 import 'package:office_booking_app/screen/payment/transaction_detail_page.dart';
 import 'package:office_booking_app/screen/profile_tile_page/change_password_page.dart';
@@ -22,6 +21,7 @@ import 'package:office_booking_app/screen/login/verify_otp.dart';
 import 'package:office_booking_app/screen/navbar/order_page.dart';
 import 'package:office_booking_app/screen/onboard/onboard_page.dart';
 import 'package:office_booking_app/screen/profile_tile_page/help_center_page.dart';
+import 'package:office_booking_app/screen/profile_tile_page/verify_otp_email.dart';
 import 'package:office_booking_app/screen/search/search_page.dart';
 import 'package:office_booking_app/screen/search/search_result.dart';
 import 'provider/onboard_provider.dart';
@@ -67,21 +67,26 @@ class MyApp extends StatelessWidget {
                 height: 150.w,
                 width: 150.w,
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
+                  color: AppColors.neutral5,
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 alignment: Alignment.center,
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const CircularProgressIndicator(
-                        color: AppColors.primary4,
+                      SizedBox(
+                        height: 60.w,
+                        width: 60.w,
+                        child: const CircularProgressIndicator(
+                          strokeWidth: 8,
+                          color: AppColors.primary4,
+                        ),
                       ),
                       SizedBox(
                         height: 20.h,
                       ),
-                      const Text('Loading...',
+                      const Text('Loading',
                           style: TextStyle(color: AppColors.primary4)),
                     ],
                   ),
@@ -113,6 +118,7 @@ class MyApp extends StatelessWidget {
               '/payment-detail': (context) => const PaymentDetailPage(),
               '/transaction-detail': (context) => const TransactionDetailPage(),
               '/booking-success': (context) => const BookingSuccessPage(),
+              '/verify-otp-email': (context) => const VerifyOtpEmail(),
             },
             initialRoute: '/',
             theme: ThemeData(

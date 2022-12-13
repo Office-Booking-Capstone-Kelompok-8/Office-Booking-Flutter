@@ -48,7 +48,9 @@ class _SearchPageState extends State<SearchPage> {
                       if (provider.hintDate != null &&
                           provider.duration != null) {
                         await provider.showResult();
+                        // ignore: avoid_print
                         print(provider.filterResult);
+                        // ignore: avoid_print
                         print(provider.showFilterResult);
                         final result = await provider.getAllBuilding();
                         if (result == "successfull") {

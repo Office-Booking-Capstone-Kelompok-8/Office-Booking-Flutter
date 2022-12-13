@@ -102,6 +102,7 @@ class UserApi {
     final helper = await SharedPreferences.getInstance();
 
     final refreshToken = helper.getString('refreshToken');
+    // ignore: avoid_print
     print(refreshToken);
     if (refreshToken != null) {
       try {
@@ -113,6 +114,10 @@ class UserApi {
         await helper.setString('accessToken', user.accessToken!);
         await helper.setString('refreshToken', user.refreshToken!);
       } on DioError catch (e) {
+        // ignore: avoid_print
+        await helper.remove('accessToken');
+        await helper.remove('refreshToken');
+        // ignore: avoid_print
         print(e.response!.statusCode);
       }
     }
@@ -128,5 +133,40 @@ class UserApi {
         data: requestOptions.data,
         queryParameters: requestOptions.queryParameters,
         options: options);
+  }
+
+  Future<String> sendOtp({
+    required String email,
+  }) async {
+    try {
+      final response = await _dio.post(
+        Api.baseUrl + Api.requestOtpEmail,
+        data: {
+          'email': email,
+        },
+      );
+
+      return response.data['message'];
+    } on DioError catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> verifyOtp({
+    required String email,
+    required String code,
+  }) async {
+    try {
+      final response = await _dio.post(
+        Api.baseUrl + Api.verifyOtpEmail,
+        data: {
+          'email': email,
+          'code': code,
+        },
+      );
+      return response.data;
+    } on DioError catch (_) {
+      rethrow;
+    }
   }
 }
