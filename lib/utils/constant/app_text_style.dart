@@ -60,7 +60,7 @@ TextStyle onboardSubtitle = TextStyle(
 TextStyle personReservation = TextStyle(
   color: AppColors.neutral10,
   fontSize: 14.sp,
-  fontWeight: FontWeight.w400,
+  fontWeight: FontWeight.w500,
 );
 
 TextStyle dateReservation = TextStyle(

@@ -26,13 +26,6 @@ class _NavbarState extends State<Navbar> {
   //     }
   //   });
   // }
-  @override
-  void didChangeDependencies() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<ReservationProvider>(context, listen: false).getReservation();
-    });
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
+import 'package:office_booking_app/provider/reservation_provider.dart';
 import 'package:office_booking_app/screen/components/appbar_component.dart';
 import 'package:office_booking_app/screen/components/button_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
+import 'package:provider/provider.dart';
 
 class BookingDetail extends StatefulWidget {
   const BookingDetail({super.key});
@@ -12,11 +15,20 @@ class BookingDetail extends StatefulWidget {
   State<BookingDetail> createState() => _BookingDetailState();
 }
 
-int statusId = 2;
+// int statusId = 1;
 
 class _BookingDetailState extends State<BookingDetail> {
   @override
   Widget build(BuildContext context) {
+    final detail = Provider.of<ReservationProvider>(context, listen: false);
+    final int statusId = detail.getUserDetailReservation!.status!.id!;
+    final dateBook = DateFormat("yyyy-MM-dd")
+        .parse(detail.getUserDetailReservation!.createdAt!);
+    final dateStart = DateFormat("yyyy-MM-dd")
+        .parse(detail.getUserDetailReservation!.startDate!);
+    final bookingDate = DateFormat('dd MMMM yyyy').format(dateBook);
+    final startDate = DateFormat('dd MMMM yyyy').format(dateStart);
+
     return SafeArea(
         child: Scaffold(
       appBar: const AppbarComponent(title: 'Booking Detail'),
@@ -51,7 +63,7 @@ class _BookingDetailState extends State<BookingDetail> {
                         child: FittedBox(
                           fit: BoxFit.fill,
                           child: Image.network(
-                            'https://img.freepik.com/premium-photo/modern-office-with-office-supplies-table-with-office-environment-background_67155-5307.jpg?w=2000',
+                            detail.getUserDetailReservation!.building!.picture!,
                           ),
                         ),
                       ),
@@ -67,7 +79,7 @@ class _BookingDetailState extends State<BookingDetail> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
-                              'Lily Meeting Room',
+                              detail.getUserDetailReservation!.building!.name!,
                               style: detailFormStyle,
                             ),
                             Text(
@@ -209,23 +221,23 @@ class _BookingDetailState extends State<BookingDetail> {
               SizedBox(
                 height: 16.h,
               ),
-              const BookingDetailTile(
-                  leading: 'Company name', trailing: 'Alterra Academy'),
+              BookingDetailTile(
+                  leading: 'Company name',
+                  trailing: detail.getUserDetailReservation!.companyName!),
               SizedBox(
                 height: 8.h,
               ),
-              const BookingDetailTile(
-                  leading: 'Tenant name', trailing: 'Mr. Robert'),
+              //  BookingDetailTile(
+              //     leading: 'Tenant name', trailing: detail.getUserDetailReservation!.companyName!),
+              // SizedBox(
+              //   height: 8.h,
+              // ),
+              BookingDetailTile(
+                  leading: 'Booking date ', trailing: bookingDate),
               SizedBox(
                 height: 8.h,
               ),
-              const BookingDetailTile(
-                  leading: 'Booking date ', trailing: '16 November 2022'),
-              SizedBox(
-                height: 8.h,
-              ),
-              const BookingDetailTile(
-                  leading: 'Start date ', trailing: '26 November 2022'),
+              BookingDetailTile(leading: 'Start date ', trailing: startDate),
               SizedBox(
                 height: 16.h,
               ),
@@ -237,11 +249,11 @@ class _BookingDetailState extends State<BookingDetail> {
               SizedBox(
                 height: 16.h,
               ),
-              const BookingDetailTile(leading: 'Duration', trailing: '3 Month'),
+              BookingDetailTile(leading: 'Duration', trailing: '3 Month'),
               SizedBox(
                 height: 8.h,
               ),
-              const BookingDetailTile(
+              BookingDetailTile(
                   leading: 'Price/month', trailing: 'IDR 1.000.000'),
               SizedBox(
                 height: 16.h,
@@ -268,32 +280,70 @@ class _BookingDetailState extends State<BookingDetail> {
         ),
       ),
       bottomNavigationBar: Container(
-        height: 70.h,
-        margin: EdgeInsets.all(16.h),
-        child: statusId == 1 || statusId == 2 || statusId == 3
+        height: 37.h,
+        margin: EdgeInsets.symmetric(vertical: 20.h, horizontal: 16.w),
+        //status pending
+        child: statusId == 1
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ButtonComponent(
                       onPress: () {},
-                      isRed: statusId == 1 ? true : false,
-                      isWhite: statusId == 2 || statusId == 3 ? true : false,
-                      textButton: statusId == 1 ? 'cancel' : 'Back to Home',
+                      isRed: true,
+                      isWhite: false,
+                      textButton: 'cancel',
                       buttonHeight: 37.h,
                       buttonWidth: 156.w),
                   ButtonComponent(
-                      onPress: () {},
-                      textButton:
-                          statusId == 1 ? 'Back to home' : 'Order Again',
+                      onPress: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/navbar', (route) => false);
+                      },
+                      textButton: 'Back to home',
                       buttonHeight: 37.h,
                       buttonWidth: 156.w),
                 ],
               )
-            : ButtonComponent(
-                onPress: () {},
-                textButton: statusId == 4 ? 'Complete Payment' : 'Give Review',
-                buttonHeight: 37.h,
-                buttonWidth: double.infinity),
+            //status rejected & canceled
+            : statusId == 2 || statusId == 3
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ButtonComponent(
+                          onPress: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, '/navbar', (route) => false);
+                          },
+                          isRed: false,
+                          isWhite: true,
+                          textButton: 'Back to Home',
+                          buttonHeight: 37.h,
+                          buttonWidth: 156.w),
+                      ButtonComponent(
+                          onPress: () {
+                            Navigator.pushNamed(context, '/search');
+                          },
+                          textButton: 'Order Again',
+                          buttonHeight: 37.h,
+                          buttonWidth: 156.w),
+                    ],
+                  )
+
+                //status awaiting payment
+                : statusId == 4
+                    ? ButtonComponent(
+                        onPress: () {
+                          Navigator.pushNamed(context, '/payment-detail');
+                        },
+                        textButton: 'Complete Payment',
+                        buttonHeight: 37.h,
+                        buttonWidth: double.infinity)
+                    : //status active & complete
+                    ButtonComponent(
+                        onPress: () {},
+                        textButton: 'Give Review',
+                        buttonHeight: 37.h,
+                        buttonWidth: double.infinity),
       ),
     ));
   }

@@ -68,6 +68,7 @@ class _EditProfileState extends State<EditProfile> {
                           await profile.getUsersDetail();
                           if (mounted) {}
                         }
+                        print(responseImage);
                       }
                       SmartDialog.dismiss();
                       showNotification(context, response);

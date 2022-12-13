@@ -18,11 +18,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  // }
-
   @override
   void didChangeDependencies() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
