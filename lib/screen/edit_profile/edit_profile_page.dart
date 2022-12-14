@@ -42,10 +42,10 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     final profile = Provider.of<UserProvider>(context, listen: true);
-    // showState(profile);
-    // _nameController.text = profile.getUsers.name!;
-    // _phoneController.text = profile.getUsers.phone!;
-    // _emailController.text = profile.getUsers.email!;
+    showState(profile);
+    _nameController.text = profile.getUsers!.name!;
+    _phoneController.text = profile.getUsers!.phone!;
+    _emailController.text = profile.getUsers!.email!;
     return Scaffold(
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(bottom: 30.h, left: 16.w, right: 16.w),
@@ -55,7 +55,6 @@ class _EditProfileState extends State<EditProfile> {
               return ButtonComponent(
                   onPress: () async {
                     if (_formKey.currentState!.validate()) {
-                      SmartDialog.showLoading();
                       final response = await profile.editProfile(
                         _nameController.text,
                         _emailController.text,
@@ -70,9 +69,8 @@ class _EditProfileState extends State<EditProfile> {
                         }
                         print(responseImage);
                       }
-                      SmartDialog.dismiss();
                       showNotification(context, response);
-                      Navigator.pop(context);
+                      Navigator.popAndPushNamed(context, '/navbar');
                     }
                   },
                   textButton: 'Save',
@@ -110,8 +108,7 @@ class _EditProfileState extends State<EditProfile> {
                                         fit: BoxFit.cover,
                                       )
                                     : Image.network(
-                                        profile.getUsers.picture ??
-                                            'https://unsplash.com/photos/OLLtavHHBKg/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8M3x8aWNvbiUyMHBlcnNvbnxlbnwwfDJ8fHwxNjcwMjE3NjIz&force=true&w=640',
+                                        profile.getUsers!.picture!,
                                         fit: BoxFit.cover,
                                       ),
                               ),
@@ -151,7 +148,7 @@ class _EditProfileState extends State<EditProfile> {
                 height: 60.h,
                 child: FormComponent(
                   isProfile: true,
-                  hint: profile.getUsers.name,
+                  hint: profile.getUsers!.name!,
                   isDisable: false,
                   controller: _nameController,
                   formHeight: 40.h,
@@ -160,6 +157,7 @@ class _EditProfileState extends State<EditProfile> {
                     if (value == null || value.isEmpty) {
                       return 'Enter at least 4 characters';
                     }
+                    return null;
                   },
                 ),
               ),
@@ -171,7 +169,7 @@ class _EditProfileState extends State<EditProfile> {
                 height: 60.h,
                 child: FormComponent(
                   isProfile: true,
-                  hint: profile.getUsers.phone,
+                  hint: profile.getUsers!.phone,
                   isDisable: false,
                   isNumber: true,
                   controller: _phoneController,
@@ -181,6 +179,7 @@ class _EditProfileState extends State<EditProfile> {
                     if (value == null || value.isEmpty || value.length < 11) {
                       return 'Enter the right number';
                     }
+                    return null;
                   },
                 ),
               ),
@@ -192,7 +191,7 @@ class _EditProfileState extends State<EditProfile> {
                 height: 60.h,
                 child: FormComponent(
                   isProfile: true,
-                  hint: profile.getUsers.email,
+                  hint: profile.getUsers!.email,
                   isDisable: false,
                   controller: _emailController,
                   formHeight: 40.h,

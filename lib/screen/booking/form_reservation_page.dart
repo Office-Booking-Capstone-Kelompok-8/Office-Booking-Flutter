@@ -40,8 +40,9 @@ class _FormReservationPageState extends State<FormReservationPage> {
   @override
   Widget build(BuildContext context) {
     final data = Provider.of<UserProvider>(context, listen: false);
-    _emailController.text = data.getUsers.email ?? 'asd';
-    _phoneNumberController.text = data.getUsers.phone ?? 'asd';
+    final reservation = Provider.of<ReservationProvider>(context);
+    _emailController.text = data.getUsers?.email ?? 'asd';
+    _phoneNumberController.text = data.getUsers?.phone ?? 'asd';
     Map<String, dynamic> argsForm =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return SafeArea(
