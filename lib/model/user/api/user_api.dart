@@ -29,7 +29,11 @@ class UserApi {
             if (refreshToken != null) {
               await refreshTokenApi();
               final data = await retry(error.requestOptions);
-              return handler.resolve(data);
+              if (data != null) {
+                return handler.resolve(data);
+              } else {
+                return handler.next(error);
+              }
             }
           }
           return handler.next(error);
@@ -123,16 +127,25 @@ class UserApi {
     }
   }
 
-  Future<Response<dynamic>> retry(RequestOptions requestOptions) async {
+  Future<Response<dynamic>?> retry(RequestOptions requestOptions) async {
+    final helper = await SharedPreferences.getInstance();
     final options = Options(
       method: requestOptions.method,
       headers: requestOptions.headers,
     );
-
-    return _dio.request<dynamic>(requestOptions.path,
-        data: requestOptions.data,
-        queryParameters: requestOptions.queryParameters,
-        options: options);
+    try {
+      final result = await _dio.request<dynamic>(requestOptions.path,
+          data: requestOptions.data,
+          queryParameters: requestOptions.queryParameters,
+          options: options);
+      return result;
+    } on DioError catch (e) {
+      await helper.remove('accessToken');
+      await helper.remove('refreshToken');
+      // ignore: avoid_print
+      print(e.response!.statusCode);
+      return null;
+    }
   }
 
   Future<String> sendOtp({

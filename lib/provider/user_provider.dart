@@ -24,14 +24,16 @@ class UserProvider extends ChangeNotifier {
       if (e is DioError) {
         /// If want to check status code from service error
         e.response!.statusCode;
+        _users = null;
         myState = MyState.loaded;
         notifyListeners();
+      } else {
+        // ignore: avoid_print
+        print(e.toString());
+        myState = MyState.failed;
+        notifyListeners();
+        return null;
       }
-      // ignore: avoid_print
-      print(e.toString());
-      myState = MyState.failed;
-      notifyListeners();
-      return null;
     }
   }
 
