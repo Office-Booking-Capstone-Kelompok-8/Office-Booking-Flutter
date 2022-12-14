@@ -3,11 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:office_booking_app/provider/building_provider.dart';
+import 'package:office_booking_app/provider/login_provider.dart';
+import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/screen/components/button_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
-import 'package:office_booking_app/utils/constant/helper.dart';
-import 'package:office_booking_app/utils/state/finite_state.dart';
 import 'package:provider/provider.dart';
 import '../../screen/components/appbar_component.dart';
 
@@ -33,6 +33,8 @@ class _BuildingDetailState extends State<BuildingDetail> {
   @override
   Widget build(BuildContext context) {
     final detail = Provider.of<BuildingProvider>(context, listen: false);
+    final token = Provider.of<SignInProvider>(context, listen: false);
+    final profile = Provider.of<UserProvider>(context, listen: false);
     NumberFormat formater = NumberFormat('#,##,000');
     return SafeArea(
       child: Scaffold(
@@ -91,15 +93,26 @@ class _BuildingDetailState extends State<BuildingDetail> {
                 SizedBox(
                   height: 16.h,
                 ),
-                SizedBox(
-                  height: 40.h,
-                  child: Text(
-                    detail.getDetailBuilding.name!,
-                    style: buildingName,
-                  ),
+                Text(
+                  detail.getDetailBuilding.name!,
+                  style: buildingName,
                 ),
                 SizedBox(
-                  height: 16.h,
+                  height: 12.h,
+                ),
+                const Divider(
+                  color: AppColors.dividerColor,
+                  thickness: 1,
+                ),
+                SizedBox(
+                  height: 12.h,
+                ),
+                Text(
+                  'Start IDR ${formater.format(detail.getDetailBuilding.price!.monthly!)}',
+                  style: blueDetailPageLarge,
+                ),
+                SizedBox(
+                  height: 12.h,
                 ),
                 SizedBox(
                   height: 57.h,
@@ -110,49 +123,21 @@ class _BuildingDetailState extends State<BuildingDetail> {
                           width: 109.w,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Price',
-                                style: blueDetailPage,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Start IDR ',
-                                    style: blueDetailPage,
-                                  ),
-                                  Text(
-                                    formater
-                                        .format(detail
-                                            .getDetailBuilding.price!.monthly!)
-                                        .toString(),
-                                    style: blueDetailPage,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: SizedBox(
-                          width: 109.w,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
                                 'Capacity',
                                 style: blueDetailPage,
+                              ),
+                              SizedBox(
+                                height: 4.h,
                               ),
                               Row(
                                 children: [
                                   Icon(
                                     Icons.people_alt,
                                     size: 16.sm,
-                                    color: AppColors.primary6,
+                                    color: AppColors.primary4,
                                   ),
                                   SizedBox(
                                     width: 4.w,
@@ -173,18 +158,21 @@ class _BuildingDetailState extends State<BuildingDetail> {
                           width: 109.w,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
                                 'Size',
                                 style: blueDetailPage,
+                              ),
+                              SizedBox(
+                                height: 4.h,
                               ),
                               Row(
                                 children: [
                                   Icon(
                                     Icons.zoom_out_map,
                                     size: 16.sm,
-                                    color: AppColors.primary6,
+                                    color: AppColors.primary4,
                                   ),
                                   SizedBox(
                                     width: 4.w,
@@ -201,9 +189,6 @@ class _BuildingDetailState extends State<BuildingDetail> {
                       ),
                     ],
                   ),
-                ),
-                SizedBox(
-                  height: 16.h,
                 ),
                 const Divider(
                   color: AppColors.dividerColor,
@@ -343,7 +328,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
                   thickness: 1,
                 ),
                 SizedBox(
-                  height: 85.h,
+                  height: 20.h,
                 ),
               ],
             ),
@@ -351,118 +336,53 @@ class _BuildingDetailState extends State<BuildingDetail> {
         ),
         bottomNavigationBar: Container(
           margin: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
-          height: 54.h,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          height: 40.h,
+          child: Row(
             children: [
-              // Text(
-              //   'Price',
-              //   style: detailFormStyle,
-              // ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Text(
-              //       'Monthly',
-              //       style: detailBuilidingStyle,
-              //     ),
-              //     Row(
-              //       children: [
-              //         Text(
-              //             // 'IDR ${formater.format(detail.getDetailBuilding.price!.monthly!)}',
-              //             // style: priceBold),
-              //             'asd'),
-              //         const Text(' / month')
-              //       ],
-              //     ),
-              //     Consumer<SetStateProvider>(
-              //       builder: (context, numChange, _) => Radio(
-              //         value: 0,
-              //         groupValue: numChange.number,
-              //         onChanged: (value) {
-              //           numChange.number = value;
-              //         },
-              //       ),
-              //     )
-              //   ],
-              // ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Text(
-              //       'Annual',
-              //       style: detailBuilidingStyle,
-              //     ),
-              //     Row(
-              //       children: [
-              //         Text(
-              //           // 'IDR ${formater.format(detail.getDetailBuilding.price!.annual!)}',
-              //           'asd',
-              //           style: priceBold,
-              //         ),
-              //         const Text(' / year')
-              //       ],
-              //     ),
-              //     Consumer<SetStateProvider>(
-              //       builder: (context, numChange, _) => Radio(
-              //         value: 1,
-              //         groupValue: numChange.number,
-              //         onChanged: (value) {
-              //           numChange.number = value;
-              //         },
-              //       ),
-              //     )
-              //   ],
-              // ),
-              // SizedBox(
-              //   height: 8.h,
-              // ),
-              Row(
-                children: [
-                  Material(
-                      type: MaterialType.transparency,
-                      child: Ink(
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(color: AppColors.primary4, width: 1.w),
-                          color: Colors.transparent,
-                          shape: BoxShape.circle,
+              Material(
+                  type: MaterialType.transparency,
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.primary4, width: 1.w),
+                      color: Colors.transparent,
+                      shape: BoxShape.circle,
+                    ),
+                    child: SizedBox(
+                      height: 40.h,
+                      width: 40.w,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(1000.0),
+                        onTap: () {},
+                        child: Icon(
+                          Icons.chat,
+                          size: 24.sm,
+                          color: AppColors.primary4,
                         ),
-                        child: SizedBox(
-                          height: 40.h,
-                          width: 40.w,
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(1000.0),
-                            onTap: () {},
-                            child: Icon(
-                              Icons.chat,
-                              size: 24.sm,
-                              color: AppColors.primary4,
-                            ),
-                          ),
-                        ),
-                      )),
-                  SizedBox(
-                    width: 12.w,
-                  ),
-                  ButtonComponent(
-                      onPress: () {
-                        Navigator.pushNamed(context, '/form-page', arguments: {
-                          'building-image':
-                              detail.getDetailBuilding.pictures!.first.url!,
-                          'building-id': detail.getDetailBuilding.id,
-                          'building-name': detail.getDetailBuilding.name,
-                          'building-address':
-                              '${detail.getDetailBuilding.location!.district!.name!} - ${detail.getDetailBuilding.location!.city!.name!}',
-                          'building-price': formater
-                              .format(detail.getDetailBuilding.price!.monthly)
-                        });
-                      },
-                      textButton: 'Book Now',
-                      buttonHeight: 37.h,
-                      buttonWidth: 274.w),
-                ],
+                      ),
+                    ),
+                  )),
+              SizedBox(
+                width: 12.w,
               ),
+              ButtonComponent(
+                  onPress: () {
+                    token.dataUser?.accessToken == null
+                        ? Navigator.pushNamed(context, '/Login')
+                        : Navigator.pushNamed(context, '/form-page',
+                            arguments: {
+                                'building-image': detail
+                                    .getDetailBuilding.pictures!.first.url!,
+                                'building-id': detail.getDetailBuilding.id,
+                                'building-name': detail.getDetailBuilding.name,
+                                'building-address':
+                                    '${detail.getDetailBuilding.location!.district!.name!} - ${detail.getDetailBuilding.location!.city!.name!}',
+                                'building-price': formater.format(
+                                    detail.getDetailBuilding.price!.monthly)
+                              });
+                  },
+                  textButton: 'Book Now',
+                  buttonHeight: 37.h,
+                  buttonWidth: 274.w),
             ],
           ),
         ),

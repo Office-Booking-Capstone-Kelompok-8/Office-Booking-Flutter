@@ -40,9 +40,8 @@ class _FormReservationPageState extends State<FormReservationPage> {
   @override
   Widget build(BuildContext context) {
     final data = Provider.of<UserProvider>(context, listen: false);
-    final reservation = Provider.of<ReservationProvider>(context);
-    _emailController.text = data.getUsers?.email ?? 'asd';
-    _phoneNumberController.text = data.getUsers?.phone ?? 'asd';
+    _emailController.text = data.getUsers!.email!;
+    _phoneNumberController.text = data.getUsers!.phone!;
     Map<String, dynamic> argsForm =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return SafeArea(
@@ -116,11 +115,11 @@ class _FormReservationPageState extends State<FormReservationPage> {
                                 ),
                                 Row(
                                   children: [
-                                    const Text('Price/month\t'),
                                     Text(
                                       'IDR ${argsForm['building-price'].toString()}',
                                       style: priceBlue,
                                     ),
+                                    const Text(' /month'),
                                   ],
                                 ),
                               ],
@@ -141,8 +140,13 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     height: 9.h,
                   ),
                   FormComponent(
+                    validation: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Company name is required';
+                      }
+                    },
                     hint: 'Enter your company name',
-                    isForm: true,
+                    isProfile: true,
                     controller: _companyNameController,
                     formHeight: 41.h,
                     formWidth: double.infinity,
@@ -151,15 +155,20 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     height: 24.h,
                   ),
                   Text(
-                    'Tenant name*',
+                    'Tenant Name',
                     style: formTop,
                   ),
                   SizedBox(
                     height: 9.h,
                   ),
                   FormComponent(
+                    validation: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Tenant name is required';
+                      }
+                    },
                     hint: 'Enter your name',
-                    isForm: true,
+                    isProfile: true,
                     controller: _tenantNameController,
                     formHeight: 41.h,
                     formWidth: double.infinity,
@@ -168,14 +177,19 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     height: 24.h,
                   ),
                   Text(
-                    'Phone Number*',
+                    'Phone Number',
                     style: formTop,
                   ),
                   SizedBox(
                     height: 9.h,
                   ),
                   FormComponent(
-                    isForm: true,
+                    validation: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Phone number is required';
+                      }
+                    },
+                    isProfile: true,
                     controller: _phoneNumberController,
                     formHeight: 41.h,
                     formWidth: double.infinity,
@@ -191,7 +205,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     height: 9.h,
                   ),
                   FormComponent(
-                    isForm: true,
+                    isProfile: true,
                     isDisable: true,
                     controller: _emailController,
                     formHeight: 41.h,
@@ -265,6 +279,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                               height: 41.h,
                               width: 156.w,
                               child: DropDownTextField(
+                                initialValue: '1 Month',
                                 textFieldDecoration: InputDecoration(
                                   contentPadding:
                                       EdgeInsets.only(top: 12.h, left: 16.w),
@@ -324,8 +339,10 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     child: Consumer3<ReservationProvider, SetStateProvider,
                         FilterProvider>(
                       builder: (context, reservation, date, filter, _) =>
-                          ButtonComponent(
-                              onPress: () async {
+                          Consumer<FilterProvider>(
+                        builder: (context, filter, _) => ButtonComponent(
+                            onPress: () async {
+                              if (_formkey.currentState!.validate()) {
                                 try {
                                   FocusManager.instance.primaryFocus?.unfocus();
                                   String finalDate = DateFormat('yyyy-MM-dd')
@@ -347,10 +364,12 @@ class _FormReservationPageState extends State<FormReservationPage> {
                                 } catch (e) {
                                   showNotification(context, e.toString());
                                 }
-                              },
-                              textButton: 'BOOKING',
-                              buttonHeight: 41.h,
-                              buttonWidth: double.infinity),
+                              }
+                            },
+                            textButton: 'BOOKING',
+                            buttonHeight: 41.h,
+                            buttonWidth: double.infinity),
+                      ),
                     ),
                   )
                 ],
