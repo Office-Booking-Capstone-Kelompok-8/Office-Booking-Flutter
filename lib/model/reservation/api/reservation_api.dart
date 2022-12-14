@@ -62,9 +62,9 @@ class ReservationApi {
         "startDate": startDate,
         "duration": duration,
       });
-      if (response.statusCode == 409) {
-        return response.data['message'];
-      }
+      // if (response.statusCode == 409) {
+      //   return response.data['message'];
+      // }
 
       return response.data['message'];
     } on DioError catch (_) {

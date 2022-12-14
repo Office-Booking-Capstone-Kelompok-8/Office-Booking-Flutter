@@ -40,7 +40,7 @@ TextStyle onboardSkip = TextStyle(
 TextStyle priceBlue = TextStyle(
   color: AppColors.primary4,
   fontSize: 12.sp,
-  fontWeight: FontWeight.w400,
+  fontWeight: FontWeight.w700,
 );
 TextStyle onboardTitle = TextStyle(
   color: AppColors.neutral10,
@@ -60,7 +60,7 @@ TextStyle onboardSubtitle = TextStyle(
 TextStyle personReservation = TextStyle(
   color: AppColors.neutral10,
   fontSize: 14.sp,
-  fontWeight: FontWeight.w400,
+  fontWeight: FontWeight.w500,
 );
 
 TextStyle dateReservation = TextStyle(
@@ -132,7 +132,12 @@ TextStyle blackPaymentVeryLarge = TextStyle(
 );
 TextStyle blueDetailPage = TextStyle(
   fontSize: 12.sp,
-  color: AppColors.primary6,
+  color: AppColors.primary4,
+  fontWeight: FontWeight.bold,
+);
+TextStyle blueDetailPageLarge = TextStyle(
+  fontSize: 18.sp,
+  color: AppColors.primary4,
   fontWeight: FontWeight.bold,
 );
 TextStyle blackBooking = TextStyle(

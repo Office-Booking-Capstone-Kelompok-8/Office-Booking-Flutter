@@ -55,7 +55,9 @@ class BuildingGridComponent extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
-                              fontSize: 14.sp, color: AppColors.neutral9),
+                              fontSize: 14.sp,
+                              color: AppColors.neutral9,
+                              fontWeight: FontWeight.w500),
                         ),
                         Text(
                           buildingLoc,

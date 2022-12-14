@@ -66,6 +66,7 @@ class _EditProfileState extends State<EditProfile> {
                           await profile.getUsersDetail();
                           if (mounted) {}
                         }
+                        print(responseImage);
                       }
                       showNotification(context, response);
                       Navigator.popAndPushNamed(context, '/navbar');
@@ -95,7 +96,7 @@ class _EditProfileState extends State<EditProfile> {
                         return Column(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 8.h),
+                              margin: EdgeInsets.only(top: 24.h),
                               height: 90.w,
                               width: 90.w,
                               child: ClipRRect(
@@ -136,7 +137,7 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
               SizedBox(
-                height: 16.h,
+                height: 24.h,
               ),
               Text(
                 'Full Name',
@@ -145,22 +146,22 @@ class _EditProfileState extends State<EditProfile> {
               SizedBox(
                 height: 8.h,
               ),
+              FormComponent(
+                isProfile: true,
+                hint: profile.getUsers!.name!,
+                isDisable: false,
+                controller: _nameController,
+                formHeight: 40.h,
+                formWidth: double.infinity,
+                validation: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter at least 4 characters';
+                  }
+                  return null;
+                },
+              ),
               SizedBox(
-                height: 60.h,
-                child: FormComponent(
-                  isProfile: true,
-                  hint: profile.getUsers!.name!,
-                  isDisable: false,
-                  controller: _nameController,
-                  formHeight: 40.h,
-                  formWidth: double.infinity,
-                  validation: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Enter at least 4 characters';
-                    }
-                    return null;
-                  },
-                ),
+                height: 16.h,
               ),
               Text(
                 'Phone Number',
@@ -169,23 +170,23 @@ class _EditProfileState extends State<EditProfile> {
               SizedBox(
                 height: 8.h,
               ),
+              FormComponent(
+                isProfile: true,
+                hint: profile.getUsers!.phone,
+                isDisable: false,
+                isNumber: true,
+                controller: _phoneController,
+                formHeight: 40.h,
+                formWidth: double.infinity,
+                validation: (value) {
+                  if (value == null || value.isEmpty || value.length < 11) {
+                    return 'Enter the right number';
+                  }
+                  return null;
+                },
+              ),
               SizedBox(
-                height: 60.h,
-                child: FormComponent(
-                  isProfile: true,
-                  hint: profile.getUsers!.phone,
-                  isDisable: false,
-                  isNumber: true,
-                  controller: _phoneController,
-                  formHeight: 40.h,
-                  formWidth: double.infinity,
-                  validation: (value) {
-                    if (value == null || value.isEmpty || value.length < 11) {
-                      return 'Enter the right number';
-                    }
-                    return null;
-                  },
-                ),
+                height: 16.h,
               ),
               Text(
                 'Email',
@@ -194,31 +195,28 @@ class _EditProfileState extends State<EditProfile> {
               SizedBox(
                 height: 8.h,
               ),
-              SizedBox(
-                height: 60.h,
-                child: FormComponent(
-                  isProfile: true,
-                  hint: profile.getUsers!.email,
-                  isDisable: false,
-                  controller: _emailController,
-                  formHeight: 40.h,
-                  formWidth: double.infinity,
-                  validation: (value) {
-                    const String expression = "[a-zA-Z0-9+._%-+]{1,256}"
-                        "\\@"
-                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}"
-                        "("
-                        "\\."
-                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}"
-                        ")+";
-                    final RegExp regExp = RegExp(expression);
-                    return !regExp.hasMatch(value!)
-                        ? "Can only consist of letters, numbers and special characters (@.-_)"
-                        : value.isEmpty
-                            ? 'email is required'
-                            : null;
-                  },
-                ),
+              FormComponent(
+                isProfile: true,
+                hint: profile.getUsers!.email,
+                isDisable: false,
+                controller: _emailController,
+                formHeight: 40.h,
+                formWidth: double.infinity,
+                validation: (value) {
+                  const String expression = "[a-zA-Z0-9+._%-+]{1,256}"
+                      "\\@"
+                      "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}"
+                      "("
+                      "\\."
+                      "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}"
+                      ")+";
+                  final RegExp regExp = RegExp(expression);
+                  return !regExp.hasMatch(value!)
+                      ? "Can only consist of letters, numbers and special characters (@.-_)"
+                      : value.isEmpty
+                          ? 'email is required'
+                          : null;
+                },
               ),
             ],
           ),
