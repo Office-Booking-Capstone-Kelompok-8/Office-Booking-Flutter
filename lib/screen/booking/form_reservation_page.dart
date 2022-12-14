@@ -326,18 +326,20 @@ class _FormReservationPageState extends State<FormReservationPage> {
                           ButtonComponent(
                               onPress: () async {
                                 try {
+                                  FocusManager.instance.primaryFocus?.unfocus();
                                   String finalDate = DateFormat('yyyy-MM-dd')
                                       .format(date.getDateStart);
                                   final result =
                                       await reservation.postReservation(
-                                          argsForm['building-id'],
-                                          _companyNameController.text,
-                                          finalDate,
-                                          filter.duration!);
+                                    argsForm['building-id'],
+                                    _companyNameController.text,
+                                    finalDate,
+                                    filter.duration!,
+                                  );
                                   if (mounted) {}
                                   if (result ==
                                       'reservation created successfully') {
-                                    showNotification(context, result);
+                                    showNotification(context, result!);
                                   } else if (result != null) {
                                     showNotification(context, result);
                                   }
