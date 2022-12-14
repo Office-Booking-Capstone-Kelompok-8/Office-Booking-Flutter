@@ -41,21 +41,21 @@ class _LoginPageState extends State<LoginPage> {
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 16.w),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.all(20.h),
-                  child: Text(
-                    'Sign in to your account',
-                    style:
-                        TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(20.h),
+                    child: Text(
+                      'Sign in to your account',
+                      style: TextStyle(
+                          fontSize: 20.sp, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
                 Text(
                   'Email',
                   style: formTop,
-                ),
-                SizedBox(
-                  height: 8.h,
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 10.h),
@@ -87,9 +87,6 @@ class _LoginPageState extends State<LoginPage> {
                 Text(
                   'Password',
                   style: formTop,
-                ),
-                SizedBox(
-                  height: 8.h,
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10.h),
