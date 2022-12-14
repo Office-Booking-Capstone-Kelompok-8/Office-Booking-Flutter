@@ -4,6 +4,7 @@ import 'package:office_booking_app/provider/login_provider.dart';
 import 'package:office_booking_app/screen/components/form_component.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/constant/app_text_style.dart';
 import '../components/button_component.dart';
 import '../components/show_state.dart';
 import '../components/snackbar_component.dart';
@@ -69,6 +70,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   SizedBox(
                     height: 32.h,
                   ),
+                  Text(
+                    'Password',
+                    style: formTop,
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
                   FormComponent(
                     isPassword: true,
                     isAuth: true,
@@ -90,6 +98,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ),
                   SizedBox(
                     height: 32.h,
+                  ),
+                  Text(
+                    'Confirm Password',
+                    style: formTop,
+                  ),
+                  SizedBox(
+                    height: 8.h,
                   ),
                   FormComponent(
                     isPassword: true,
