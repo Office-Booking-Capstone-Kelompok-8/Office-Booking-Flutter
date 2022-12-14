@@ -48,8 +48,8 @@ class FormComponent extends StatelessWidget {
         valueListenable: showPassword,
         builder: (context, value, _) {
           return SizedBox(
-            height: formHeight,
-            width: formWidth,
+            // height: formHeight,
+            // width: formWidth,
             child: TextFormField(
               onTap: onPress,
               controller: controller,
@@ -106,15 +106,14 @@ class FormComponent extends StatelessWidget {
                           : isSearch == true
                               ? const Icon(Icons.filter_list)
                               : null,
-                  border: isSearch == true || isForm == true
-                      ? OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(9.r),
-                          borderSide: const BorderSide(
-                            width: 1,
-                            color: AppColors.borderButton,
-                          ),
-                        )
-                      : null),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.r),
+                    borderSide: const BorderSide(
+                      width: 1,
+                      color: AppColors.borderButton,
+                    ),
+                  ),
+                  isDense: true),
             ),
           );
         });
