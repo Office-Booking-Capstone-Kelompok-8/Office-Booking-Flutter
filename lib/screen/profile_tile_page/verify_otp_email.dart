@@ -5,6 +5,7 @@ import 'package:office_booking_app/screen/components/form_component.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/constant/app_colors.dart';
+import '../../utils/constant/app_text_style.dart';
 import '../components/button_component.dart';
 import '../components/show_state.dart';
 import '../components/snackbar_component.dart';
@@ -57,6 +58,13 @@ class _VerifyOtpEmailState extends State<VerifyOtpEmail> {
                   ),
                   SizedBox(
                     height: 32.h,
+                  ),
+                  Text(
+                    'OTP Code',
+                    style: formTop,
+                  ),
+                  SizedBox(
+                    height: 8.h,
                   ),
                   FormComponent(
                     isNumber: true,

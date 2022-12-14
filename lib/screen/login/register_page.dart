@@ -4,6 +4,7 @@ import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/login_provider.dart';
+import '../../utils/constant/app_text_style.dart';
 import '../components/button_component.dart';
 import '../components/form_component.dart';
 import '../components/show_state.dart';
@@ -46,14 +47,21 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 16.w),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.all(20.h),
-                  child: Text(
-                    'Create your account',
-                    style:
-                        TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(20.h),
+                    child: Text(
+                      'Create your account',
+                      style: TextStyle(
+                          fontSize: 20.sp, fontWeight: FontWeight.bold),
+                    ),
                   ),
+                ),
+                Text(
+                  'Full Name',
+                  style: formTop,
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 10.h),
@@ -72,6 +80,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       }
                     },
                   ),
+                ),
+                Text(
+                  'Phone Number',
+                  style: formTop,
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 10.h),
@@ -93,6 +105,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       }
                     },
                   ),
+                ),
+                Text(
+                  'Email',
+                  style: formTop,
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 10.h),
@@ -121,6 +137,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   ),
                 ),
+                Text(
+                  'Password',
+                  style: formTop,
+                ),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 10.h),
                   child: FormComponent(
@@ -142,6 +162,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       }
                     },
                   ),
+                ),
+                Text(
+                  'Confirm Password',
+                  style: formTop,
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 10.h),

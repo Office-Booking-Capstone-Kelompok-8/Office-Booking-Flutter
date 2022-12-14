@@ -5,6 +5,7 @@ import 'package:office_booking_app/screen/components/show_state.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/login_provider.dart';
+import '../../utils/constant/app_text_style.dart';
 import '../components/button_component.dart';
 import '../components/form_component.dart';
 import '../components/snackbar_component.dart';
@@ -40,14 +41,21 @@ class _LoginPageState extends State<LoginPage> {
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 16.w),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.all(20.h),
-                  child: Text(
-                    'Sign in to your account',
-                    style:
-                        TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(20.h),
+                    child: Text(
+                      'Sign in to your account',
+                      style: TextStyle(
+                          fontSize: 20.sp, fontWeight: FontWeight.bold),
+                    ),
                   ),
+                ),
+                Text(
+                  'Email',
+                  style: formTop,
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 10.h),
@@ -75,6 +83,10 @@ class _LoginPageState extends State<LoginPage> {
                               : null;
                     },
                   ),
+                ),
+                Text(
+                  'Password',
+                  style: formTop,
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10.h),
