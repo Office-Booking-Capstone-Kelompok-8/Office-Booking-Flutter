@@ -80,6 +80,7 @@ class FilterProvider extends ChangeNotifier {
   }
 
   Future<void> showResult() async {
+    _showFilterResult.clear();
     //location
     if (_filterResult['location'] != null) {
       _showFilterResult['location'] =

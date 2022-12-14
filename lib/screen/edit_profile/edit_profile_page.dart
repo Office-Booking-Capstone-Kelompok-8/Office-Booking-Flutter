@@ -42,10 +42,10 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     final profile = Provider.of<UserProvider>(context, listen: true);
-    // showState(profile);
-    // _nameController.text = profile.getUsers.name!;
-    // _phoneController.text = profile.getUsers.phone!;
-    // _emailController.text = profile.getUsers.email!;
+    showState(profile);
+    _nameController.text = profile.getUsers!.name!;
+    _phoneController.text = profile.getUsers!.phone!;
+    _emailController.text = profile.getUsers!.email!;
     return Scaffold(
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(bottom: 30.h, left: 16.w, right: 16.w),
@@ -55,7 +55,6 @@ class _EditProfileState extends State<EditProfile> {
               return ButtonComponent(
                   onPress: () async {
                     if (_formKey.currentState!.validate()) {
-                      SmartDialog.showLoading();
                       final response = await profile.editProfile(
                         _nameController.text,
                         _emailController.text,
@@ -68,10 +67,10 @@ class _EditProfileState extends State<EditProfile> {
                           await profile.getUsersDetail();
                           if (mounted) {}
                         }
+                        print(responseImage);
                       }
-                      SmartDialog.dismiss();
                       showNotification(context, response);
-                      Navigator.pop(context);
+                      Navigator.popAndPushNamed(context, '/navbar');
                     }
                   },
                   textButton: 'Save',
@@ -98,7 +97,7 @@ class _EditProfileState extends State<EditProfile> {
                         return Column(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 8.h),
+                              margin: EdgeInsets.only(top: 24.h),
                               height: 90.w,
                               width: 90.w,
                               child: ClipRRect(
@@ -109,8 +108,7 @@ class _EditProfileState extends State<EditProfile> {
                                         fit: BoxFit.cover,
                                       )
                                     : Image.network(
-                                        profile.getUsers.picture ??
-                                            'https://unsplash.com/photos/OLLtavHHBKg/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8M3x8aWNvbiUyMHBlcnNvbnxlbnwwfDJ8fHwxNjcwMjE3NjIz&force=true&w=640',
+                                        profile.getUsers!.picture!,
                                         fit: BoxFit.cover,
                                       ),
                               ),
@@ -140,78 +138,86 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
               SizedBox(
-                height: 16.h,
+                height: 24.h,
               ),
               Text(
                 'Full Name',
                 style: formTop,
               ),
               SizedBox(
-                height: 60.h,
-                child: FormComponent(
-                  isProfile: true,
-                  hint: profile.getUsers.name,
-                  isDisable: false,
-                  controller: _nameController,
-                  formHeight: 40.h,
-                  formWidth: double.infinity,
-                  validation: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Enter at least 4 characters';
-                    }
-                  },
-                ),
+                height: 8.h,
+              ),
+              FormComponent(
+                isProfile: true,
+                hint: profile.getUsers!.name!,
+                isDisable: false,
+                controller: _nameController,
+                formHeight: 40.h,
+                formWidth: double.infinity,
+                validation: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter at least 4 characters';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(
+                height: 16.h,
               ),
               Text(
                 'Phone Number',
                 style: formTop,
               ),
               SizedBox(
-                height: 60.h,
-                child: FormComponent(
-                  isProfile: true,
-                  hint: profile.getUsers.phone,
-                  isDisable: false,
-                  isNumber: true,
-                  controller: _phoneController,
-                  formHeight: 40.h,
-                  formWidth: double.infinity,
-                  validation: (value) {
-                    if (value == null || value.isEmpty || value.length < 11) {
-                      return 'Enter the right number';
-                    }
-                  },
-                ),
+                height: 8.h,
+              ),
+              FormComponent(
+                isProfile: true,
+                hint: profile.getUsers!.phone,
+                isDisable: false,
+                isNumber: true,
+                controller: _phoneController,
+                formHeight: 40.h,
+                formWidth: double.infinity,
+                validation: (value) {
+                  if (value == null || value.isEmpty || value.length < 11) {
+                    return 'Enter the right number';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(
+                height: 16.h,
               ),
               Text(
                 'Email',
                 style: formTop,
               ),
               SizedBox(
-                height: 60.h,
-                child: FormComponent(
-                  isProfile: true,
-                  hint: profile.getUsers.email,
-                  isDisable: false,
-                  controller: _emailController,
-                  formHeight: 40.h,
-                  formWidth: double.infinity,
-                  validation: (value) {
-                    const String expression = "[a-zA-Z0-9+._%-+]{1,256}"
-                        "\\@"
-                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}"
-                        "("
-                        "\\."
-                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}"
-                        ")+";
-                    final RegExp regExp = RegExp(expression);
-                    return !regExp.hasMatch(value!)
-                        ? "Can only consist of letters, numbers and special characters (@.-_)"
-                        : value.isEmpty
-                            ? 'email is required'
-                            : null;
-                  },
-                ),
+                height: 8.h,
+              ),
+              FormComponent(
+                isProfile: true,
+                hint: profile.getUsers!.email,
+                isDisable: false,
+                controller: _emailController,
+                formHeight: 40.h,
+                formWidth: double.infinity,
+                validation: (value) {
+                  const String expression = "[a-zA-Z0-9+._%-+]{1,256}"
+                      "\\@"
+                      "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}"
+                      "("
+                      "\\."
+                      "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}"
+                      ")+";
+                  final RegExp regExp = RegExp(expression);
+                  return !regExp.hasMatch(value!)
+                      ? "Can only consist of letters, numbers and special characters (@.-_)"
+                      : value.isEmpty
+                          ? 'email is required'
+                          : null;
+                },
               ),
             ],
           ),

@@ -17,16 +17,14 @@ class AppbarHome extends StatelessWidget with PreferredSizeWidget {
           style: buildingName,
         ),
       ),
-      toolbarHeight: 110.h,
       backgroundColor: AppColors.white,
       elevation: 1,
       centerTitle: false,
       leading: null,
       bottom: PreferredSize(
         preferredSize: preferredSize,
-        child: Container(
+        child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
-          height: 60.h,
           child: Column(
             children: [
               FormComponent(

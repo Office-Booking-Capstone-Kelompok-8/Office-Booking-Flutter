@@ -105,7 +105,7 @@ class AuthApi {
   }) async {
     try {
       final response = await _dio.put(
-        Api.baseUrl + Api.verifyOtp,
+        Api.baseUrl + Api.resetPassword,
         data: {
           'email': email,
           'password': password,

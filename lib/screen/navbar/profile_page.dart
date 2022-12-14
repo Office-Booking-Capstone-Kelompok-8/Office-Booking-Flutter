@@ -18,32 +18,34 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero).then((value) async {
+      await Provider.of<UserProvider>(context, listen: false).getUsersDetail();
+    });
+  }
+
   // @override
   // void didChangeDependencies() {
+  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+  //     final data = Provider.of<SignInProvider>(context, listen: false);
+  //     if (data.dataUser?.accessToken != null) {
+  //       Provider.of<UserProvider>(context, listen: false).getUsersDetail();
+  //     }
+  //   });
   //   super.didChangeDependencies();
   // }
-
-  @override
-  void didChangeDependencies() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final data = Provider.of<SignInProvider>(context, listen: false);
-      if (data.dataUser?.accessToken != null) {
-        Provider.of<UserProvider>(context, listen: false).getUsersDetail();
-      }
-    });
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
     final profile = Provider.of<UserProvider>(context, listen: true);
     final data = Provider.of<SignInProvider>(context, listen: true);
-    // showState(profile);
+    showState(profile, provider2: data);
     return SafeArea(
       child: Scaffold(
-        body: data.dataUser?.accessToken == null
-            ? const LoginPage()
-            : Column(
+        body: profile.getUsers != null
+            ? Column(
                 children: [
                   Container(
                     height: 60.h,
@@ -52,9 +54,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         CircleAvatar(
                           radius: 35.r,
-                          backgroundImage: NetworkImage(profile
-                                  .getUsers.picture ??
-                              'https://unsplash.com/photos/OLLtavHHBKg/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8M3x8aWNvbiUyMHBlcnNvbnxlbnwwfDJ8fHwxNjcwMjE3NjIz&force=true&w=640'),
+                          backgroundImage:
+                              NetworkImage(profile.getUsers!.picture!),
                         ),
                         SizedBox(
                           width: 16.w,
@@ -69,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    profile.getUsers.name ?? 'sabrina',
+                                    profile.getUsers!.name!,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14.sp),
@@ -91,12 +92,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ],
                               ),
                               Text(
-                                profile.getUsers.email ?? 'sabrina07@upi.edu',
+                                profile.getUsers!.email!,
                                 style: TextStyle(
                                     fontSize: 12.sp, color: AppColors.neutral7),
                               ),
                               Text(
-                                profile.getUsers.phone ?? '+6282110766872',
+                                profile.getUsers!.phone!,
                                 style: TextStyle(
                                     fontSize: 12.sp, color: AppColors.neutral7),
                               )
@@ -113,6 +114,25 @@ class _ProfilePageState extends State<ProfilePage> {
                     padding: EdgeInsets.all(8.h),
                     child: Column(
                       children: [
+                        (profile.getUsers!.verified! == false)
+                            ? TileCompnent(
+                                text: 'Verify Account',
+                                onPress: () async {
+                                  final result = await profile.sendOtp(
+                                      email: profile.getUsers!.email!);
+                                  if (result == 'otp sent successfully') {
+                                    if (mounted) {}
+                                    showNotification(context, result!);
+                                    Navigator.pushNamed(
+                                        context, '/verify-otp-email',
+                                        arguments: profile.getUsers!.email!);
+                                  } else if (result != null) {
+                                    if (mounted) {}
+                                    showNotification(context, result);
+                                  }
+                                },
+                              )
+                            : Container(),
                         TileCompnent(
                           text: 'Transaction History',
                           onPress: () {
@@ -148,7 +168,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   )
                 ],
-              ),
+              )
+            : const LoginPage(),
       ),
     );
   }

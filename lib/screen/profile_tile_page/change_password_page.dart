@@ -9,6 +9,7 @@ import 'package:office_booking_app/screen/components/button_component.dart';
 import 'package:office_booking_app/screen/components/form_component.dart';
 import 'package:office_booking_app/screen/components/snackbar_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
+import 'package:office_booking_app/utils/constant/app_text_style.dart';
 import 'package:provider/provider.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -43,6 +44,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             child: Form(
               key: _formKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
                     height: 20.h,
@@ -54,68 +56,86 @@ class _ChangePasswordState extends State<ChangePassword> {
                   SizedBox(
                     height: 30.h,
                   ),
-                  SizedBox(
-                    height: 60.h,
-                    child: FormComponent(
-                      isPassword: true,
-                      isAuth: true,
-                      formHeight: 40.h,
-                      formWidth: double.infinity,
-                      controller: _oldPassword,
-                      prefixIcon: Icons.lock_outline,
-                      hint: 'enter old password',
-                      validation: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Password is required';
-                        }
-                        if (value.length < 8) {
-                          return '8-20 characters consisting of letters and numbers';
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
+                  Text(
+                    'Old Password',
+                    style: formTop,
                   ),
                   SizedBox(
-                    height: 60.h,
-                    child: FormComponent(
-                      isPassword: true,
-                      isAuth: true,
-                      formHeight: 40.h,
-                      formWidth: double.infinity,
-                      controller: _newPassword,
-                      prefixIcon: Icons.lock_outline,
-                      hint: 'enter new password',
-                      validation: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Password is required';
-                        }
-                        if (value.length < 8) {
-                          return '8-20 characters consisting of letters and numbers';
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
+                    height: 8.h,
+                  ),
+                  FormComponent(
+                    isPassword: true,
+                    isAuth: true,
+                    formHeight: 40.h,
+                    formWidth: double.infinity,
+                    controller: _oldPassword,
+                    prefixIcon: Icons.lock_outline,
+                    hint: 'enter old password',
+                    validation: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Password is required';
+                      }
+                      if (value.length < 8) {
+                        return '8-20 characters consisting of letters and numbers';
+                      } else {
+                        return null;
+                      }
+                    },
                   ),
                   SizedBox(
-                    height: 60.h,
-                    child: FormComponent(
-                      isPassword: true,
-                      isAuth: true,
-                      formHeight: 40.h,
-                      formWidth: double.infinity,
-                      controller: _confirmPassword,
-                      prefixIcon: Icons.lock_outline,
-                      hint: 'confirm password',
-                      validation: (value) {
-                        if (value != _newPassword.text) {
-                          return 'Password and password confirmation must be the same';
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
+                    height: 16.h,
+                  ),
+                  Text(
+                    'Enter New Password',
+                    style: formTop,
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
+                  FormComponent(
+                    isPassword: true,
+                    isAuth: true,
+                    formHeight: 40.h,
+                    formWidth: double.infinity,
+                    controller: _newPassword,
+                    prefixIcon: Icons.lock_outline,
+                    hint: 'enter new password',
+                    validation: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Password is required';
+                      }
+                      if (value.length < 8) {
+                        return '8-20 characters consisting of letters and numbers';
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  Text(
+                    'Confirm New Password',
+                    style: formTop,
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
+                  FormComponent(
+                    isPassword: true,
+                    isAuth: true,
+                    formHeight: 40.h,
+                    formWidth: double.infinity,
+                    controller: _confirmPassword,
+                    prefixIcon: Icons.lock_outline,
+                    hint: 'confirm password',
+                    validation: (value) {
+                      if (value != _newPassword.text) {
+                        return 'Password and password confirmation must be the same';
+                      } else {
+                        return null;
+                      }
+                    },
                   ),
                   SizedBox(
                     height: 20.h,
@@ -128,8 +148,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                     onPressed: () {
                       Navigator.pushNamed(context, '/send-otp');
                     },
-                    child: const Text(
-                      'Forgot Password ?',
+                    child: const Center(
+                      child: Text(
+                        'Forgot Password ?',
+                      ),
                     ),
                   ),
                 ],
