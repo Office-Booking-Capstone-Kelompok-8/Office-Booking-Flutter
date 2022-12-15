@@ -144,6 +144,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                       if (value == null || value.isEmpty) {
                         return 'Company name is required';
                       }
+                      return null;
                     },
                     hint: 'Enter your company name',
                     isProfile: true,
@@ -166,6 +167,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                       if (value == null || value.isEmpty) {
                         return 'Tenant name is required';
                       }
+                      return null;
                     },
                     hint: 'Enter your name',
                     isProfile: true,
@@ -188,6 +190,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                       if (value == null || value.isEmpty) {
                         return 'Phone number is required';
                       }
+                      return null;
                     },
                     isProfile: true,
                     controller: _phoneNumberController,
@@ -358,6 +361,8 @@ class _FormReservationPageState extends State<FormReservationPage> {
                                   if (result ==
                                       'reservation created successfully') {
                                     showNotification(context, result!);
+                                    Navigator.pushNamedAndRemoveUntil(
+                                        context, '/navbar', (route) => false);
                                   } else if (result != null) {
                                     showNotification(context, result);
                                   }

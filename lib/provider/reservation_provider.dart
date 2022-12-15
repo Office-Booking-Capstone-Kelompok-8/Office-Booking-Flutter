@@ -31,14 +31,15 @@ class ReservationProvider extends ChangeNotifier {
           myState = MyState.loaded;
           notifyListeners();
           print(e.response!.data['message']);
-          return e.response!.data['message'];
+          return 'Error ${e.response!.data['message'] ?? e.response!.statusCode!}';
         }
+      } else {
+        myState = MyState.failed;
+        notifyListeners();
+        return null;
       }
-
-      myState = MyState.failed;
-      notifyListeners();
-      return 'null';
     }
+    return null;
   }
 
   getReservation() async {
