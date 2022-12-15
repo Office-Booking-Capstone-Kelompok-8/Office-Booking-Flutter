@@ -3,8 +3,16 @@ class RatingModel {
   int? rating;
   String? comment;
   String? createdAt;
+  String? name;
+  String? picture;
 
-  RatingModel({this.id, this.rating, this.comment, this.createdAt});
+  RatingModel(
+      {this.id,
+      this.rating,
+      this.comment,
+      this.createdAt,
+      this.name,
+      this.picture});
 
   RatingModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
