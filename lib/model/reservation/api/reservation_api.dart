@@ -161,12 +161,13 @@ class ReservationApi {
     }
   }
 
-  Future<String> postProofPayment(String reservationId, File file) async {
+  Future<String> postProofPayment(
+      String reservationId, File file, String methodId) async {
     FormData formData = FormData.fromMap({
       "proof": await MultipartFile.fromFile(
         file.path,
       ),
-      "methodId": 1,
+      "methodId": methodId,
     });
     try {
       final response = await _dio
