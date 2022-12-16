@@ -220,7 +220,18 @@ class _BuildingDetailState extends State<BuildingDetail> {
                       ],
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        // final result = await detail
+                        //     .getBuildingRating(detail.getDetailBuilding.id!);
+                        // if (result == 'seccessfull') {
+                        //   if (mounted) {}
+                        //   Navigator.pushNamed(context, '/rating');
+                        // } else if (result != null) {
+                        //   if (mounted) {}
+                        //   showNotification(context, result);
+                        // }
+                        Navigator.pushNamed(context, '/rating');
+                      },
                       style: TextButton.styleFrom(
                         splashFactory: NoSplash.splashFactory,
                       ),
@@ -367,7 +378,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
               ButtonComponent(
                   onPress: () {
                     token.dataUser?.accessToken == null
-                        ? Navigator.pushNamed(context, '/Login')
+                        ? Navigator.pushNamed(context, '/login')
                         : Navigator.pushNamed(context, '/form-page',
                             arguments: {
                                 'building-image': detail

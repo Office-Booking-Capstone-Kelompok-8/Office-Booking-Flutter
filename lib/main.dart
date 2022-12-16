@@ -11,6 +11,7 @@ import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/screen/booking/booking_detail_page.dart';
 import 'package:office_booking_app/screen/booking/booking_success_page.dart';
 import 'package:office_booking_app/screen/building/building_detail_page.dart';
+import 'package:office_booking_app/screen/building/rating_building.dart';
 import 'package:office_booking_app/screen/payment/payment_detail_page.dart';
 import 'package:office_booking_app/screen/payment/transaction_detail_page.dart';
 import 'package:office_booking_app/screen/profile_tile_page/change_password_page.dart';
@@ -119,6 +120,7 @@ class MyApp extends StatelessWidget {
               '/transaction-detail': (context) => const TransactionDetailPage(),
               '/booking-success': (context) => const BookingSuccessPage(),
               '/verify-otp-email': (context) => const VerifyOtpEmail(),
+              '/rating': (context) => const RatingBuilding(),
             },
             initialRoute: '/',
             theme: ThemeData(

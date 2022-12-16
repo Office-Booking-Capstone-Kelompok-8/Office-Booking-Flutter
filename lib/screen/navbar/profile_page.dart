@@ -118,18 +118,29 @@ class _ProfilePageState extends State<ProfilePage> {
                             ? TileCompnent(
                                 text: 'Verify Account',
                                 onPress: () async {
-                                  final result = await profile.sendOtp(
-                                      email: profile.getUsers!.email!);
-                                  if (result == 'otp sent successfully') {
-                                    if (mounted) {}
-                                    showNotification(context, result!);
-                                    Navigator.pushNamed(
-                                        context, '/verify-otp-email',
-                                        arguments: profile.getUsers!.email!);
-                                  } else if (result != null) {
-                                    if (mounted) {}
-                                    showNotification(context, result);
-                                  }
+                                  showDialogApp(
+                                    context: context,
+                                    title: 'Send OTP Code',
+                                    subtitle:
+                                        'Send OTP Code To email ${profile.getUsers!.email!} ?',
+                                    buttonTextRight: 'Send',
+                                    redLeft: true,
+                                    onPressRight: () async {
+                                      final result = await profile.sendOtp(
+                                          email: profile.getUsers!.email!);
+                                      if (result == 'otp sent successfully') {
+                                        if (mounted) {}
+                                        showNotification(context, result!);
+                                        Navigator.pushNamed(
+                                            context, '/verify-otp-email',
+                                            arguments:
+                                                profile.getUsers!.email!);
+                                      } else if (result != null) {
+                                        if (mounted) {}
+                                        showNotification(context, result);
+                                      }
+                                    },
+                                  );
                                 },
                               )
                             : Container(),
@@ -155,13 +166,23 @@ class _ProfilePageState extends State<ProfilePage> {
                           text: 'Logout',
                           textColor: AppColors.error5,
                           onPress: () async {
-                            final result = await data.logOut();
-                            if (result != null) {
-                              if (mounted) {}
-                              showNotification(context, result);
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, '/login', (route) => false);
-                            }
+                            showDialogApp(
+                              context: context,
+                              title: 'Logout',
+                              subtitle:
+                                  'Are you sure you want to Logout from the application?',
+                              buttonTextLeft: 'Logout',
+                              redLeft: true,
+                              onPressLeft: () async {
+                                final result = await data.logOut();
+                                if (result != null) {
+                                  if (mounted) {}
+                                  showNotification(context, result);
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context, '/navbar', (route) => false);
+                                }
+                              },
+                            );
                           },
                         ),
                       ],

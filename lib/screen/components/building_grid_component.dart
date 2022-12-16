@@ -27,18 +27,41 @@ class BuildingGridComponent extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 110.w,
-              width: 180.w,
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.r),
-                    topRight: Radius.circular(10.r)),
-                child: Image.network(
-                  url,
-                  fit: BoxFit.cover,
+            Stack(
+              alignment: Alignment.topRight,
+              children: [
+                SizedBox(
+                  height: 110.w,
+                  width: 180.w,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.r),
+                        topRight: Radius.circular(10.r)),
+                    child: Image.network(
+                      url,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-              ),
+                Container(
+                  height: 20.w,
+                  width: 30.w,
+                  margin: EdgeInsets.all(8.w),
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 6.w),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary4,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(6.r),
+                    ),
+                  ),
+                  child: Text(
+                    '4.9',
+                    style:
+                        TextStyle(fontSize: 12.sp, color: AppColors.neutral2),
+                  ),
+                ),
+              ],
             ),
             Expanded(
               child: Container(
