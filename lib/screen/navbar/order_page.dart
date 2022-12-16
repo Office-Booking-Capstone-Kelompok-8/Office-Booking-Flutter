@@ -97,7 +97,11 @@ class _OrderPageState extends State<OrderPage> {
                               Navigator.pushNamed(context, '/booking-detail');
                             },
                             child: StatusOrderComponent(
-                              // monthDuration: reservation.getUserReservation[index].duration,
+                              monthDuration: reservation
+                                  .getUserReservation[index].duration!,
+                              price: reservation
+                                  .getUserReservation[index].amount!
+                                  .toString(),
                               companyName: reservation
                                   .getUserReservation[index].companyName!,
                               dateStart: dateParse,

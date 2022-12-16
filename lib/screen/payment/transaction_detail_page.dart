@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
+import 'package:office_booking_app/provider/reservation_provider.dart';
 import 'package:office_booking_app/screen/components/appbar_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
+import 'package:provider/provider.dart';
 
 class TransactionDetailPage extends StatefulWidget {
   const TransactionDetailPage({super.key});
@@ -14,6 +17,7 @@ class TransactionDetailPage extends StatefulWidget {
 class _TransactionDetailPageState extends State<TransactionDetailPage> {
   @override
   Widget build(BuildContext context) {
+    final data = Provider.of<ReservationProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         appBar: const AppbarComponent(
@@ -21,7 +25,7 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
         ),
         body: Container(
           width: double.infinity,
-          height: 429.h,
+          height: 450.h,
           margin: EdgeInsets.symmetric(vertical: 44.h, horizontal: 16.w),
           padding: EdgeInsets.symmetric(vertical: 17.h, horizontal: 16.w),
           decoration: BoxDecoration(
@@ -30,12 +34,13 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
               boxShadow: [
                 BoxShadow(
                   blurStyle: BlurStyle.normal,
-                  blurRadius: 20.r,
+                  blurRadius: 4.r,
                   color: const Color(0x40000000),
                   offset: const Offset(0, 2),
                 )
               ]),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -52,41 +57,55 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
               SizedBox(
                 height: 20.h,
               ),
-              const BookingTile(
-                title: 'No Transaksi',
-                subtitle: '322B07INA55',
+              BookingTile(
+                title: 'Transaction Date',
+                subtitle: DateFormat('dd MMMM yyyy')
+                    .format(DateFormat("yyyy-MM-dd")
+                        .parse(data.getUserDetailReservation!.createdAt!))
+                    .toString(),
               ),
-              const BookingTile(
-                title: 'No Virtual Accout',
-                subtitle: '4444 8864 7821 9327',
+              BookingTile(
+                title: 'No Transaction',
+                subtitle: data.getUserDetailReservation!.id!,
               ),
-              const BookingTile(
-                title: 'Tgl. Transaksi',
-                subtitle: '10-05-2021',
+              BookingTile(
+                title: 'No Virtual Account',
+                subtitle: data.getPaymentBankData!.accountNumber.toString(),
               ),
-              const BookingTile(
-                title: 'Durasi',
-                subtitle: '1 Tahun',
+              BookingTile(
+                title: 'Payment Method',
+                subtitle: 'Transfer Bank ${data.getPaymentBankData!.bankName}',
               ),
-              const BookingTile(
-                title: 'Metode Pembayaran',
-                subtitle: 'Transfer Bank BRI',
+              BookingTile(
+                title: 'Description',
+                subtitle: data.getUserDetailReservation!.building!.name!,
               ),
-              const BookingTile(
-                title: 'Total Bayar',
-                subtitle: 'Rp 11.350.000',
+              BookingTile(
+                title: 'Start date',
+                subtitle: DateFormat('dd MMMM yyyy')
+                    .format(DateFormat("yyyy-MM-dd")
+                        .parse(data.getUserDetailReservation!.startDate!))
+                    .toString(),
               ),
-              const BookingTile(
-                title: 'Keterangan',
-                subtitle: 'Booking Lily Meeting Room',
+              //belom
+              BookingTile(
+                title: 'Duration',
+                subtitle:
+                    '${data.getUserDetailReservation!.duration!.toString()} Month',
               ),
-              const BookingTile(
-                title: 'Chek-in',
-                subtitle: '18 April 2022',
+
+              SizedBox(
+                height: 16.h,
               ),
-              const BookingTile(
-                title: 'Chek-out',
-                subtitle: '18 April 2023',
+              const Divider(),
+              SizedBox(
+                height: 16.h,
+              ),
+              BookingTile(
+                title: 'Total Payment',
+                subtitle:
+                    'IDR ${data.getUserDetailReservation!.amount!.toString()}',
+                isPrice: true,
               ),
             ],
           ),
@@ -97,42 +116,43 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
 }
 
 class BookingTile extends StatelessWidget {
-  const BookingTile({Key? key, required this.title, required this.subtitle})
+  const BookingTile(
+      {Key? key, required this.title, required this.subtitle, this.isPrice})
       : super(key: key);
   final String title;
   final String subtitle;
+  final bool? isPrice;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(bottom: 15.h),
-      child: SizedBox(
-        child: Expanded(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 139.w,
-                child: Text(
-                  title,
-                  style: greyPaymentSmall,
-                ),
-              ),
-              SizedBox(
-                width: 6.w,
-              ),
-              SizedBox(
-                width: 151.w,
-                child: Text(
-                  subtitle,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              )
-            ],
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 139.w,
+            child: Text(
+              title,
+              style: isPrice == true ? blackPaymentMedium : greyPaymentSmall,
+            ),
           ),
-        ),
+          SizedBox(
+            width: 6.w,
+          ),
+          Expanded(
+            child: SizedBox(
+              width: 151.w,
+              child: Text(
+                subtitle,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: isPrice == true ? onboardSkip : null,
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

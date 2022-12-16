@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:office_booking_app/provider/reservation_provider.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
+import 'package:provider/provider.dart';
 import '../components/appbar_component.dart';
 
 class PaymentDetailPage extends StatefulWidget {
@@ -14,6 +17,7 @@ class PaymentDetailPage extends StatefulWidget {
 class _PaymentDetailPageState extends State<PaymentDetailPage> {
   @override
   Widget build(BuildContext context) {
+    final data = Provider.of<ReservationProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         appBar: const AppbarComponent(title: 'Payment Detail'),
@@ -59,26 +63,47 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Rincian transaksi',
+                              'Transaction details',
                               style: blackPaymentLarge,
                             ),
                             TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, '/transaction-detail');
+                                },
                                 child: const Text('View Detail'))
                           ],
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              'No. Transaksi',
+                              'Transaction ID',
                               style: greyPaymentMedium,
                             ),
                             SizedBox(
                               width: 8.w,
                             ),
-                            Text(
-                              '322B07INA55',
-                              style: blackPaymentSmall,
+                            Flexible(
+                              flex: 4,
+                              child: Text(
+                                data.getUserDetailReservation!.id.toString(),
+                                style: blackPaymentSmall,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Flexible(
+                              flex: 4,
+                              child: SizedBox(
+                                height: 28.h,
+                                child: IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.copy,
+                                    size: 16.sm,
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         )
@@ -103,16 +128,17 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 10.w),
                                 child: CircleAvatar(
-                                  backgroundImage: const NetworkImage(
-                                      'https://unsplash.com/photos/OLLtavHHBKg/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8M3x8aWNvbiUyMHBlcnNvbnxlbnwwfDJ8fHwxNjcwMjE3NjIz&force=true&w=640'),
+                                  backgroundColor: Colors.transparent,
                                   radius: 20.r,
+                                  child: SvgPicture.network(
+                                      data.getPaymentBankData!.bankIcon!),
                                 ),
                               ),
                               SizedBox(
                                 width: 8.w,
                               ),
                               Text(
-                                'BRI',
+                                data.getPaymentBankData!.bankName!,
                                 style: TextStyle(fontSize: 16.sp),
                               ),
                             ],
@@ -138,7 +164,8 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '4444 8864 7821 9327',
+                                  data.getPaymentBankData!.accountNumber
+                                      .toString(),
                                   style: blackPaymentMedium,
                                 ),
                                 IconButton(
@@ -188,9 +215,8 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
                           SizedBox(
                             height: 10.h,
                           ),
-                          const Center(
-                            child:
-                                Text('Hanya menerima transfer dari bank BRI'),
+                          Center(
+                            child: Text(data.getPaymentBankData!.description!),
                           )
                         ],
                       ),
@@ -202,7 +228,53 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
             SizedBox(
               height: 16.h,
             ),
-            const Divider(),
+            Container(
+              height: 150.h,
+              padding: EdgeInsets.all(16.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Upload Payment Evidence',
+                    style: blackPaymentLarge,
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  Container(
+                    height: 48.h,
+                    decoration: BoxDecoration(
+                      color: AppColors.neutral4,
+                      borderRadius: BorderRadius.all(Radius.circular(4.r)),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.image),
+                        TextButton(
+                            style: TextButton.styleFrom(
+                                splashFactory: NoSplash.splashFactory),
+                            onPressed: () {},
+                            child: Text('Choose')),
+                        Text('your images here')
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
+                  Center(
+                    child: Text(
+                      'Screenshots SMS/Notification',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 16.h,
+            ),
             Container(
               padding: EdgeInsets.all(16.h),
               child: Column(
