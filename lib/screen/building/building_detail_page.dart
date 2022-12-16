@@ -378,7 +378,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
               ButtonComponent(
                   onPress: () {
                     token.dataUser?.accessToken == null
-                        ? Navigator.pushNamed(context, '/Login')
+                        ? Navigator.pushNamed(context, '/login')
                         : Navigator.pushNamed(context, '/form-page',
                             arguments: {
                                 'building-image': detail

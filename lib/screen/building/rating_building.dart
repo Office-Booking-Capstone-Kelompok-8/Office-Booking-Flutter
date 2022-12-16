@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
+import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/screen/components/appbar_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
+import 'package:provider/provider.dart';
 
+import '../../provider/building_provider.dart';
 import '../components/button_component.dart';
 import '../components/rating_list_component.dart';
 
@@ -11,6 +15,8 @@ class RatingBuilding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    NumberFormat formater = NumberFormat('#,##,000');
+    final detail = Provider.of<BuildingProvider>(context, listen: false);
     return Scaffold(
       appBar: const AppbarComponent(title: 'Reviews'),
       bottomNavigationBar: Container(
@@ -44,7 +50,23 @@ class RatingBuilding extends StatelessWidget {
               width: 12.w,
             ),
             ButtonComponent(
-                onPress: () {},
+                onPress: () {
+                  final user = context.read<UserProvider>().getUsers;
+                  if (user != null) {
+                    Navigator.pushNamed(context, '/form-page', arguments: {
+                      'building-image':
+                          detail.getDetailBuilding.pictures!.first.url!,
+                      'building-id': detail.getDetailBuilding.id,
+                      'building-name': detail.getDetailBuilding.name,
+                      'building-address':
+                          '${detail.getDetailBuilding.location!.district!.name!} - ${detail.getDetailBuilding.location!.city!.name!}',
+                      'building-price': formater
+                          .format(detail.getDetailBuilding.price!.monthly)
+                    });
+                  } else {
+                    Navigator.pushNamed(context, '/login');
+                  }
+                },
                 textButton: 'Book Now',
                 buttonHeight: 37.h,
                 buttonWidth: 274.w),
