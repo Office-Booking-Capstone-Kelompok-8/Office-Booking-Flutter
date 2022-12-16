@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:office_booking_app/model/auth/signin_model.dart';
+import 'package:office_booking_app/model/reservation/payment_all_bank_model.dart';
+import 'package:office_booking_app/model/reservation/payment_bank_model.dart';
+import 'package:office_booking_app/model/reservation/payment_building_model.dart';
 import 'package:office_booking_app/model/reservation/rating_model.dart';
 import 'package:office_booking_app/model/reservation/reservation_detail_model.dart';
 import 'package:office_booking_app/model/reservation/reservation_model.dart';
@@ -117,6 +122,56 @@ class ReservationApi {
     try {
       final response = await _dio
           .delete('${Api.baseUrl}${Api.reservation}/$id/${Api.review}');
+      return response.data['message'];
+    } on DioError catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<List<PaymentAllBankModel>> getPaymentAllBank() async {
+    try {
+      final response =
+          await _dio.get('${Api.baseUrl}${Api.payment}/${Api.method}');
+      final listBank = (response.data['data'] as List)
+          .map((e) => PaymentAllBankModel.fromJson(e))
+          .toList();
+      return listBank;
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<PaymentBankModel> getPaymentBank(int bankId) async {
+    try {
+      final response =
+          await _dio.get('${Api.baseUrl}${Api.payment}/${Api.method}/$bankId');
+      return PaymentBankModel.fromJson(response.data['data']);
+    } on DioError catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<PaymentBuildingModel> getPaymentBuilding(String reservationId) async {
+    try {
+      final response =
+          await _dio.get('${Api.baseUrl}${Api.payment}/$reservationId');
+      return PaymentBuildingModel.fromJson(response.data['data']);
+    } on DioError catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<String> postProofPayment(
+      String reservationId, File file, String methodId) async {
+    FormData formData = FormData.fromMap({
+      "proof": await MultipartFile.fromFile(
+        file.path,
+      ),
+      "methodId": methodId,
+    });
+    try {
+      final response = await _dio
+          .post('${Api.baseUrl}${Api.payment}/$reservationId', data: formData);
       return response.data['message'];
     } on DioError catch (_) {
       rethrow;

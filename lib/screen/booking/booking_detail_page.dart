@@ -1,9 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:office_booking_app/provider/filter_provider.dart';
 import 'package:office_booking_app/provider/reservation_provider.dart';
 import 'package:office_booking_app/screen/components/appbar_component.dart';
 import 'package:office_booking_app/screen/components/button_component.dart';
+import 'package:office_booking_app/screen/components/snackbar_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
 import 'package:provider/provider.dart';
@@ -15,9 +20,16 @@ class BookingDetail extends StatefulWidget {
   State<BookingDetail> createState() => _BookingDetailState();
 }
 
-// int statusId = 1;
-
 class _BookingDetailState extends State<BookingDetail> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<ReservationProvider>(context, listen: false)
+          .getPaymentAllBank();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final detail = Provider.of<ReservationProvider>(context, listen: false);
@@ -92,7 +104,7 @@ class _BookingDetailState extends State<BookingDetail> {
                               children: [
                                 const Text('Price/month\t'),
                                 Text(
-                                  'IDR 1.000.000',
+                                  'IDR ${detail.getUserDetailReservation!.amount! ~/ detail.getUserDetailReservation!.duration!}',
                                   style: onboardSkip,
                                 ),
                               ],
@@ -227,17 +239,19 @@ class _BookingDetailState extends State<BookingDetail> {
               SizedBox(
                 height: 8.h,
               ),
-              //  BookingDetailTile(
-              //     leading: 'Tenant name', trailing: detail.getUserDetailReservation!.companyName!),
-              // SizedBox(
-              //   height: 8.h,
-              // ),
               BookingDetailTile(
                   leading: 'Booking date ', trailing: bookingDate),
               SizedBox(
                 height: 8.h,
               ),
               BookingDetailTile(leading: 'Start date ', trailing: startDate),
+              SizedBox(
+                height: 8.h,
+              ),
+              BookingDetailTile(
+                  leading: 'Duration',
+                  trailing:
+                      '${detail.getUserDetailReservation!.duration!} Month'),
               SizedBox(
                 height: 16.h,
               ),
@@ -249,16 +263,10 @@ class _BookingDetailState extends State<BookingDetail> {
               SizedBox(
                 height: 16.h,
               ),
-              BookingDetailTile(leading: 'Duration', trailing: '3 Month'),
-              SizedBox(
-                height: 8.h,
-              ),
               BookingDetailTile(
-                  leading: 'Price/month', trailing: 'IDR 1.000.000'),
-              SizedBox(
-                height: 16.h,
-              ),
-              const Divider(),
+                  leading: 'Price',
+                  trailing:
+                      'IDR ${detail.getUserDetailReservation!.amount! ~/ detail.getUserDetailReservation!.duration!}/month'),
               SizedBox(
                 height: 16.h,
               ),
@@ -270,80 +278,162 @@ class _BookingDetailState extends State<BookingDetail> {
                     style: blackBooking,
                   ),
                   Text(
-                    'IDR 3.000.000',
+                    'IDR ${detail.getUserDetailReservation!.amount!}',
                     style: onboardSkip,
-                  )
+                  ),
                 ],
-              )
+              ),
+              statusId == 4 ? SizedBox(height: 16.h) : const SizedBox(),
+              statusId == 4 ? const Divider() : const SizedBox(),
+              statusId == 4 ? SizedBox(height: 16.h) : const SizedBox(),
+              statusId == 4
+                  ? Text('Payment Method', style: blackBooking)
+                  : const SizedBox(),
+              statusId == 4 ? SizedBox(height: 16.h) : const SizedBox(),
+              statusId == 4
+                  ? Consumer2<FilterProvider, ReservationProvider>(
+                      builder: (context, provider, reservation, child) =>
+                          SizedBox(
+                        height: 41.h,
+                        width: double.infinity,
+                        child: DropDownTextField(
+                          textFieldDecoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.only(top: 12.h, left: 16.w),
+                            hintText: 'Select Payment Method',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: const BorderSide(
+                                width: 1,
+                                color: AppColors.borderButton,
+                              ),
+                            ),
+                          ),
+                          listSpace: 20,
+                          listPadding: ListPadding(top: 20),
+                          validator: (value) {
+                            if (value == null) {
+                              return "Required field";
+                            } else {
+                              return null;
+                            }
+                          },
+                          dropDownList: List.generate(
+                              growable: true,
+                              reservation.getAllBank.length,
+                              (index) => DropDownValueModel(
+                                  toolTipMsg: 'asd',
+                                  name: reservation.getAllBank[index].bankName!,
+                                  value: reservation.getAllBank[index].id)),
+                          dropDownItemCount: reservation.getAllBank.length,
+                          onChanged: (val) {
+                            if (val != null &&
+                                val.runtimeType == DropDownValueModel) {
+                              provider.changeDuration(val.value);
+                            }
+                          },
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        height: 37.h,
-        margin: EdgeInsets.symmetric(vertical: 20.h, horizontal: 16.w),
-        //status pending
-        child: statusId == 1
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ButtonComponent(
-                      onPress: () {},
-                      isRed: true,
-                      isWhite: false,
-                      textButton: 'cancel',
-                      buttonHeight: 37.h,
-                      buttonWidth: 156.w),
-                  ButtonComponent(
-                      onPress: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, '/navbar', (route) => false);
-                      },
-                      textButton: 'Back to home',
-                      buttonHeight: 37.h,
-                      buttonWidth: 156.w),
-                ],
-              )
-            //status rejected & canceled
-            : statusId == 2 || statusId == 3
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ButtonComponent(
-                          onPress: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, '/navbar', (route) => false);
-                          },
-                          isRed: false,
-                          isWhite: true,
-                          textButton: 'Back to Home',
-                          buttonHeight: 37.h,
-                          buttonWidth: 156.w),
-                      ButtonComponent(
-                          onPress: () {
-                            Navigator.pushNamed(context, '/search');
-                          },
-                          textButton: 'Order Again',
-                          buttonHeight: 37.h,
-                          buttonWidth: 156.w),
-                    ],
-                  )
-
-                //status awaiting payment
-                : statusId == 4
-                    ? ButtonComponent(
-                        onPress: () {
-                          Navigator.pushNamed(context, '/payment-detail');
-                        },
-                        textButton: 'Complete Payment',
-                        buttonHeight: 37.h,
-                        buttonWidth: double.infinity)
-                    : //status active & complete
+      bottomNavigationBar: Consumer2<ReservationProvider, FilterProvider>(
+        builder: (context, value, filter, _) => Container(
+          height: 37.h,
+          margin: EdgeInsets.symmetric(vertical: 20.h, horizontal: 16.w),
+          //status pending
+          child: statusId == 1
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
                     ButtonComponent(
-                        onPress: () {},
-                        textButton: 'Give Review',
+                        onPress: () async {
+                          try {
+                            final result = await value.cancelReservation(
+                                value.getUserDetailReservation!.id!);
+                            if (result == 'Reservation canceled successfully') {
+                              showNotification(context, result!);
+                            } else if (result != null) {
+                              showNotification(context, result);
+                            }
+                            Navigator.pop(context);
+                          } catch (e) {
+                            showNotification(context, e.toString());
+                          }
+                        },
+                        isRed: true,
+                        isWhite: false,
+                        textButton: 'cancel',
                         buttonHeight: 37.h,
-                        buttonWidth: double.infinity),
+                        buttonWidth: 156.w),
+                    ButtonComponent(
+                        onPress: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/navbar', (route) => false);
+                        },
+                        textButton: 'Back to home',
+                        buttonHeight: 37.h,
+                        buttonWidth: 156.w),
+                  ],
+                )
+              //status rejected & canceled
+              : statusId == 2 || statusId == 3
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ButtonComponent(
+                            onPress: () {
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, '/navbar', (route) => false);
+                            },
+                            isRed: false,
+                            isWhite: true,
+                            textButton: 'Back to Home',
+                            buttonHeight: 37.h,
+                            buttonWidth: 156.w),
+                        ButtonComponent(
+                            onPress: () {
+                              Navigator.pushNamed(context, '/search');
+                            },
+                            textButton: 'Order Again',
+                            buttonHeight: 37.h,
+                            buttonWidth: 156.w),
+                      ],
+                    )
+
+                  //status awaiting payment
+                  : statusId == 4
+                      ? ButtonComponent(
+                          onPress: () async {
+                            try {
+                              final result =
+                                  await value.getPaymentBank(filter.duration!);
+
+                              if (value.getPaymentBankData?.id != null) {
+                                Navigator.pushNamed(context, '/payment-detail');
+                              } else if (result != null) {
+                                showNotification(context, result);
+                              } else {
+                                showNotification(
+                                    context, 'Choose Payment Method');
+                              }
+                            } catch (e) {
+                              showNotification(context, e.toString());
+                            }
+                          },
+                          textButton: 'Complete Payment',
+                          buttonHeight: 37.h,
+                          buttonWidth: double.infinity)
+                      : //status active & complete
+                      ButtonComponent(
+                          onPress: () {},
+                          textButton: 'Give Review',
+                          buttonHeight: 37.h,
+                          buttonWidth: double.infinity),
+        ),
       ),
     ));
   }

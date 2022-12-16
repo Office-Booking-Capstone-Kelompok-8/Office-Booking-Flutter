@@ -4,7 +4,11 @@ class ReservationDetailModel {
   String? companyName;
   String? startDate;
   String? endDate;
+  int? duration;
   Status? status;
+  int? amount;
+  String? message;
+  String? expiredAt;
   String? createdAt;
   String? updatedAt;
 
@@ -14,7 +18,11 @@ class ReservationDetailModel {
       this.companyName,
       this.startDate,
       this.endDate,
+      this.duration,
       this.status,
+      this.amount,
+      this.message,
+      this.expiredAt,
       this.createdAt,
       this.updatedAt});
 
@@ -25,7 +33,11 @@ class ReservationDetailModel {
     companyName = json['companyName'];
     startDate = json['startDate'];
     endDate = json['endDate'];
+    duration = json['duration'];
     status = json['status'] != null ? Status.fromJson(json['status']) : null;
+    amount = json['amount'];
+    message = json['message'];
+    expiredAt = json['expiredAt'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }
@@ -39,9 +51,13 @@ class ReservationDetailModel {
     data['companyName'] = companyName;
     data['startDate'] = startDate;
     data['endDate'] = endDate;
+    data['duration'] = duration;
     if (status != null) {
       data['status'] = status!.toJson();
     }
+    data['amount'] = amount;
+    data['message'] = message;
+    data['expiredAt'] = expiredAt;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     return data;
@@ -87,19 +103,19 @@ class Building {
 
 class Status {
   int? id;
-  String? message;
+  String? status;
 
-  Status({this.id, this.message});
+  Status({this.id, this.status});
 
   Status.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    message = json['message'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['message'] = message;
+    data['status'] = status;
     return data;
   }
 }

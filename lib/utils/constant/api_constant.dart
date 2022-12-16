@@ -18,4 +18,5 @@ class Api {
   static const String review = 'reviews';
   static const String requestOtpEmail = 'auth/otp/request/email';
   static const String verifyOtpEmail = 'auth/otp/verify/email';
+  static const String method = 'methods';
 }

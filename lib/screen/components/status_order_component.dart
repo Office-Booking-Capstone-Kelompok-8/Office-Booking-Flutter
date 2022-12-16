@@ -5,23 +5,22 @@ import 'package:office_booking_app/utils/constant/app_text_style.dart';
 import '../../utils/constant/app_colors.dart';
 
 class StatusOrderComponent extends StatelessWidget {
-  const StatusOrderComponent({
-    super.key,
-    required this.statusId,
-    required this.roomName,
-    required this.dateStart,
-    // required this.price,
-    required this.imgUrl,
-    required this.companyName,
-    // required this.monthDuration
-  });
+  const StatusOrderComponent(
+      {super.key,
+      required this.statusId,
+      required this.roomName,
+      required this.dateStart,
+      required this.price,
+      required this.imgUrl,
+      required this.companyName,
+      required this.monthDuration});
   final int statusId;
   final String roomName;
   final String dateStart;
-  // final String price;
+  final String price;
   final String companyName;
   final String imgUrl;
-  // final int monthDuration;
+  final int monthDuration;
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +200,7 @@ class StatusOrderComponent extends StatelessWidget {
                     children: [
                       Text(companyName, style: personReservation),
                       Text(
-                        // 'Start $dateStart\t\U+0387\ ${monthDuration.toString()} Month',
+                        // 'Start $dateStart\t \u0387\ ${monthDuration.toString()} Month',
                         'Start $dateStart\t · 1 Month',
                         style: dateReservation,
                       ),
@@ -212,7 +211,7 @@ class StatusOrderComponent extends StatelessWidget {
                             style: personReservation,
                           ),
                           Text(
-                            'IDR 1.000.000',
+                            'IDR $price',
                             style: onboardSkip,
                           ),
                         ],

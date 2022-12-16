@@ -4,7 +4,10 @@ class ReservationModel {
   String? companyName;
   String? startDate;
   String? endDate;
+  int? duration;
+  int? amount;
   Status? status;
+  String? expiredAt;
   String? createdAt;
 
   ReservationModel(
@@ -13,7 +16,10 @@ class ReservationModel {
       this.companyName,
       this.startDate,
       this.endDate,
+      this.duration,
+      this.amount,
       this.status,
+      this.expiredAt,
       this.createdAt});
 
   ReservationModel.fromJson(Map<String, dynamic> json) {
@@ -23,7 +29,10 @@ class ReservationModel {
     companyName = json['companyName'];
     startDate = json['startDate'];
     endDate = json['endDate'];
+    duration = json['duration'];
+    amount = json['amount'];
     status = json['status'] != null ? Status.fromJson(json['status']) : null;
+    expiredAt = json['expiredAt'];
     createdAt = json['createdAt'];
   }
 
@@ -36,9 +45,12 @@ class ReservationModel {
     data['companyName'] = companyName;
     data['startDate'] = startDate;
     data['endDate'] = endDate;
+    data['duration'] = duration;
+    data['amount'] = amount;
     if (status != null) {
       data['status'] = status!.toJson();
     }
+    data['expiredAt'] = expiredAt;
     data['createdAt'] = createdAt;
     return data;
   }
