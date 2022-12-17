@@ -34,6 +34,11 @@ class _LoginPageState extends State<LoginPage> {
     return Consumer<SignInProvider>(builder: (context, provider, _) {
       showState(provider);
       return Scaffold(
+        appBar: AppBar(
+          iconTheme: const IconThemeData(color: AppColors.black),
+          elevation: 0,
+          backgroundColor: AppColors.white,
+        ),
         body: Center(
             child: SingleChildScrollView(
                 child: Form(
