@@ -61,11 +61,11 @@ class BuildingProvider extends ChangeNotifier {
   Future<String?> getBuildingRating(String id) async {
     try {
       myState = MyState.loading;
-      final response = await service.getRating(id);
+      final response = await service.getReview(id);
       _buildingsRating = response;
       myState = MyState.loaded;
       notifyListeners();
-      return 'successfull';
+      return 'building reviews fetched successfully';
     } catch (e) {
       if (e is DioError) {
         myState = MyState.loaded;

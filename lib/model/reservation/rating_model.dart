@@ -17,8 +17,10 @@ class RatingModel {
   RatingModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     rating = json['rating'];
-    comment = json['comment'];
+    comment = json['message'];
     createdAt = json['createdAt'];
+    name = json['user']['name'];
+    picture = json['user']['picture'];
   }
 
   Map<String, dynamic> toJson() {

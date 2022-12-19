@@ -31,10 +31,11 @@ class BuildingApi {
     }
   }
 
-  Future<List<RatingModel>> getRating(String id) async {
+  Future<List<RatingModel>> getReview(String id) async {
     try {
-      final response =
-          await _dio.get('${Api.baseUrl}${Api.reservation}/$id/${Api.review}');
+      final response = await _dio.get(
+        '${Api.baseUrl}${Api.building}/$id/${Api.review}',
+      );
       List<RatingModel> ratingList = (response.data['data'] as List)
           .map((e) => RatingModel.fromJson(e))
           .toList();
