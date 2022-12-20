@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +8,7 @@ import 'package:office_booking_app/screen/components/appbar_home.dart';
 import 'package:office_booking_app/screen/components/building_grid_component.dart';
 import 'package:office_booking_app/screen/components/popular_building_component.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
+import 'package:office_booking_app/utils/constant/helper.dart';
 import 'package:provider/provider.dart';
 
 class Homepage extends StatefulWidget {
@@ -21,12 +24,13 @@ class _HomepageState extends State<Homepage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<BuildingProvider>(context, listen: false).getAllBuilding();
+      Provider.of<BuildingProvider>(context, listen: false)
+          .getAllBuildingRating();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    NumberFormat formater = NumberFormat('#,##,000');
     return Scaffold(
       appBar: const AppbarHome(),
       body: SafeArea(
@@ -49,15 +53,25 @@ class _HomepageState extends State<Homepage> {
               SizedBox(
                 height: 16.h,
               ),
-              SizedBox(
-                height: 103.h,
-                width: 300.w,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 3,
-                    itemBuilder: (context, index) =>
-                        const PopularBuildingComponent()),
+              Consumer<BuildingProvider>(
+                builder: (context, bRating, _) => SizedBox(
+                  height: 103.h,
+                  width: 300.w,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: bRating.getBuildingByRating.length > 3
+                          ? 3
+                          : bRating.getBuildingByRating.length,
+                      itemBuilder: (context, index) => PopularBuildingComponent(
+                            buildingName:
+                                bRating.getBuildingByRating[index].name!,
+                            city: bRating
+                                .getBuildingByRating[index].location!.city!,
+                            imgUrl:
+                                bRating.getBuildingByRating[index].pictures!,
+                          )),
+                ),
               ),
               SizedBox(
                 height: 24.h,
@@ -82,11 +96,10 @@ class _HomepageState extends State<Homepage> {
                   itemBuilder: (context, index) => InkWell(
                     onTap: () async {
                       await building.getDetail(building.getBuilding[index].id!);
+
                       Navigator.pushNamed(
-                        context, '/building-detail',
-                        // arguments: {
-                        //   'id': building.getBuilding[index].id,
-                        // }
+                        context,
+                        '/building-detail',
                       );
                     },
                     child: BuildingGridComponent(
@@ -94,9 +107,10 @@ class _HomepageState extends State<Homepage> {
                       buildingName: building.getBuilding[index].name!,
                       buildingLoc:
                           '${building.getBuilding[index].location!.district!}, ${building.getBuilding[index].location!.city!}',
-                      buildingPrice: formater
-                          .format(building.getBuilding[index].price!.monthly!)
-                          .toString(),
+                      buildingPrice: Helper.convertToIdr(
+                          building.getBuilding[index].price!.monthly!,
+                          0,
+                          false),
                     ),
                   ),
                 ),

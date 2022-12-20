@@ -16,30 +16,16 @@ class Navbar extends StatefulWidget {
 }
 
 class _NavbarState extends State<Navbar> {
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-  //     final data = Provider.of<SignInProvider>(context, listen: false);
-  //     if (data.dataUser?.accessToken != null) {
-  //       Provider.of<UserProvider>(context, listen: false).getUsersDetail();
-  //     }
-  //   });
-  // }
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero).then((value) async {
       await Provider.of<UserProvider>(context, listen: false).getUsersDetail();
     });
-  }
-
-  @override
-  void didChangeDependencies() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<ReservationProvider>(context, listen: false).getReservation();
+    Future.delayed(Duration.zero).then((value) async {
+      await Provider.of<ReservationProvider>(context, listen: false)
+          .getReservation();
     });
-    super.didChangeDependencies();
   }
 
   @override

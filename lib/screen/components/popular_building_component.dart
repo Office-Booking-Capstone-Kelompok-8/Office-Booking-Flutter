@@ -3,7 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 
 class PopularBuildingComponent extends StatelessWidget {
-  const PopularBuildingComponent({super.key});
+  const PopularBuildingComponent(
+      {super.key,
+      required this.imgUrl,
+      required this.buildingName,
+      required this.city});
+  final String imgUrl;
+  final String buildingName;
+  final String city;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +27,7 @@ class PopularBuildingComponent extends StatelessWidget {
             child: FittedBox(
               fit: BoxFit.fill,
               child: Image.network(
-                'https://www.barajacoding.or.id/wp-content/uploads/2022/05/unnamed.jpg',
+                imgUrl,
                 height: 87.h,
                 width: 80.w,
               ),
@@ -33,7 +40,7 @@ class PopularBuildingComponent extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Lily Meeting Me seRoom',
+                buildingName,
                 style: TextStyle(fontSize: 14.sp, color: AppColors.neutral9),
               ),
               SizedBox(
@@ -41,7 +48,7 @@ class PopularBuildingComponent extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Text('South Jakarta',
+                  Text(city,
                       style: TextStyle(
                           fontSize: 12.sp, color: AppColors.neutral8)),
                   SizedBox(

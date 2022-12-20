@@ -60,7 +60,7 @@ class ButtonComponent extends StatelessWidget {
                     : isRed == true
                         ? AppColors.error4
                         : AppColors.neutral2,
-                fontSize: 16.sp,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w700,
               ),
             ),

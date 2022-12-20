@@ -6,6 +6,8 @@ import 'package:office_booking_app/provider/building_provider.dart';
 import 'package:office_booking_app/provider/login_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/screen/components/button_component.dart';
+import 'package:office_booking_app/screen/components/show_state.dart';
+import 'package:office_booking_app/screen/components/snackbar_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
 import 'package:provider/provider.dart';
@@ -209,14 +211,17 @@ class _BuildingDetailState extends State<BuildingDetail> {
                           padding: EdgeInsets.symmetric(
                               vertical: 2.h, horizontal: 3.w),
                           child: Text(
-                            '4.9',
+                            detail.getDetailBuilding.review!.rating!
+                                .toDouble()
+                                .toString(),
                             style: ratingStyle,
                           ),
                         ),
                         SizedBox(
                           width: 8.w,
                         ),
-                        const Text('(15 Review)'),
+                        Text(
+                            '(${detail.getDetailBuilding.review!.count!.toString()} Review)'),
                       ],
                     ),
                     TextButton(
@@ -259,6 +264,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
                 Text(
                   '${detail.getDetailBuilding.location!.address!}, ${detail.getDetailBuilding.location!.district!.name!}, ${detail.getDetailBuilding.location!.city!.name!}',
                   maxLines: 5,
+                  overflow: TextOverflow.ellipsis,
                   style: detailBuilidingStyle,
                 ),
                 SizedBox(
@@ -379,17 +385,41 @@ class _BuildingDetailState extends State<BuildingDetail> {
                   onPress: () {
                     token.dataUser?.accessToken == null
                         ? Navigator.pushNamed(context, '/login')
-                        : Navigator.pushNamed(context, '/form-page',
-                            arguments: {
-                                'building-image': detail
-                                    .getDetailBuilding.pictures!.first.url!,
-                                'building-id': detail.getDetailBuilding.id,
-                                'building-name': detail.getDetailBuilding.name,
-                                'building-address':
-                                    '${detail.getDetailBuilding.location!.district!.name!} - ${detail.getDetailBuilding.location!.city!.name!}',
-                                'building-price': formater.format(
-                                    detail.getDetailBuilding.price!.monthly)
-                              });
+                        : profile.getUsers?.verified == false
+                            ? showDialogApp(
+                                context: context,
+                                title: 'Send OTP Code',
+                                subtitle:
+                                    'Account not yet verified, verify now? ',
+                                buttonTextRight: 'Verify',
+                                redLeft: true,
+                                onPressRight: () async {
+                                  final result = await profile.sendOtp(
+                                      email: profile.getUsers!.email!);
+                                  if (result == 'otp sent successfully') {
+                                    if (mounted) {}
+                                    showNotification(context, result!);
+                                    Navigator.pushNamed(
+                                        context, '/verify-otp-email',
+                                        arguments: profile.getUsers!.email!);
+                                  } else if (result != null) {
+                                    if (mounted) {}
+                                    showNotification(context, result);
+                                  }
+                                },
+                              )
+                            : Navigator.pushNamed(context, '/form-page',
+                                arguments: {
+                                    'building-image': detail
+                                        .getDetailBuilding.pictures!.first.url!,
+                                    'building-id': detail.getDetailBuilding.id,
+                                    'building-name':
+                                        detail.getDetailBuilding.name,
+                                    'building-address':
+                                        '${detail.getDetailBuilding.location!.district!.name!} - ${detail.getDetailBuilding.location!.city!.name!}',
+                                    'building-price': formater.format(
+                                        detail.getDetailBuilding.price!.monthly)
+                                  });
                   },
                   textButton: 'Book Now',
                   buttonHeight: 37.h,

@@ -10,24 +10,21 @@ class AppbarHome extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 5.w),
-        child: Text(
-          'Find best office around you',
-          style: buildingName,
-        ),
+      title: Text(
+        'Find best office around you',
+        style: buildingName,
       ),
       backgroundColor: AppColors.white,
       elevation: 1,
       centerTitle: false,
-      leading: null,
       bottom: PreferredSize(
         preferredSize: preferredSize,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: Column(
-            children: [
-              FormComponent(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: FormComponent(
                 isPassword: false,
                 isSearch: true,
                 formHeight: 41.h,
@@ -36,11 +33,11 @@ class AppbarHome extends StatelessWidget with PreferredSizeWidget {
                   Navigator.pushNamed(context, '/search');
                 },
               ),
-              SizedBox(
-                height: 8.h,
-              )
-            ],
-          ),
+            ),
+            SizedBox(
+              height: 8.h,
+            )
+          ],
         ),
       ),
     );
