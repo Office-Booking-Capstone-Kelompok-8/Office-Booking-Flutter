@@ -4,20 +4,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../utils/constant/app_colors.dart';
 
 class BuildingGridComponent extends StatelessWidget {
-  const BuildingGridComponent(
-      {Key? key,
-      required this.url,
-      required this.buildingName,
-      required this.buildingLoc,
-      required this.buildingPrice,
-      this.onPress})
-      : super(key: key);
+  const BuildingGridComponent({
+    Key? key,
+    required this.url,
+    required this.buildingName,
+    required this.buildingLoc,
+    required this.buildingPrice,
+    this.onPress,
+    this.rating,
+  }) : super(key: key);
 
   final String url;
   final String buildingName;
   final String buildingLoc;
   final String buildingPrice;
   final Function()? onPress;
+  final double? rating;
 
   @override
   Widget build(BuildContext context) {
@@ -43,24 +45,26 @@ class BuildingGridComponent extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  height: 20.w,
-                  width: 35.w,
-                  margin: EdgeInsets.all(8.w),
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 6.w),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary4,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(6.r),
+                if (rating != null || rating == 0)
+                  Container(
+                    height: 20.w,
+                    width: 30.w,
+                    margin: EdgeInsets.all(8.w),
+                    alignment: Alignment.center,
+                    padding:
+                        EdgeInsets.symmetric(vertical: 2.h, horizontal: 6.w),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary4,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(6.r),
+                      ),
+                    ),
+                    child: Text(
+                      '$rating',
+                      style:
+                          TextStyle(fontSize: 12.sp, color: AppColors.neutral2),
                     ),
                   ),
-                  child: Text(
-                    '4.9',
-                    style:
-                        TextStyle(fontSize: 12.sp, color: AppColors.neutral2),
-                  ),
-                ),
               ],
             ),
             Expanded(

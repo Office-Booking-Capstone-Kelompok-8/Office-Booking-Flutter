@@ -74,8 +74,18 @@ class _NavbarState extends State<Navbar> {
             currentIndex: value.currentTab,
             iconSize: 24.sm,
             selectedItemColor: AppColors.primary4,
-            onTap: (index) {
-              value.currentTab = index;
+            onTap: (index) async {
+              if (index == 1 || index == 2) {
+                final data = Provider.of<UserProvider>(context, listen: false);
+                if (data.getUsers == null) {
+                  if (mounted) {}
+                  Navigator.pushNamed(context, '/login');
+                } else {
+                  value.currentTab = index;
+                }
+              } else {
+                value.currentTab = index;
+              }
             },
           ),
         ),

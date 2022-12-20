@@ -6,6 +6,7 @@ import 'package:office_booking_app/screen/components/snackbar_component.dart';
 import 'package:office_booking_app/screen/login/login_page.dart';
 import 'package:provider/provider.dart';
 
+import '../../provider/navbar_provider.dart';
 import '../../screen/components/tile_component.dart';
 import '../../utils/constant/app_colors.dart';
 import '../components/show_state.dart';
@@ -25,17 +26,6 @@ class _ProfilePageState extends State<ProfilePage> {
       await Provider.of<UserProvider>(context, listen: false).getUsersDetail();
     });
   }
-
-  // @override
-  // void didChangeDependencies() {
-  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-  //     final data = Provider.of<SignInProvider>(context, listen: false);
-  //     if (data.dataUser?.accessToken != null) {
-  //       Provider.of<UserProvider>(context, listen: false).getUsersDetail();
-  //     }
-  //   });
-  //   super.didChangeDependencies();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -174,9 +164,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               buttonTextLeft: 'Logout',
                               redLeft: true,
                               onPressLeft: () async {
+                                final navbar = Provider.of<NavbarProvider>(
+                                    context,
+                                    listen: false);
                                 final result = await data.logOut();
                                 if (result != null) {
                                   if (mounted) {}
+                                  navbar.currentTab = 0;
                                   showNotification(context, result);
                                   Navigator.pushNamedAndRemoveUntil(
                                       context, '/navbar', (route) => false);
