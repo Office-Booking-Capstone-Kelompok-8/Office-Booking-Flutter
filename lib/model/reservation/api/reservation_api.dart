@@ -14,33 +14,35 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ReservationApi {
   final Dio _dio = Dio();
   ReservationApi() {
-    _dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) async {
-        final helper = await SharedPreferences.getInstance();
-        final accessToken = helper.getString('accessToken');
-        options.headers['Authorization'] = 'Bearer $accessToken';
-        return handler.next(options);
-      },
-      onResponse: (response, handler) {
-        return handler.next(response);
-      },
-      onError: (error, handler) async {
-        final helper = await SharedPreferences.getInstance();
-        if (error.response?.statusCode == 401) {
-          final refreshToken = helper.getString('refreshToken');
-          if (refreshToken != null) {
-            await refreshTokenApi();
-            final data = await retry(error.requestOptions);
-            if (data != null) {
-              return handler.resolve(data);
-            } else {
-              return handler.next(error);
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          final helper = await SharedPreferences.getInstance();
+          final accessToken = helper.getString('accessToken');
+          options.headers['Authorization'] = 'Bearer $accessToken';
+          return handler.next(options);
+        },
+        onResponse: (response, handler) {
+          return handler.next(response);
+        },
+        onError: (error, handler) async {
+          final helper = await SharedPreferences.getInstance();
+          if (error.response?.statusCode == 401) {
+            final refreshToken = helper.getString('refreshToken');
+            if (refreshToken != null) {
+              await refreshTokenApi();
+              final data = await retry(error.requestOptions);
+              if (data != null) {
+                return handler.resolve(data);
+              } else {
+                return handler.next(error);
+              }
             }
           }
-        }
-        return handler.next(error);
-      },
-    ));
+          return handler.next(error);
+        },
+      ),
+    );
   }
   Future<List<ReservationModel>> getReservation() async {
     try {
@@ -182,19 +184,15 @@ class ReservationApi {
     final helper = await SharedPreferences.getInstance();
 
     final refreshToken = helper.getString('refreshToken');
-    // ignore: avoid_print
-    print(refreshToken);
     if (refreshToken != null) {
       try {
-        final response = await _dio.post(
-            'https://dev.fortyfourvisual.com/v1/auth/refresh',
+        final response = await _dio.post(Api.baseUrl + Api.refreshToken,
             data: {'refreshToken': refreshToken});
         var user = SignInModel.fromJson(response.data['data']);
         // successfully got the new access token
         await helper.setString('accessToken', user.accessToken!);
         await helper.setString('refreshToken', user.refreshToken!);
       } on DioError catch (e) {
-        // ignore: avoid_print
         await helper.remove('accessToken');
         await helper.remove('refreshToken');
         // ignore: avoid_print
