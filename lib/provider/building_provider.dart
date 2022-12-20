@@ -10,20 +10,40 @@ import '../model/reservation/rating_model.dart';
 class BuildingProvider extends ChangeNotifier {
   final BuildingApi service = BuildingApi();
   List<BuildingModel> _buildings = [];
+  List<BuildingModel> _buildingsByRating = [];
   List<RatingModel> _buildingsRating = [];
   List<BuildingModel> get getBuilding => _buildings;
+  List<BuildingModel> get getBuildingByRating => _buildingsByRating;
   List<RatingModel> get buildingsRating => _buildingsRating;
   BuildingDetailModel _detailBuilding = BuildingDetailModel();
   BuildingDetailModel get getDetailBuilding => _detailBuilding;
   MyState myState = MyState.loaded;
 
-  getAllBuilding(String? city, String? district, String? dateStart,
-      String? dateEnd) async {
+  getAllBuilding() async {
     try {
       myState = MyState.loading;
-      final response =
-          await service.getAllBuildings(city, district, dateStart, dateEnd);
+      final response = await service.getAllBuildings();
       _buildings = response;
+      myState = MyState.loaded;
+      notifyListeners();
+    } catch (e) {
+      if (e is DioError) {
+        /// If want to check status code from service error
+        e.response!.statusCode;
+      }
+
+      myState = MyState.failed;
+      notifyListeners();
+      return null;
+    }
+  }
+
+  getAllBuildingRating() async {
+    try {
+      myState = MyState.loading;
+      final response = await service.getAllBuildings();
+      response.sort((a, b) => a.rating!.compareTo(b.rating!));
+      _buildingsByRating = response;
       myState = MyState.loaded;
       notifyListeners();
     } catch (e) {

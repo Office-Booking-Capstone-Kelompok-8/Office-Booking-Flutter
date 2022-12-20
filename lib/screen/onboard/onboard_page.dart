@@ -93,7 +93,7 @@ class _OnboardPageState extends State<OnboardPage> {
                                           },
                                           child: Text(
                                             'Skip for now',
-                                            style: onboardSkip,
+                                            style: onboardSkipGrey,
                                           )),
                                 )
                               ],

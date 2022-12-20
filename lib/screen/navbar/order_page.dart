@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:office_booking_app/provider/login_provider.dart';
 import 'package:office_booking_app/provider/reservation_provider.dart';
 import 'package:office_booking_app/screen/components/button_component.dart';
+import 'package:office_booking_app/screen/components/show_state.dart';
 import 'package:office_booking_app/screen/components/status_order_component.dart';
 import 'package:office_booking_app/screen/login/login_page.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
@@ -18,22 +19,30 @@ class OrderPage extends StatefulWidget {
 
 class _OrderPageState extends State<OrderPage> {
   @override
-  void didChangeDependencies() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final data = Provider.of<SignInProvider>(context, listen: false);
-      if (data.dataUser?.accessToken != null) {
-        Provider.of<ReservationProvider>(context, listen: false)
-            .getReservation();
-      }
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero).then((value) async {
+      await Provider.of<ReservationProvider>(context, listen: false)
+          .getReservation();
     });
-    super.didChangeDependencies();
   }
+  // @override
+  // void didChangeDependencies() {
+  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+  //     final data = Provider.of<SignInProvider>(context, listen: false);
+  //     if (data.dataUser?.accessToken != null) {
+  //       Provider.of<ReservationProvider>(context, listen: false)
+  //           .getReservation();
+  //     }
+  //   });
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final reservation =
-        Provider.of<ReservationProvider>(context, listen: false);
+    final reservation = Provider.of<ReservationProvider>(context, listen: true);
     final data = Provider.of<SignInProvider>(context, listen: true);
+    showState(reservation, provider2: data);
     return SafeArea(
       child: Scaffold(
         body: reservation.getUserReservation.isEmpty == true
@@ -92,8 +101,7 @@ class _OrderPageState extends State<OrderPage> {
                             onTap: () async {
                               await reservation.getDetailReservation(
                                   reservation.getUserReservation[index].id!);
-                              print(reservation
-                                  .getUserDetailReservation!.building!);
+
                               Navigator.pushNamed(context, '/booking-detail');
                             },
                             child: StatusOrderComponent(

@@ -6,6 +6,7 @@ class BuildingDetailModel {
   List<Facilities>? facilities;
   int? capacity;
   int? size;
+  Review? review;
   Price? price;
   String? owner;
   Location? location;
@@ -19,6 +20,7 @@ class BuildingDetailModel {
       this.facilities,
       this.capacity,
       this.size,
+      this.review,
       this.price,
       this.owner,
       this.location,
@@ -42,6 +44,7 @@ class BuildingDetailModel {
     }
     capacity = json['capacity'];
     size = json['size'];
+    review = json['review'] != null ? Review.fromJson(json['review']) : null;
     price = json['price'] != null ? Price.fromJson(json['price']) : null;
     owner = json['owner'];
     location =
@@ -62,6 +65,9 @@ class BuildingDetailModel {
     }
     data['capacity'] = capacity;
     data['size'] = size;
+    if (review != null) {
+      data['review'] = review!.toJson();
+    }
     if (price != null) {
       data['price'] = price!.toJson();
     }
@@ -125,6 +131,25 @@ class Facilities {
     data['icon'] = icon;
     data['iconName'] = iconName;
     data['description'] = description;
+    return data;
+  }
+}
+
+class Review {
+  int? rating;
+  int? count;
+
+  Review({this.rating, this.count});
+
+  Review.fromJson(Map<String, dynamic> json) {
+    rating = json['rating'];
+    count = json['count'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['rating'] = rating;
+    data['count'] = count;
     return data;
   }
 }

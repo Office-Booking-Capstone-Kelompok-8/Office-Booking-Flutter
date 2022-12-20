@@ -8,6 +8,7 @@ import 'package:office_booking_app/provider/filter_provider.dart';
 import 'package:office_booking_app/provider/reservation_provider.dart';
 import 'package:office_booking_app/screen/components/appbar_component.dart';
 import 'package:office_booking_app/screen/components/button_component.dart';
+import 'package:office_booking_app/screen/components/show_state.dart';
 import 'package:office_booking_app/screen/components/snackbar_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
@@ -351,18 +352,29 @@ class _BookingDetailState extends State<BookingDetail> {
                   children: [
                     ButtonComponent(
                         onPress: () async {
-                          try {
-                            final result = await value.cancelReservation(
-                                value.getUserDetailReservation!.id!);
-                            if (result == 'Reservation canceled successfully') {
-                              showNotification(context, result!);
-                            } else if (result != null) {
-                              showNotification(context, result);
-                            }
-                            Navigator.pop(context);
-                          } catch (e) {
-                            showNotification(context, e.toString());
-                          }
+                          showDialogApp(
+                            context: context,
+                            title: 'Cancel Reservation',
+                            subtitle:
+                                'Are you sure you want to cancel this reservation? This acction cannot be undone',
+                            buttonTextRight: 'Keep Booking',
+                            redLeft: true,
+                            onPressLeft: () async {
+                              try {
+                                final result = await value.cancelReservation(
+                                    value.getUserDetailReservation!.id!);
+                                if (result ==
+                                    'Reservation canceled successfully') {
+                                  showNotification(context, result!);
+                                } else if (result != null) {
+                                  showNotification(context, result);
+                                }
+                                Navigator.popAndPushNamed(context, '/navbar');
+                              } catch (e) {
+                                showNotification(context, e.toString());
+                              }
+                            },
+                          );
                         },
                         isRed: true,
                         isWhite: false,

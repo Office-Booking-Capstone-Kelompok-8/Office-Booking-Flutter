@@ -8,11 +8,10 @@ import '../../reservation/rating_model.dart';
 class BuildingApi {
   final Dio _dio = Dio();
 
-  Future<List<BuildingModel>> getAllBuildings(String? city, String? district,
-      String? dateStart, String? dateEnd) async {
+  Future<List<BuildingModel>> getAllBuildings() async {
     try {
       final response = await _dio.get(
-          '${Api.baseUrl}${Api.building}?limit=10&page=1&city=$city&district=$district&startDate=$dateStart&endDate=$dateEnd');
+          '${Api.baseUrl}${Api.building}?limit=10&page=1&city=&district=&startDate=&endDate=');
       List<BuildingModel> building = (response.data['data'] as List)
           .map((e) => BuildingModel.fromJson(e))
           .toList();

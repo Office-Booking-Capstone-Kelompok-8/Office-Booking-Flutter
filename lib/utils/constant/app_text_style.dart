@@ -37,6 +37,11 @@ TextStyle onboardSkip = TextStyle(
   fontSize: 14.sp,
   fontWeight: FontWeight.w700,
 );
+TextStyle onboardSkipGrey = TextStyle(
+  color: AppColors.neutral7,
+  fontSize: 14.sp,
+  fontWeight: FontWeight.w700,
+);
 TextStyle priceBlue = TextStyle(
   color: AppColors.primary4,
   fontSize: 12.sp,

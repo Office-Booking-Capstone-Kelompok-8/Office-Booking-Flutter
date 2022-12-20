@@ -1,36 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Helper {
-  static List<String> iconName = [
-    'asd',
-    'asd',
-    'asd',
-    'asd',
-    'asd',
-    'asd',
-    'asd',
-    'asd',
-    'asd',
-    'asd',
-    'asd',
-    'asd',
-    'asd',
-    'asd',
-    'asd',
-    'asd',
-  ];
-  static List<IconData> icon = [
-    Icons.add,
-    Icons.read_more,
-    Icons.ad_units,
-    Icons.dangerous,
-    Icons.add,
-    Icons.read_more,
-    Icons.ad_units,
-    Icons.dangerous,
-    Icons.add,
-    Icons.read_more,
-    Icons.ad_units,
-    Icons.dangerous,
-  ];
+  static String convertToIdr(dynamic number, int decimalDigit, bool idr) {
+    NumberFormat currencyFormatter = NumberFormat.currency(
+      locale: 'id',
+      symbol: idr == true ? 'IDR ' : '',
+      decimalDigits: decimalDigit,
+    );
+    return currencyFormatter.format(number);
+  }
 }
