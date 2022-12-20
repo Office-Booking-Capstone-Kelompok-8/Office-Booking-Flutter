@@ -16,7 +16,7 @@ class RatingBuilding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     NumberFormat formater = NumberFormat('#,##,000');
-    final detail = Provider.of<BuildingProvider>(context, listen: false);
+    final provider = Provider.of<BuildingProvider>(context, listen: true);
     return Scaffold(
       appBar: const AppbarComponent(title: 'Reviews'),
       bottomNavigationBar: Container(
@@ -55,13 +55,13 @@ class RatingBuilding extends StatelessWidget {
                   if (user != null) {
                     Navigator.pushNamed(context, '/form-page', arguments: {
                       'building-image':
-                          detail.getDetailBuilding.pictures!.first.url!,
-                      'building-id': detail.getDetailBuilding.id,
-                      'building-name': detail.getDetailBuilding.name,
+                          provider.getDetailBuilding.pictures!.first.url!,
+                      'building-id': provider.getDetailBuilding.id,
+                      'building-name': provider.getDetailBuilding.name,
                       'building-address':
-                          '${detail.getDetailBuilding.location!.district!.name!} - ${detail.getDetailBuilding.location!.city!.name!}',
+                          '${provider.getDetailBuilding.location!.district!.name!} - ${provider.getDetailBuilding.location!.city!.name!}',
                       'building-price': formater
-                          .format(detail.getDetailBuilding.price!.monthly)
+                          .format(provider.getDetailBuilding.price!.monthly)
                     });
                   } else {
                     Navigator.pushNamed(context, '/login');
@@ -73,90 +73,67 @@ class RatingBuilding extends StatelessWidget {
           ],
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'User Review',
-                  style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.neutral9),
-                ),
-                DropdownButtonHideUnderline(
-                  child: DropdownButton(
-                    value: 'latest',
-                    style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.neutral9),
-                    borderRadius: BorderRadius.circular(6.r),
-                    icon: const Icon(
-                      Icons.expand_more,
-                      color: AppColors.neutral9,
-                    ),
-                    elevation: 16,
-                    items: const [
-                      DropdownMenuItem(
-                        value: 'latest',
-                        child: Text('Latest'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'older',
-                        child: Text('Older'),
-                      ),
-                    ],
-                    onChanged: (value) {},
-                  ),
-                )
-              ],
-            ),
-            Expanded(
-              child: ListView(
+      body: provider.buildingsRating.isNotEmpty
+          ? Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Column(
                 children: [
-                  const RatingComponent(
-                    name: 'Malika Kedelai Hitam',
-                    date: '12/12/2022',
-                    image:
-                        'https://unsplash.com/photos/jzY0KRJopEI/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjcxMDg3MjUw&force=true&w=640',
-                    comment:
-                        'Lorem ipsum dolor sit amet consectetur. Nisi nibh nibh mauris duis enim varius amet. Lobortis auctor libero sit curabitur. Tellus turpis vehicula at semper at non proin volutpat tellus. Dictumst id vitae ipsum eget elit laoreet libero.',
-                    rating: 3.9,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'User Review',
+                        style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.neutral9),
+                      ),
+                      DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                          value: 'latest',
+                          style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.neutral9),
+                          borderRadius: BorderRadius.circular(6.r),
+                          icon: const Icon(
+                            Icons.expand_more,
+                            color: AppColors.neutral9,
+                          ),
+                          elevation: 16,
+                          items: const [
+                            DropdownMenuItem(
+                              value: 'latest',
+                              child: Text('Latest'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'older',
+                              child: Text('Older'),
+                            ),
+                          ],
+                          onChanged: (value) {},
+                        ),
+                      )
+                    ],
                   ),
-                  SizedBox(
-                    height: 14.w,
-                  ),
-                  const RatingComponent(
-                    name: 'Malika Kedelai Putih',
-                    date: '12/12/2022',
-                    image:
-                        'https://unsplash.com/photos/ViyA5myhBVw/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjcxMDkwMzAz&force=true&w=640',
-                    comment:
-                        'Lorem ipsum dolor sit amet consectetur. Nisi nibh nibh mauris duis enim varius amet. Lobortis auctor libero sit curabitur. Tellus turpis vehicula at semper at non proin volutpat tellus. Dictumst id vitae ipsum eget elit laoreet libero.',
-                    rating: 3.9,
-                  ),
-                  SizedBox(
-                    height: 14.w,
-                  ),
-                  const RatingComponent(
-                    name: 'Malika Kedelai Cokelat',
-                    date: '12/12/2022',
-                    image:
-                        'https://unsplash.com/photos/SXWSP9XWGvU/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjcxMDkzNTIx&force=true&w=640',
-                    comment:
-                        'Lorem ipsum dolor sit amet consectetur. Nisi nibh nibh mauris duis enim varius amet. Lobortis auctor libero sit curabitur. Tellus turpis vehicula at semper at non proin volutpat tellus. Dictumst id vitae ipsum eget elit laoreet libero.',
-                    rating: 3.9,
-                  ),
+                  Expanded(child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return RatingComponent(
+                        name: provider.buildingsRating[index].name!,
+                        date: provider.buildingsRating[index].createdAt!,
+                        image: provider.buildingsRating[index].picture!,
+                        comment: provider.buildingsRating[index].comment!,
+                        rating:
+                            provider.buildingsRating[index].rating!.toDouble(),
+                      );
+                    },
+                  )),
                 ],
               ),
+            )
+          : const Center(
+              child: Text('Empty'),
             ),
-          ],
-        ),
-      ),
     );
   }
 }

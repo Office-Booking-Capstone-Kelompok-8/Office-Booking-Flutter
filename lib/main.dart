@@ -96,33 +96,78 @@ class MyApp extends StatelessWidget {
             ),
             debugShowCheckedModeBanner: false,
             title: 'Office Zone',
-            routes: {
-              '/': (context) => onboard.userOpenApp == true
-                  ? const Navbar()
-                  : const OnboardPage(),
-              '/form-page': (context) => const FormReservationPage(),
-              '/login': (context) => const LoginPage(),
-              '/register': (context) => const RegisterPage(),
-              '/navbar': (context) => const Navbar(),
-              '/onboard': (context) => const OnboardPage(),
-              '/edit-profile': (context) => const EditProfile(),
-              '/booking-detail': (context) => const BookingDetail(),
-              '/order': (context) => const OrderPage(),
-              '/building-detail': (context) => const BuildingDetail(),
-              '/search': (context) => const SearchPage(),
-              '/search-result': (context) => const SearchResult(),
-              '/forgot-password': (context) => const ForgotPassword(),
-              '/send-otp': (context) => const SendOtp(),
-              '/verify-otp': (context) => const VerifyOtp(),
-              '/change-password': (context) => const ChangePassword(),
-              '/help-center': (center) => const HelpCenter(),
-              '/payment-detail': (context) => const PaymentDetailPage(),
-              '/transaction-detail': (context) => const TransactionDetailPage(),
-              '/booking-success': (context) => const BookingSuccessPage(),
-              '/verify-otp-email': (context) => const VerifyOtpEmail(),
-              '/rating': (context) => const RatingBuilding(),
+            onGenerateRoute: (settings) {
+              if (settings.name == '/' || settings.name == '/navbar') {
+                return MaterialPageRoute(builder: (_) {
+                  return onboard.userOpenApp == true
+                      ? const Navbar()
+                      : const OnboardPage();
+                });
+              } else {
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (context, animation, secondaryAnimation) {
+                    switch (settings.name) {
+                      case '/login':
+                        return const LoginPage();
+                      case '/form-page':
+                        return const FormReservationPage();
+                      case '/register':
+                        return const RegisterPage();
+
+                      case '/onboard':
+                        return const OnboardPage();
+                      case '/edit-profile':
+                        return const EditProfile();
+                      case '/booking-detail':
+                        return const BookingDetail();
+                      case '/building-detail':
+                        return const BuildingDetail();
+                      case '/order':
+                        return const OrderPage();
+                      case '/search':
+                        return const SearchPage();
+                      case '/search-result':
+                        return const SearchResult();
+                      case '/forgot-password':
+                        return const ForgotPassword();
+                      case '/send-otp':
+                        return const SendOtp();
+                      case '/verify-otp':
+                        return const VerifyOtp();
+                      case '/change-password':
+                        return const ChangePassword();
+                      case '/help-center':
+                        return const HelpCenter();
+                      case '/payment-detail':
+                        return const PaymentDetailPage();
+                      case '/transaction-detail':
+                        return const TransactionDetailPage();
+                      case '/booking-success':
+                        return const BookingSuccessPage();
+                      case '/verify-otp-email':
+                        return const VerifyOtpEmail();
+                      case '/rating':
+                        return const RatingBuilding();
+                      default:
+                        return const Navbar();
+                    }
+                  },
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    const begin = Offset(1.0, 0.0);
+                    const end = Offset.zero;
+                    final tween = Tween(begin: begin, end: end);
+                    final offsetAnimation = animation.drive(tween);
+
+                    return SlideTransition(
+                      position: offsetAnimation,
+                      child: child,
+                    );
+                  },
+                );
+              }
             },
-            initialRoute: '/',
             theme: ThemeData(
               disabledColor: AppColors.neutral7,
               canvasColor: AppColors.white,

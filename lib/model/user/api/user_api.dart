@@ -106,19 +106,15 @@ class UserApi {
     final helper = await SharedPreferences.getInstance();
 
     final refreshToken = helper.getString('refreshToken');
-    // ignore: avoid_print
-    print(refreshToken);
     if (refreshToken != null) {
       try {
-        final response = await _dio.post(
-            'https://dev.fortyfourvisual.com/v1/auth/refresh',
+        final response = await _dio.post(Api.baseUrl + Api.refreshToken,
             data: {'refreshToken': refreshToken});
         var user = SignInModel.fromJson(response.data['data']);
         // successfully got the new access token
         await helper.setString('accessToken', user.accessToken!);
         await helper.setString('refreshToken', user.refreshToken!);
       } on DioError catch (e) {
-        // ignore: avoid_print
         await helper.remove('accessToken');
         await helper.remove('refreshToken');
         // ignore: avoid_print

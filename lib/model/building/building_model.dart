@@ -5,14 +5,19 @@ class BuildingModel {
   Price? price;
   String? owner;
   Location? location;
+  int? rating;
+  int? reviewCount;
 
-  BuildingModel(
-      {this.id,
-      this.name,
-      this.pictures,
-      this.price,
-      this.owner,
-      this.location});
+  BuildingModel({
+    this.id,
+    this.name,
+    this.pictures,
+    this.price,
+    this.owner,
+    this.location,
+    this.rating,
+    this.reviewCount,
+  });
 
   BuildingModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -22,6 +27,8 @@ class BuildingModel {
     owner = json['owner'];
     location =
         json['location'] != null ? Location.fromJson(json['location']) : null;
+    rating = json['review']['rating'] ?? 0;
+    reviewCount = json['review']['count'] ?? 0;
   }
 
   Map<String, dynamic> toJson() {
