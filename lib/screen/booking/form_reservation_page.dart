@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:office_booking_app/provider/filter_provider.dart';
+import 'package:office_booking_app/provider/navbar_provider.dart';
 import 'package:office_booking_app/provider/reservation_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/screen/components/snackbar_component.dart';
@@ -282,7 +283,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                               height: 41.h,
                               width: 156.w,
                               child: DropDownTextField(
-                                initialValue: '1 Month',
+                                // initialValue: '1 Month',
                                 textFieldDecoration: InputDecoration(
                                   contentPadding:
                                       EdgeInsets.only(top: 12.h, left: 16.w),
@@ -339,10 +340,11 @@ class _FormReservationPageState extends State<FormReservationPage> {
                     height: 65.h,
                   ),
                   Center(
-                    child: Consumer3<ReservationProvider, SetStateProvider,
-                        FilterProvider>(
-                      builder: (context, reservation, date, filter, _) =>
-                          Consumer<FilterProvider>(
+                    child: Consumer4<ReservationProvider, SetStateProvider,
+                        FilterProvider, NavbarProvider>(
+                      builder:
+                          (context, reservation, date, filter, btmNav, _) =>
+                              Consumer<FilterProvider>(
                         builder: (context, filter, _) => ButtonComponent(
                             onPress: () async {
                               if (_formkey.currentState!.validate()) {
@@ -361,6 +363,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                                   if (result ==
                                       'reservation created successfully') {
                                     showNotification(context, result!);
+
                                     Navigator.pushNamedAndRemoveUntil(
                                         context, '/navbar', (route) => false);
                                   } else if (result != null) {

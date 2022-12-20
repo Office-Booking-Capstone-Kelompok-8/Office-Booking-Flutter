@@ -45,7 +45,7 @@ class BuildingGridComponent extends StatelessWidget {
                 ),
                 Container(
                   height: 20.w,
-                  width: 30.w,
+                  width: 35.w,
                   margin: EdgeInsets.all(8.w),
                   alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 6.w),

@@ -20,8 +20,7 @@ class _HomepageState extends State<Homepage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<BuildingProvider>(context, listen: false)
-          .getAllBuilding('', '', '', '');
+      Provider.of<BuildingProvider>(context, listen: false).getAllBuilding();
     });
   }
 
