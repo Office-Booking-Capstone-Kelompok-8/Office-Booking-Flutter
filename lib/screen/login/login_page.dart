@@ -73,6 +73,9 @@ class _LoginPageState extends State<LoginPage> {
                     prefixIcon: Icons.mail_outline,
                     hint: 'Email',
                     validation: (value) {
+                      if (value != null || value!.isEmpty) {
+                        return 'email is required';
+                      }
                       const String expression = "[a-zA-Z0-9+._%-+]{1,256}"
                           "\\@"
                           "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}"
@@ -81,11 +84,9 @@ class _LoginPageState extends State<LoginPage> {
                           "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}"
                           ")+";
                       final RegExp regExp = RegExp(expression);
-                      return !regExp.hasMatch(value!)
+                      return !regExp.hasMatch(value)
                           ? "Can only consist of letters, numbers and special characters (@.-_)"
-                          : value.isEmpty
-                              ? 'email is required'
-                              : null;
+                          : null;
                     },
                   ),
                 ),
