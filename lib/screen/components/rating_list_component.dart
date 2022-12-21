@@ -24,6 +24,7 @@ class RatingComponent extends StatelessWidget {
       elevation: 0,
       color: AppColors.neutral4,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
             horizontalTitleGap: 6,
@@ -59,7 +60,7 @@ class RatingComponent extends StatelessWidget {
               style: const TextStyle(
                 color: AppColors.neutral8,
               ),
-              textAlign: TextAlign.justify,
+              // textAlign: TextAlign.justify,
             ),
           )
         ],

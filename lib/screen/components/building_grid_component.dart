@@ -45,7 +45,7 @@ class BuildingGridComponent extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (rating != null || rating == 0.0)
+                if (rating!.toStringAsFixed(0) != '0')
                   Container(
                     height: 20.w,
                     width: 30.w,
@@ -60,7 +60,7 @@ class BuildingGridComponent extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      '$rating',
+                      rating!.toStringAsFixed(1),
                       style:
                           TextStyle(fontSize: 12.sp, color: AppColors.neutral2),
                     ),

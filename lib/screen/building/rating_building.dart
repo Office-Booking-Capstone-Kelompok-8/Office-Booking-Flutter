@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/screen/components/appbar_component.dart';
-import 'package:office_booking_app/screen/components/snackbar_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -130,7 +129,9 @@ class RatingBuilding extends StatelessWidget {
                       )
                     ],
                   ),
-                  Expanded(child: ListView.builder(
+                  Expanded(
+                      child: ListView.builder(
+                    itemCount: provider.buildingsRating.length,
                     itemBuilder: (context, index) {
                       return RatingComponent(
                         name: provider.buildingsRating[index].name!,
