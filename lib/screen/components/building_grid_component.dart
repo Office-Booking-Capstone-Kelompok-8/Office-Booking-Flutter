@@ -45,7 +45,7 @@ class BuildingGridComponent extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (rating != null || rating == 0)
+                if (rating != null || rating == 0.0)
                   Container(
                     height: 20.w,
                     width: 30.w,

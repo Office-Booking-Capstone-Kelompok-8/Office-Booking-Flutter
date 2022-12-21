@@ -5,7 +5,7 @@ class BuildingModel {
   Price? price;
   String? owner;
   Location? location;
-  int? rating;
+  double? rating;
   int? reviewCount;
 
   BuildingModel({
@@ -27,8 +27,8 @@ class BuildingModel {
     owner = json['owner'];
     location =
         json['location'] != null ? Location.fromJson(json['location']) : null;
-    rating = json['review']['rating'] ?? 0;
-    reviewCount = json['review']['count'] ?? 0;
+    rating = json['review']['rating'].toDouble();
+    reviewCount = json['review']['count'];
   }
 
   Map<String, dynamic> toJson() {
