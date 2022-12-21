@@ -77,7 +77,7 @@ class _PostReviewState extends State<PostReview> {
                               style: detailFormStyle,
                             ),
                             Text(
-                              'Pancoran - South Jakarta',
+                              '${detail.getUserDetailReservation!.building!.district!} - ${detail.getUserDetailReservation!.building!.city!}',
                               overflow: TextOverflow.ellipsis,
                               maxLines: 3,
                               style: detailFormGrey,
