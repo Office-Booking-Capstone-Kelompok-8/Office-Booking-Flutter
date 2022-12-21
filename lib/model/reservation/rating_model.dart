@@ -1,6 +1,6 @@
 class RatingModel {
   String? id;
-  int? rating;
+  num? rating;
   String? comment;
   String? createdAt;
   String? name;

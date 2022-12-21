@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../provider/building_provider.dart';
 import '../../utils/constant/app_colors.dart';
+import '../../utils/constant/helper.dart';
 import '../components/appbar_component.dart';
 import '../components/building_grid_component.dart';
 
@@ -128,9 +129,10 @@ class _SearchResultState extends State<SearchResult> {
                         buildingName: provider.getBuilding[index].name!,
                         buildingLoc:
                             '${provider.getBuilding[index].location!.city!} - ${provider.getBuilding[index].location!.district!}',
-                        buildingPrice: provider
-                            .getBuilding[index].price!.monthly
-                            .toString(),
+                        buildingPrice: Helper.convertToIdr(
+                            provider.getBuilding[index].price!.monthly!,
+                            0,
+                            false),
                       );
                     },
                   ),
