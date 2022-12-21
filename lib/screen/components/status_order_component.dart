@@ -211,7 +211,7 @@ class StatusOrderComponent extends StatelessWidget {
                             style: personReservation,
                           ),
                           Text(
-                            'IDR $price',
+                            price,
                             style: onboardSkip,
                           ),
                         ],

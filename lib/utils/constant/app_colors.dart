@@ -29,4 +29,5 @@ class AppColors {
   static const Color shadowColor = Color(0x267090B0);
   static const Color greyPayment = Color(0xFF777777);
   static const Color blackPayment = Color(0xFF1D1D1D);
+  static const Color info1 = Color(0xFF91CAFA);
 }

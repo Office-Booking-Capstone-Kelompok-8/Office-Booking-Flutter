@@ -12,6 +12,7 @@ import 'package:office_booking_app/screen/components/show_state.dart';
 import 'package:office_booking_app/screen/components/snackbar_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
+import 'package:office_booking_app/utils/constant/helper.dart';
 import 'package:provider/provider.dart';
 
 class BookingDetail extends StatefulWidget {
@@ -103,11 +104,19 @@ class _BookingDetailState extends State<BookingDetail> {
                             ),
                             Row(
                               children: [
-                                const Text('Price/month\t'),
                                 Text(
-                                  'IDR ${detail.getUserDetailReservation!.amount! ~/ detail.getUserDetailReservation!.duration!}',
+                                  Helper.convertToIdr(
+                                          detail.getUserDetailReservation!
+                                                  .amount! ~/
+                                              detail.getUserDetailReservation!
+                                                  .duration!,
+                                          0,
+                                          true)
+                                      .toString(),
+                                  overflow: TextOverflow.ellipsis,
                                   style: onboardSkip,
                                 ),
+                                const Text(' /month'),
                               ],
                             ),
                           ],
@@ -266,8 +275,12 @@ class _BookingDetailState extends State<BookingDetail> {
               ),
               BookingDetailTile(
                   leading: 'Price',
-                  trailing:
-                      'IDR ${detail.getUserDetailReservation!.amount! ~/ detail.getUserDetailReservation!.duration!}/month'),
+                  trailing: Helper.convertToIdr(
+                          detail.getUserDetailReservation!.amount! ~/
+                              detail.getUserDetailReservation!.duration!,
+                          0,
+                          true)
+                      .toString()),
               SizedBox(
                 height: 16.h,
               ),
@@ -279,7 +292,8 @@ class _BookingDetailState extends State<BookingDetail> {
                     style: blackBooking,
                   ),
                   Text(
-                    'IDR ${detail.getUserDetailReservation!.amount!}',
+                    Helper.convertToIdr(
+                        detail.getUserDetailReservation!.amount!, 0, true),
                     style: onboardSkip,
                   ),
                 ],
@@ -323,7 +337,6 @@ class _BookingDetailState extends State<BookingDetail> {
                               growable: true,
                               reservation.getAllBank.length,
                               (index) => DropDownValueModel(
-                                  toolTipMsg: 'asd',
                                   name: reservation.getAllBank[index].bankName!,
                                   value: reservation.getAllBank[index].id)),
                           dropDownItemCount: reservation.getAllBank.length,

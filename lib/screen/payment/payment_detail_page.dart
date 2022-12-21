@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:office_booking_app/provider/reservation_provider.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
@@ -23,6 +24,25 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
         appBar: const AppbarComponent(title: 'Payment Detail'),
         body: ListView(
           children: [
+            SizedBox(
+              height: 24.h,
+            ),
+            Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 16.w),
+              height: 33.h,
+              decoration: BoxDecoration(
+                  color: AppColors.info1,
+                  borderRadius: BorderRadius.all(Radius.circular(5.r))),
+              child: Text(
+                'Complete transaction before ${DateFormat('dd MMMM yyyy').format(DateFormat("yyyy-MM-dd").parse(data.getUserDetailReservation!.expiredAt!)).toString()}',
+                style: TextStyle(color: AppColors.primary5, fontSize: 13.sp),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(
+              height: 16.h,
+            ),
             Container(
               decoration: BoxDecoration(
                 boxShadow: [

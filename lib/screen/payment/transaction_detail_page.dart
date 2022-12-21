@@ -5,6 +5,7 @@ import 'package:office_booking_app/provider/reservation_provider.dart';
 import 'package:office_booking_app/screen/components/appbar_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
+import 'package:office_booking_app/utils/constant/helper.dart';
 import 'package:provider/provider.dart';
 
 class TransactionDetailPage extends StatefulWidget {
@@ -25,7 +26,7 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
         ),
         body: Container(
           width: double.infinity,
-          height: 450.h,
+          height: 485.h,
           margin: EdgeInsets.symmetric(vertical: 44.h, horizontal: 16.w),
           padding: EdgeInsets.symmetric(vertical: 17.h, horizontal: 16.w),
           decoration: BoxDecoration(
@@ -58,19 +59,23 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
                 height: 20.h,
               ),
               BookingTile(
-                title: 'Transaction Date',
+                title: 'Booking Date',
                 subtitle: DateFormat('dd MMMM yyyy')
                     .format(DateFormat("yyyy-MM-dd")
                         .parse(data.getUserDetailReservation!.createdAt!))
                     .toString(),
               ),
               BookingTile(
-                title: 'No Transaction',
+                title: 'ID. Transaction',
                 subtitle: data.getUserDetailReservation!.id!,
               ),
               BookingTile(
-                title: 'No Virtual Account',
+                title: 'Account Number',
                 subtitle: data.getPaymentBankData!.accountNumber.toString(),
+              ),
+              BookingTile(
+                title: 'Account Name',
+                subtitle: data.getPaymentBankData!.accountName.toString(),
               ),
               BookingTile(
                 title: 'Payment Method',
@@ -87,13 +92,11 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
                         .parse(data.getUserDetailReservation!.startDate!))
                     .toString(),
               ),
-              //belom
               BookingTile(
                 title: 'Duration',
                 subtitle:
                     '${data.getUserDetailReservation!.duration!.toString()} Month',
               ),
-
               SizedBox(
                 height: 16.h,
               ),
@@ -103,8 +106,9 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
               ),
               BookingTile(
                 title: 'Total Payment',
-                subtitle:
-                    'IDR ${data.getUserDetailReservation!.amount!.toString()}',
+                subtitle: Helper.convertToIdr(
+                        data.getUserDetailReservation!.amount!, 0, true)
+                    .toString(),
                 isPrice: true,
               ),
             ],

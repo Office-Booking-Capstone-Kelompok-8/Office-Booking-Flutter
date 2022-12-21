@@ -31,15 +31,12 @@ class ReservationProvider extends ChangeNotifier {
           buildingId, companyName, startDate, duration);
       myState = MyState.loaded;
       notifyListeners();
-      print(response);
       return response;
     } catch (e) {
       if (e is DioError) {
-        print(e.toString());
         if (e.response != null) {
           myState = MyState.loaded;
           notifyListeners();
-          print(e.response!.data['message']);
           return 'Error ${e.response!.data['message'] ?? e.response!.statusCode!}';
         }
       } else {
@@ -56,6 +53,9 @@ class ReservationProvider extends ChangeNotifier {
       myState = MyState.loading;
       notifyListeners();
       final response = await service.getReservation();
+      response.sort(
+        (a, b) => b.createdAt!.compareTo(a.createdAt!),
+      );
       _reservation = response;
       myState = MyState.loaded;
       notifyListeners();

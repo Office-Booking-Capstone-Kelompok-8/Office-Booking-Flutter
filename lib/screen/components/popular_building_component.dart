@@ -7,10 +7,12 @@ class PopularBuildingComponent extends StatelessWidget {
       {super.key,
       required this.imgUrl,
       required this.buildingName,
-      required this.city});
+      required this.city,
+      required this.buildingPrice});
   final String imgUrl;
   final String buildingName;
   final String city;
+  final String buildingPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,7 @@ class PopularBuildingComponent extends StatelessWidget {
                 height: 16.h,
               ),
               Text(
-                'Start from 1.000.000',
+                'Start from $buildingPrice',
                 style: TextStyle(
                     fontSize: 12.sp,
                     color: AppColors.primary5,
