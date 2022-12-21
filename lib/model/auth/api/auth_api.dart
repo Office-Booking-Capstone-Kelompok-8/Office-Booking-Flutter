@@ -108,8 +108,8 @@ class AuthApi {
         Api.baseUrl + Api.resetPassword,
         data: {
           'email': email,
-          'password': password,
           'key': key,
+          'password': password,
         },
       );
 
