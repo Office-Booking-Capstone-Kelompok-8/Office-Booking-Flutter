@@ -252,7 +252,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
                 SizedBox(
                   height: 5.h,
                 ),
-                detail.getDetailBuilding.review?.count != null
+                detail.getDetailBuilding.review?.count == 0
                     ? const SizedBox()
                     : const Divider(
                         color: AppColors.dividerColor,
