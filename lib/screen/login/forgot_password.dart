@@ -34,9 +34,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   Widget build(BuildContext context) {
     var args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    if (args['message'] != null && args['_key'] != null) {
-      _email = args['message'];
-      _key = args['_key'];
+    if (args['email'] != null && args['key'] != null) {
+      _email = args['email'];
+      _key = args['key'];
     } else {
       _email = '';
       _key = '';
@@ -97,7 +97,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     },
                   ),
                   SizedBox(
-                    height: 32.h,
+                    height: 16.h,
                   ),
                   Text(
                     'Confirm Password',

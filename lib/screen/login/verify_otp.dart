@@ -134,7 +134,10 @@ class _VerifyOtpState extends State<VerifyOtp> {
                             showNotification(context, result['message']);
                             Navigator.pushNamedAndRemoveUntil(
                                 context, '/forgot-password', (route) => false,
-                                arguments: result);
+                                arguments: {
+                                  'email': email,
+                                  'key': result['data']['key']
+                                });
                           } else {
                             showNotification(context, result['message']);
                           }
