@@ -74,9 +74,6 @@ class ReservationApi {
         "startDate": startDate,
         "duration": duration,
       });
-      // if (response.statusCode == 409) {
-      //   return response.data['message'];
-      // }
 
       return response.data['message'];
     } on DioError catch (_) {
@@ -164,7 +161,7 @@ class ReservationApi {
   }
 
   Future<String> postProofPayment(
-      String reservationId, File file, String methodId) async {
+      String reservationId, File file, int methodId) async {
     FormData formData = FormData.fromMap({
       "proof": await MultipartFile.fromFile(
         file.path,

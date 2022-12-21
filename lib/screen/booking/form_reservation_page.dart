@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:office_booking_app/provider/building_provider.dart';
 import 'package:office_booking_app/provider/filter_provider.dart';
-import 'package:office_booking_app/provider/navbar_provider.dart';
 import 'package:office_booking_app/provider/reservation_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/screen/components/snackbar_component.dart';
