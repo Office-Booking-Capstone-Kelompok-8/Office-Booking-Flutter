@@ -3,8 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/screen/components/appbar_component.dart';
+import 'package:office_booking_app/screen/components/snackbar_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../provider/building_provider.dart';
 import '../components/button_component.dart';
@@ -37,7 +39,16 @@ class RatingBuilding extends StatelessWidget {
                     width: 40.w,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(1000.0),
-                      onTap: () {},
+                      onTap: () async {
+                        final url = Uri.parse(
+                            'whatsapp://send?phone=6285786756504&text=test');
+                        final urlFailed = Uri.parse(
+                            'https://play.google.com/store/apps/details?id=com.whatsapp');
+
+                        await canLaunchUrl(url)
+                            ? launchUrl(url)
+                            : launchUrl(urlFailed);
+                      },
                       child: Icon(
                         Icons.chat,
                         size: 24.sm,

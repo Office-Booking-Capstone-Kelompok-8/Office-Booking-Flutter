@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
+import 'package:office_booking_app/provider/building_provider.dart';
 import 'package:office_booking_app/provider/filter_provider.dart';
 import 'package:office_booking_app/provider/navbar_provider.dart';
 import 'package:office_booking_app/provider/reservation_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/screen/components/snackbar_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
+import 'package:office_booking_app/utils/constant/helper.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/set_state_provider.dart';
@@ -117,7 +119,7 @@ class _FormReservationPageState extends State<FormReservationPage> {
                                 Row(
                                   children: [
                                     Text(
-                                      'IDR ${argsForm['building-price'].toString()}',
+                                      argsForm['building-price'].toString(),
                                       style: priceBlue,
                                     ),
                                     const Text(' /month'),
@@ -283,7 +285,6 @@ class _FormReservationPageState extends State<FormReservationPage> {
                               height: 41.h,
                               width: 156.w,
                               child: DropDownTextField(
-                                // initialValue: '1 Month',
                                 textFieldDecoration: InputDecoration(
                                   contentPadding:
                                       EdgeInsets.only(top: 12.h, left: 16.w),
@@ -341,43 +342,202 @@ class _FormReservationPageState extends State<FormReservationPage> {
                   ),
                   Center(
                     child: Consumer4<ReservationProvider, SetStateProvider,
-                        FilterProvider, NavbarProvider>(
-                      builder:
-                          (context, reservation, date, filter, btmNav, _) =>
-                              Consumer<FilterProvider>(
-                        builder: (context, filter, _) => ButtonComponent(
-                            onPress: () async {
-                              if (_formkey.currentState!.validate()) {
-                                try {
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                  String finalDate = DateFormat('yyyy-MM-dd')
-                                      .format(date.getDateStart);
-                                  final result =
-                                      await reservation.postReservation(
-                                    argsForm['building-id'],
-                                    _companyNameController.text,
-                                    finalDate,
-                                    filter.duration!,
-                                  );
-                                  if (mounted) {}
-                                  if (result ==
-                                      'reservation created successfully') {
-                                    showNotification(context, result!);
+                        FilterProvider, BuildingProvider>(
+                      builder: (context, reservation, date, filter, building,
+                              _) =>
+                          ButtonComponent(
+                              onPress: () async {
+                                filter.duration == null
+                                    ? showNotification(
+                                        context, 'Please insert duration')
+                                    : showModalBottomSheet(
+                                        context: context,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(20.r),
+                                                topRight:
+                                                    Radius.circular(20.r))),
+                                        builder: (context) => Container(
+                                          height: 280.h,
+                                          padding: EdgeInsets.all(16.h),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Center(
+                                                  child: Text(
+                                                'Pricing details',
+                                                style: TextStyle(
+                                                    fontSize: 14.sp,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                                textAlign: TextAlign.center,
+                                              )),
+                                              SizedBox(
+                                                height: 16.h,
+                                              ),
+                                              const Divider(),
+                                              SizedBox(
+                                                height: 16.h,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Duration',
+                                                    style: TextStyle(
+                                                      fontSize: 12.sp,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    '${filter.duration} Month',
+                                                    style: TextStyle(
+                                                        fontSize: 12.sp,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  )
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 4.h,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Price/month',
+                                                    style: TextStyle(
+                                                      fontSize: 12.sp,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    argsForm['building-price'],
+                                                    style: TextStyle(
+                                                      fontSize: 12.sp,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 16.h,
+                                              ),
+                                              const Divider(),
+                                              SizedBox(
+                                                height: 16.h,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Total payment',
+                                                    style: TextStyle(
+                                                      fontSize: 12.sp,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    Helper.convertToIdr(
+                                                        (building
+                                                                .getDetailBuilding
+                                                                .price!
+                                                                .monthly! *
+                                                            filter.duration!),
+                                                        0,
+                                                        true),
+                                                    style: TextStyle(
+                                                        fontSize: 14.sp,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color:
+                                                            AppColors.primary4),
+                                                  )
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 16.h,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  ButtonComponent(
+                                                    onPress: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    textButton: 'Cancel',
+                                                    buttonHeight: 37.h,
+                                                    buttonWidth: 156.w,
+                                                    isRed: true,
+                                                  ),
+                                                  ButtonComponent(
+                                                    onPress: () async {
+                                                      if (_formkey.currentState!
+                                                          .validate()) {
+                                                        try {
+                                                          FocusManager.instance
+                                                              .primaryFocus
+                                                              ?.unfocus();
+                                                          String finalDate =
+                                                              DateFormat(
+                                                                      'yyyy-MM-dd')
+                                                                  .format(date
+                                                                      .getDateStart);
+                                                          final result =
+                                                              await reservation
+                                                                  .postReservation(
+                                                            argsForm[
+                                                                'building-id'],
+                                                            _companyNameController
+                                                                .text,
+                                                            finalDate,
+                                                            filter.duration!,
+                                                          );
+                                                          if (mounted) {}
+                                                          if (result ==
+                                                              'reservation created successfully') {
+                                                            showNotification(
+                                                                context,
+                                                                result!);
 
-                                    Navigator.pushNamedAndRemoveUntil(
-                                        context, '/navbar', (route) => false);
-                                  } else if (result != null) {
-                                    showNotification(context, result);
-                                  }
-                                } catch (e) {
-                                  showNotification(context, e.toString());
-                                }
-                              }
-                            },
-                            textButton: 'BOOKING',
-                            buttonHeight: 41.h,
-                            buttonWidth: double.infinity),
-                      ),
+                                                            Navigator
+                                                                .pushNamedAndRemoveUntil(
+                                                                    context,
+                                                                    '/booking-success',
+                                                                    (route) =>
+                                                                        false);
+                                                          } else if (result !=
+                                                              null) {
+                                                            showNotification(
+                                                                context,
+                                                                result);
+                                                          }
+                                                        } catch (e) {
+                                                          showNotification(
+                                                              context,
+                                                              e.toString());
+                                                        }
+                                                      }
+                                                    },
+                                                    textButton: 'Confrirm',
+                                                    buttonHeight: 37.h,
+                                                    buttonWidth: 156.w,
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                              },
+                              textButton: 'BOOKING',
+                              buttonHeight: 41.h,
+                              buttonWidth: double.infinity),
                     ),
                   )
                 ],

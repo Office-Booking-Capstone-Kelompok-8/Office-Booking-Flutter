@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +10,7 @@ import 'package:office_booking_app/screen/components/show_state.dart';
 import 'package:office_booking_app/screen/components/status_order_component.dart';
 import 'package:office_booking_app/screen/login/login_page.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
+import 'package:office_booking_app/utils/constant/helper.dart';
 import 'package:provider/provider.dart';
 
 class OrderPage extends StatefulWidget {
@@ -107,8 +110,11 @@ class _OrderPageState extends State<OrderPage> {
                             child: StatusOrderComponent(
                               monthDuration: reservation
                                   .getUserReservation[index].duration!,
-                              price: reservation
-                                  .getUserReservation[index].amount!
+                              price: Helper.convertToIdr(
+                                      reservation
+                                          .getUserReservation[index].amount!,
+                                      0,
+                                      true)
                                   .toString(),
                               companyName: reservation
                                   .getUserReservation[index].companyName!,

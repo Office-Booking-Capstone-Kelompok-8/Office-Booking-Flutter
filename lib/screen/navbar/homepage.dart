@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:office_booking_app/provider/building_provider.dart';
 import 'package:office_booking_app/screen/components/appbar_home.dart';
@@ -63,13 +62,29 @@ class _HomepageState extends State<Homepage> {
                       itemCount: bRating.getBuildingByRating.length > 3
                           ? 3
                           : bRating.getBuildingByRating.length,
-                      itemBuilder: (context, index) => PopularBuildingComponent(
-                            buildingName:
-                                bRating.getBuildingByRating[index].name!,
-                            city: bRating
-                                .getBuildingByRating[index].location!.city!,
-                            imgUrl:
-                                bRating.getBuildingByRating[index].pictures!,
+                      itemBuilder: (context, index) => InkWell(
+                            onTap: () async {
+                              await bRating
+                                  .getDetail(bRating.getBuilding[index].id!);
+
+                              Navigator.pushNamed(
+                                context,
+                                '/building-detail',
+                              );
+                            },
+                            child: PopularBuildingComponent(
+                              buildingName:
+                                  bRating.getBuildingByRating[index].name!,
+                              city: bRating
+                                  .getBuildingByRating[index].location!.city!,
+                              imgUrl:
+                                  bRating.getBuildingByRating[index].pictures!,
+                              buildingPrice: Helper.convertToIdr(
+                                  bRating.getBuildingByRating[index].price!
+                                      .monthly!,
+                                  0,
+                                  false),
+                            ),
                           )),
                 ),
               ),

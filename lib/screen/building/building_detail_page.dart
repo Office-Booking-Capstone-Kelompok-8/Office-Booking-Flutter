@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:office_booking_app/provider/building_provider.dart';
 import 'package:office_booking_app/provider/login_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
@@ -10,6 +11,7 @@ import 'package:office_booking_app/screen/components/show_state.dart';
 import 'package:office_booking_app/screen/components/snackbar_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
+import 'package:office_booking_app/utils/constant/helper.dart';
 import 'package:provider/provider.dart';
 import '../../screen/components/appbar_component.dart';
 
@@ -110,7 +112,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
                   height: 12.h,
                 ),
                 Text(
-                  'Start IDR ${formater.format(detail.getDetailBuilding.price!.monthly!)}',
+                  'Start ${Helper.convertToIdr(detail.getDetailBuilding.price!.monthly!, 0, true)}',
                   style: blueDetailPageLarge,
                 ),
                 SizedBox(
@@ -196,61 +198,66 @@ class _BuildingDetailState extends State<BuildingDetail> {
                   color: AppColors.dividerColor,
                   thickness: 1,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.r),
-                            color: AppColors.primary3,
+                detail.getDetailBuilding.review?.count != null
+                    ? SizedBox()
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.r),
+                                  color: AppColors.primary3,
+                                ),
+                                height: 22.h,
+                                width: 30.w,
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 2.h, horizontal: 3.w),
+                                child: Text(
+                                  detail.getDetailBuilding.review!.rating!
+                                      .toDouble()
+                                      .toString(),
+                                  textAlign: TextAlign.center,
+                                  style: ratingStyle,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 8.w,
+                              ),
+                              Text(
+                                  '(${detail.getDetailBuilding.review!.count!.toString()} Review)'),
+                            ],
                           ),
-                          height: 22.h,
-                          width: 30.w,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 2.h, horizontal: 3.w),
-                          child: Text(
-                            detail.getDetailBuilding.review!.rating!
-                                .toDouble()
-                                .toString(),
-                            style: ratingStyle,
+                          TextButton(
+                            onPressed: () async {
+                              // final result = await detail
+                              //     .getBuildingRating(detail.getDetailBuilding.id!);
+                              // if (result == 'seccessfull') {
+                              //   if (mounted) {}
+                              //   Navigator.pushNamed(context, '/rating');
+                              // } else if (result != null) {
+                              //   if (mounted) {}
+                              //   showNotification(context, result);
+                              // }
+                              Navigator.pushNamed(context, '/rating');
+                            },
+                            style: TextButton.styleFrom(
+                              splashFactory: NoSplash.splashFactory,
+                            ),
+                            child: const Text('View More'),
                           ),
-                        ),
-                        SizedBox(
-                          width: 8.w,
-                        ),
-                        Text(
-                            '(${detail.getDetailBuilding.review!.count!.toString()} Review)'),
-                      ],
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        // final result = await detail
-                        //     .getBuildingRating(detail.getDetailBuilding.id!);
-                        // if (result == 'seccessfull') {
-                        //   if (mounted) {}
-                        //   Navigator.pushNamed(context, '/rating');
-                        // } else if (result != null) {
-                        //   if (mounted) {}
-                        //   showNotification(context, result);
-                        // }
-                        Navigator.pushNamed(context, '/rating');
-                      },
-                      style: TextButton.styleFrom(
-                        splashFactory: NoSplash.splashFactory,
+                        ],
                       ),
-                      child: const Text('View More'),
-                    ),
-                  ],
-                ),
                 SizedBox(
                   height: 5.h,
                 ),
-                const Divider(
-                  color: AppColors.dividerColor,
-                  thickness: 1,
-                ),
+                detail.getDetailBuilding.review?.count != null
+                    ? SizedBox()
+                    : const Divider(
+                        color: AppColors.dividerColor,
+                        thickness: 1,
+                      ),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -369,7 +376,16 @@ class _BuildingDetailState extends State<BuildingDetail> {
                       width: 40.w,
                       child: InkWell(
                         borderRadius: BorderRadius.circular(1000.0),
-                        onTap: () {},
+                        onTap: () async {
+                          final url = Uri.parse(
+                              'whatsapp://send?phone=6285786756504&text=test');
+                          final urlFailed = Uri.parse(
+                              'https://play.google.com/store/apps/details?id=com.whatsapp');
+
+                          await canLaunchUrl(url)
+                              ? launchUrl(url)
+                              : launchUrl(urlFailed);
+                        },
                         child: Icon(
                           Icons.chat,
                           size: 24.sm,
@@ -417,8 +433,10 @@ class _BuildingDetailState extends State<BuildingDetail> {
                                         detail.getDetailBuilding.name,
                                     'building-address':
                                         '${detail.getDetailBuilding.location!.district!.name!} - ${detail.getDetailBuilding.location!.city!.name!}',
-                                    'building-price': formater.format(
-                                        detail.getDetailBuilding.price!.monthly)
+                                    'building-price': Helper.convertToIdr(
+                                        detail.getDetailBuilding.price!.monthly,
+                                        0,
+                                        true)
                                   });
                   },
                   textButton: 'Book Now',
