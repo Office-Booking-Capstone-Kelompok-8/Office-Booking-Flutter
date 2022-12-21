@@ -74,7 +74,7 @@ class _SendOtpState extends State<SendOtp> {
                     prefixIcon: Icons.mail_outline,
                     hint: 'Email',
                     validation: (value) {
-                      if (value != null || value!.isEmpty) {
+                      if (value == null || value.isEmpty) {
                         return 'email is required';
                       }
                       const String expression = "[a-zA-Z0-9+._%-+]{1,256}"

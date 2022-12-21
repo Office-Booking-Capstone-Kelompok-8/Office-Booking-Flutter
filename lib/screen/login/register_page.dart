@@ -121,7 +121,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     prefixIcon: Icons.email_outlined,
                     hint: 'Email',
                     validation: (value) {
-                      if (value != null || value!.isEmpty) {
+                      if (value == null || value.isEmpty) {
                         return 'email is required';
                       }
                       const String expression = "[a-zA-Z0-9+._%-+]{1,256}"
