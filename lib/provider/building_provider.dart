@@ -9,9 +9,11 @@ import '../model/reservation/rating_model.dart';
 
 class BuildingProvider extends ChangeNotifier {
   final BuildingApi service = BuildingApi();
+  bool _isAsc = true;
   List<BuildingModel> _buildings = [];
   List<BuildingModel> _buildingsByRating = [];
   List<RatingModel> _buildingsRating = [];
+  bool get isAsc => _isAsc;
   List<BuildingModel> get getBuilding => _buildings;
   List<BuildingModel> get getBuildingByRating => _buildingsByRating;
   List<RatingModel> get buildingsRating => _buildingsRating;
@@ -82,6 +84,9 @@ class BuildingProvider extends ChangeNotifier {
     try {
       myState = MyState.loading;
       final response = await service.getReview(id);
+      response.sort(
+        (a, b) => a.createdAt!.compareTo(b.createdAt!),
+      );
       _buildingsRating = response;
       myState = MyState.loaded;
       notifyListeners();
@@ -97,5 +102,19 @@ class BuildingProvider extends ChangeNotifier {
       notifyListeners();
       return null;
     }
+  }
+
+  sortReview() {
+    _isAsc = !_isAsc;
+    if (_isAsc == true) {
+      _buildingsRating.sort(
+        (a, b) => a.createdAt!.compareTo(b.createdAt!),
+      );
+    } else {
+      _buildingsRating.sort(
+        (b, a) => a.createdAt!.compareTo(b.createdAt!),
+      );
+    }
+    notifyListeners();
   }
 }
