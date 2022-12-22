@@ -133,6 +133,7 @@ class _SearchResultState extends State<SearchResult> {
                             provider.getBuilding[index].price!.monthly!,
                             0,
                             false),
+                        rating: provider.getBuilding[index].rating,
                       );
                     },
                   ),

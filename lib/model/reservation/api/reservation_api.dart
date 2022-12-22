@@ -47,10 +47,14 @@ class ReservationApi {
   Future<List<ReservationModel>> getReservation() async {
     try {
       final response = await _dio.get(Api.baseUrl + Api.reservation);
-      List<ReservationModel> reservationList = (response.data['data'] as List)
-          .map((e) => ReservationModel.fromJson(e))
-          .toList();
-      return reservationList;
+      if (response.data['data'] != null) {
+        List<ReservationModel> reservationList = (response.data['data'] as List)
+            .map((e) => ReservationModel.fromJson(e))
+            .toList();
+        return reservationList;
+      } else {
+        return [];
+      }
     } on DioError catch (_) {
       rethrow;
     }

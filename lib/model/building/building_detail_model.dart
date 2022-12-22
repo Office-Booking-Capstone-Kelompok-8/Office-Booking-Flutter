@@ -136,13 +136,13 @@ class Facilities {
 }
 
 class Review {
-  int? rating;
+  double? rating;
   int? count;
 
   Review({this.rating, this.count});
 
   Review.fromJson(Map<String, dynamic> json) {
-    rating = json['rating'];
+    rating = json['rating'].toDouble();
     count = json['count'];
   }
 

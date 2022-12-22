@@ -455,7 +455,9 @@ class _BookingDetailState extends State<BookingDetail> {
                           buttonWidth: double.infinity)
                       : //status active & complete
                       ButtonComponent(
-                          onPress: () {},
+                          onPress: () {
+                            Navigator.pushNamed(context, '/post-review');
+                          },
                           textButton: 'Give Review',
                           buttonHeight: 37.h,
                           buttonWidth: double.infinity),

@@ -126,6 +126,7 @@ class _HomepageState extends State<Homepage> {
                           building.getBuilding[index].price!.monthly!,
                           0,
                           false),
+                      rating: building.getBuilding[index].rating,
                     ),
                   ),
                 ),
