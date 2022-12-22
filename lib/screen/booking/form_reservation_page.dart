@@ -346,10 +346,9 @@ class _FormReservationPageState extends State<FormReservationPage> {
                               _) =>
                           ButtonComponent(
                               onPress: () async {
-                                filter.duration == null
-                                    ? showNotification(
-                                        context, 'Please insert duration')
-                                    : showModalBottomSheet(
+                                filter.duration != null &&
+                                        _formkey.currentState!.validate()
+                                    ? showModalBottomSheet(
                                         context: context,
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.only(
@@ -476,53 +475,47 @@ class _FormReservationPageState extends State<FormReservationPage> {
                                                   ),
                                                   ButtonComponent(
                                                     onPress: () async {
-                                                      if (_formkey.currentState!
-                                                          .validate()) {
-                                                        try {
-                                                          FocusManager.instance
-                                                              .primaryFocus
-                                                              ?.unfocus();
-                                                          String finalDate =
-                                                              DateFormat(
-                                                                      'yyyy-MM-dd')
-                                                                  .format(date
-                                                                      .getDateStart);
-                                                          final result =
-                                                              await reservation
-                                                                  .postReservation(
-                                                            argsForm[
-                                                                'building-id'],
-                                                            _companyNameController
-                                                                .text,
-                                                            finalDate,
-                                                            filter.duration!,
-                                                          );
-                                                          if (mounted) {}
-                                                          if (result ==
-                                                              'reservation created successfully') {
-                                                            showNotification(
-                                                                context,
-                                                                result!);
-                                                            filter
-                                                                .changeDuration(
-                                                                    0);
-                                                            Navigator
-                                                                .pushNamedAndRemoveUntil(
-                                                                    context,
-                                                                    '/booking-success',
-                                                                    (route) =>
-                                                                        false);
-                                                          } else if (result !=
-                                                              null) {
-                                                            showNotification(
-                                                                context,
-                                                                result);
-                                                          }
-                                                        } catch (e) {
+                                                      try {
+                                                        FocusManager.instance
+                                                            .primaryFocus
+                                                            ?.unfocus();
+                                                        String finalDate =
+                                                            DateFormat(
+                                                                    'yyyy-MM-dd')
+                                                                .format(date
+                                                                    .getDateStart);
+                                                        final result =
+                                                            await reservation
+                                                                .postReservation(
+                                                          argsForm[
+                                                              'building-id'],
+                                                          _companyNameController
+                                                              .text,
+                                                          finalDate,
+                                                          filter.duration!,
+                                                        );
+                                                        if (mounted) {}
+                                                        if (result ==
+                                                            'reservation created successfully') {
                                                           showNotification(
-                                                              context,
-                                                              e.toString());
+                                                              context, result!);
+                                                          filter.changeDuration(
+                                                              0);
+                                                          Navigator
+                                                              .pushNamedAndRemoveUntil(
+                                                                  context,
+                                                                  '/booking-success',
+                                                                  (route) =>
+                                                                      false);
+                                                        } else if (result !=
+                                                            null) {
+                                                          showNotification(
+                                                              context, result);
                                                         }
+                                                      } catch (e) {
+                                                        showNotification(
+                                                            context,
+                                                            e.toString());
                                                       }
                                                     },
                                                     textButton: 'Confrirm',
@@ -534,7 +527,9 @@ class _FormReservationPageState extends State<FormReservationPage> {
                                             ],
                                           ),
                                         ),
-                                      );
+                                      )
+                                    : showNotification(context,
+                                        'Please fill duration and form ');
                               },
                               textButton: 'BOOKING',
                               buttonHeight: 41.h,

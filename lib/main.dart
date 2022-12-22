@@ -61,8 +61,8 @@ class MyApp extends StatelessWidget {
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 831),
-        builder: (context, child) => Consumer<OnboardProvider>(
-          builder: (context, onboard, child) => MaterialApp(
+        builder: (context, child) => Consumer2<OnboardProvider, SignInProvider>(
+          builder: (context, onboard, token, _) => MaterialApp(
             navigatorObservers: [FlutterSmartDialog.observer],
             builder: FlutterSmartDialog.init(
               loadingBuilder: (String msg) => Container(
@@ -100,7 +100,8 @@ class MyApp extends StatelessWidget {
             onGenerateRoute: (settings) {
               if (settings.name == '/' || settings.name == '/navbar') {
                 return MaterialPageRoute(builder: (_) {
-                  return onboard.userOpenApp == true
+                  return onboard.userOpenApp == true ||
+                          token.dataUser?.accessToken != null
                       ? const Navbar()
                       : const OnboardPage();
                 });

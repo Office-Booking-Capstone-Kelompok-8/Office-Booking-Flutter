@@ -199,7 +199,6 @@ class _BuildingDetailState extends State<BuildingDetail> {
                   thickness: 1,
                 ),
                 detail.getDetailBuilding.review?.count == 0
-
                     ? const SizedBox()
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -254,7 +253,6 @@ class _BuildingDetailState extends State<BuildingDetail> {
                   height: 5.h,
                 ),
                 detail.getDetailBuilding.review?.count == 0
-
                     ? const SizedBox()
                     : const Divider(
                         color: AppColors.dividerColor,
@@ -380,7 +378,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
                         borderRadius: BorderRadius.circular(1000.0),
                         onTap: () async {
                           final url = Uri.parse(
-                              'whatsapp://send?phone=6285786756504&text=test');
+                              'whatsapp://send?phone=${detail.getDetailBuilding.agent!.phone}&text=test');
                           final urlFailed = Uri.parse(
                               'https://play.google.com/store/apps/details?id=com.whatsapp');
 
