@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:office_booking_app/model/reservation/api/reservation_api.dart';
 import 'package:office_booking_app/provider/reservation_provider.dart';
 import 'package:office_booking_app/screen/components/button_component.dart';
 import 'package:office_booking_app/screen/components/snackbar_component.dart';
@@ -12,6 +15,7 @@ import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
 import 'package:office_booking_app/utils/constant/helper.dart';
 import 'package:provider/provider.dart';
+
 import '../components/appbar_component.dart';
 
 class PaymentDetailPage extends StatefulWidget {
@@ -319,8 +323,10 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
                                     style: TextButton.styleFrom(
                                         splashFactory: NoSplash.splashFactory),
                                     onPressed: () async {
-                                      final result = await FilePicker.platform
-                                          .pickFiles(type: FileType.image);
+                                      final result =
+                                          await FilePicker.platform.pickFiles(
+                                        type: FileType.image,
+                                      );
                                       if (result == null) return;
                                       // Mendapatkan file yang telah di pick
                                       final PlatformFile file =
@@ -464,17 +470,22 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
                           context, 'Please Insert proof of payment');
                     }
                     try {
+                      final imgCompress =
+                          await ReservationApi.compressFile(value!);
                       final result = await data.postProofPayment(
                           data.getUserDetailReservation!.id!,
-                          value!,
+                          imgCompress,
                           data.getPaymentBankData!.id!);
-                      print(result);
+                      if (result == 'Payment proof uploaded successfully') {
+                        showNotification(context, result);
+                        fileImage.value = null;
+                        Navigator.pushNamed(context, '/navbar');
+                      } else if (result != null) {
+                        showNotification(context, result);
+                      }
                     } catch (e) {
-                      e.toString();
+                      showNotification(context, e.toString());
                     }
-
-                    fileImage.value = null;
-                    Navigator.pop(context);
                   },
                   textButton: 'Done',
                   buttonHeight: 37.h,

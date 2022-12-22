@@ -58,6 +58,7 @@ class ReservationProvider extends ChangeNotifier {
     try {
       myState = MyState.loading;
       notifyListeners();
+      _reservation.clear();
       final response = await service.getReservation();
       response.sort(
         (a, b) => b.createdAt!.compareTo(a.createdAt!),
@@ -181,7 +182,6 @@ class ReservationProvider extends ChangeNotifier {
     }
   }
 
-
   postProofPayment(String reservationId, File file, int methodId) async {
     try {
       myState = MyState.loading;
@@ -226,6 +226,7 @@ class ReservationProvider extends ChangeNotifier {
       return null;
     }
   }
+
   changeRating(int rating) {
     _ratingValue = rating;
     notifyListeners();
@@ -235,5 +236,4 @@ class ReservationProvider extends ChangeNotifier {
     _commentReview = value;
     notifyListeners();
   }
-
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:office_booking_app/model/auth/signin_model.dart';
 import 'package:office_booking_app/model/reservation/payment_all_bank_model.dart';
 import 'package:office_booking_app/model/reservation/payment_bank_model.dart';
@@ -221,5 +222,19 @@ class ReservationApi {
       print(e.response!.statusCode);
       return null;
     }
+  }
+
+  static Future<File> compressFile(File file) async {
+    final filePath = file.absolute.path;
+    final lastIndex = filePath.lastIndexOf(RegExp(r'.jp'));
+    final splitted = filePath.substring(0, (lastIndex));
+    final outPath = "${splitted}_out${filePath.substring(lastIndex)}";
+    var result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      outPath,
+      quality: 50,
+    );
+
+    return result!;
   }
 }
