@@ -3,12 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/screen/components/appbar_component.dart';
-import 'package:office_booking_app/screen/components/snackbar_component.dart';
 import 'package:office_booking_app/utils/constant/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../provider/building_provider.dart';
+import '../../utils/constant/app_text_style.dart';
 import '../components/button_component.dart';
 import '../components/rating_list_component.dart';
 
@@ -101,7 +101,7 @@ class RatingBuilding extends StatelessWidget {
                       ),
                       DropdownButtonHideUnderline(
                         child: DropdownButton(
-                          value: 'latest',
+                          value: provider.isAsc ? 'latest' : 'older',
                           style: TextStyle(
                               fontSize: 12.sp,
                               fontWeight: FontWeight.bold,
@@ -122,12 +122,16 @@ class RatingBuilding extends StatelessWidget {
                               child: Text('Older'),
                             ),
                           ],
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            provider.sortReview();
+                          },
                         ),
                       )
                     ],
                   ),
-                  Expanded(child: ListView.builder(
+                  Expanded(
+                      child: ListView.builder(
+                    itemCount: provider.buildingsRating.length,
                     itemBuilder: (context, index) {
                       return RatingComponent(
                         name: provider.buildingsRating[index].name!,
@@ -142,8 +146,24 @@ class RatingBuilding extends StatelessWidget {
                 ],
               ),
             )
-          : const Center(
-              child: Text('Empty'),
+          : Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                      height: 98.h,
+                      width: 98.w,
+                      child:
+                          Image.asset('assets/images/reservation_empty.png')),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  Text(
+                    'No Reviews Yet',
+                    style: detailFormStyle,
+                  ),
+                ],
+              ),
             ),
     );
   }

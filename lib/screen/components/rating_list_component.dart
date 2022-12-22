@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 import '../../utils/constant/app_colors.dart';
 
@@ -20,10 +21,13 @@ class RatingComponent extends StatelessWidget {
   final double rating;
   @override
   Widget build(BuildContext context) {
+    final dateTry = DateFormat("yyyy-MM-dd").parse(date);
+    String dateParse = DateFormat('dd/MM/yyyy').format(dateTry);
     return Card(
       elevation: 0,
       color: AppColors.neutral4,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
             horizontalTitleGap: 6,
@@ -33,10 +37,13 @@ class RatingComponent extends StatelessWidget {
                 image,
               ),
             ),
-            title: Text(name),
-            subtitle: Text(date),
-            trailing: SizedBox(
-              width: 60.w,
+            title: Text(
+              name,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text(dateParse),
+            trailing: Container(
+              width: 80.w,
               child: RatingBarIndicator(
                 rating: rating,
                 itemBuilder: (context, index) => const Icon(
@@ -44,7 +51,7 @@ class RatingComponent extends StatelessWidget {
                   color: Colors.amber,
                 ),
                 itemCount: 5,
-                itemSize: 15,
+                itemSize: 18,
                 direction: Axis.horizontal,
               ),
             ),

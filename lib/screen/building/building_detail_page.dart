@@ -198,7 +198,8 @@ class _BuildingDetailState extends State<BuildingDetail> {
                   color: AppColors.dividerColor,
                   thickness: 1,
                 ),
-                detail.getDetailBuilding.review?.count != null
+                detail.getDetailBuilding.review?.count == 0
+
                     ? const SizedBox()
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -216,8 +217,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
                                     vertical: 2.h, horizontal: 3.w),
                                 child: Text(
                                   detail.getDetailBuilding.review!.rating!
-                                      .toDouble()
-                                      .toString(),
+                                      .toStringAsFixed(1),
                                   textAlign: TextAlign.center,
                                   style: ratingStyle,
                                 ),
@@ -231,15 +231,16 @@ class _BuildingDetailState extends State<BuildingDetail> {
                           ),
                           TextButton(
                             onPressed: () async {
-                              // final result = await detail
-                              //     .getBuildingRating(detail.getDetailBuilding.id!);
-                              // if (result == 'seccessfull') {
-                              //   if (mounted) {}
-                              //   Navigator.pushNamed(context, '/rating');
-                              // } else if (result != null) {
-                              //   if (mounted) {}
-                              //   showNotification(context, result);
-                              // }
+                              final result = await detail.getBuildingRating(
+                                  detail.getDetailBuilding.id!);
+                              if (result == 'seccessfull') {
+                                if (mounted) {}
+                                Navigator.pushNamed(context, '/rating');
+                              } else if (result != null) {
+                                if (mounted) {}
+                                showNotification(context, result);
+                              }
+                              if (mounted) {}
                               Navigator.pushNamed(context, '/rating');
                             },
                             style: TextButton.styleFrom(
@@ -252,7 +253,8 @@ class _BuildingDetailState extends State<BuildingDetail> {
                 SizedBox(
                   height: 5.h,
                 ),
-                detail.getDetailBuilding.review?.count != null
+                detail.getDetailBuilding.review?.count == 0
+
                     ? const SizedBox()
                     : const Divider(
                         color: AppColors.dividerColor,

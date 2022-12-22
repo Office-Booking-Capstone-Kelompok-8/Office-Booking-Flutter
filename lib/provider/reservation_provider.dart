@@ -23,6 +23,10 @@ class ReservationProvider extends ChangeNotifier {
   PaymentBuildingModel? get getPaymentBuildingData => _paymentBuildingData;
   List<PaymentAllBankModel> _allBank = [];
   List<PaymentAllBankModel> get getAllBank => _allBank;
+  int _ratingValue = 1;
+  int get ratingValue => _ratingValue;
+  String _commentReview = '';
+  String get commentReview => _commentReview;
 
   Future<String?> postReservation(String buildingId, String companyName,
       String startDate, int duration) async {
@@ -177,6 +181,7 @@ class ReservationProvider extends ChangeNotifier {
     }
   }
 
+
   postProofPayment(String reservationId, File file, int methodId) async {
     try {
       myState = MyState.loading;
@@ -189,7 +194,9 @@ class ReservationProvider extends ChangeNotifier {
     } catch (e) {
       if (e is DioError) {
         if (e.response != null) {
-          return e.response!.data['message'];
+          myState = MyState.loaded;
+          notifyListeners();
+          return '${e.response!.data['message'] ?? e.response!.statusCode}';
         }
       }
       myState = MyState.failed;
@@ -197,4 +204,36 @@ class ReservationProvider extends ChangeNotifier {
       return null;
     }
   }
+
+  Future<String?> postReview(String id, int rating, String comment) async {
+    try {
+      myState = MyState.loading;
+      notifyListeners();
+      final response = await service.postReview(id, rating, comment);
+      myState = MyState.loaded;
+      notifyListeners();
+      return response;
+    } catch (e) {
+      if (e is DioError) {
+        if (e.response != null) {
+          myState = MyState.loaded;
+          notifyListeners();
+          return '${e.response!.data['message'] ?? e.response!.statusCode}';
+        }
+      }
+      myState = MyState.failed;
+      notifyListeners();
+      return null;
+    }
+  }
+  changeRating(int rating) {
+    _ratingValue = rating;
+    notifyListeners();
+  }
+
+  changeComment(String value) {
+    _commentReview = value;
+    notifyListeners();
+  }
+
 }

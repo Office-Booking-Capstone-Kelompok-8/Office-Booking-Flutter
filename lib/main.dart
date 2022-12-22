@@ -10,6 +10,7 @@ import 'package:office_booking_app/provider/login_provider.dart';
 import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/screen/booking/booking_detail_page.dart';
 import 'package:office_booking_app/screen/booking/booking_success_page.dart';
+import 'package:office_booking_app/screen/booking/post_review.dart';
 import 'package:office_booking_app/screen/building/building_detail_page.dart';
 import 'package:office_booking_app/screen/building/rating_building.dart';
 import 'package:office_booking_app/screen/payment/payment_detail_page.dart';
@@ -149,6 +150,8 @@ class MyApp extends StatelessWidget {
                         return const VerifyOtpEmail();
                       case '/rating':
                         return const RatingBuilding();
+                      case '/post-review':
+                        return const PostReview();
                       default:
                         return const Navbar();
                     }
