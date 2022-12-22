@@ -182,7 +182,6 @@ class ReservationProvider extends ChangeNotifier {
     }
   }
 
-
   postProofPayment(String reservationId, File file, int methodId) async {
     try {
       myState = MyState.loading;
@@ -227,6 +226,7 @@ class ReservationProvider extends ChangeNotifier {
       return null;
     }
   }
+
   changeRating(int rating) {
     _ratingValue = rating;
     notifyListeners();
@@ -236,5 +236,4 @@ class ReservationProvider extends ChangeNotifier {
     _commentReview = value;
     notifyListeners();
   }
-
 }

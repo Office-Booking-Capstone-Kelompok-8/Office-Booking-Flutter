@@ -44,7 +44,7 @@ class BuildingProvider extends ChangeNotifier {
     try {
       myState = MyState.loading;
       final response = await service.getAllBuildings();
-      response.sort((a, b) => a.rating!.compareTo(b.rating!));
+      response.sort((a, b) => b.rating!.compareTo(a.rating!));
       _buildingsByRating = response;
       myState = MyState.loaded;
       notifyListeners();
