@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:office_booking_app/model/reservation/api/reservation_api.dart';
@@ -179,6 +181,30 @@ class ReservationProvider extends ChangeNotifier {
     }
   }
 
+
+  postProofPayment(String reservationId, File file, int methodId) async {
+    try {
+      myState = MyState.loading;
+      notifyListeners();
+      final response =
+          await service.postProofPayment(reservationId, file, methodId);
+      myState = MyState.loaded;
+      notifyListeners();
+      return response;
+    } catch (e) {
+      if (e is DioError) {
+        if (e.response != null) {
+          myState = MyState.loaded;
+          notifyListeners();
+          return '${e.response!.data['message'] ?? e.response!.statusCode}';
+        }
+      }
+      myState = MyState.failed;
+      notifyListeners();
+      return null;
+    }
+  }
+
   Future<String?> postReview(String id, int rating, String comment) async {
     try {
       myState = MyState.loading;
@@ -200,7 +226,6 @@ class ReservationProvider extends ChangeNotifier {
       return null;
     }
   }
-
   changeRating(int rating) {
     _ratingValue = rating;
     notifyListeners();
@@ -210,4 +235,5 @@ class ReservationProvider extends ChangeNotifier {
     _commentReview = value;
     notifyListeners();
   }
+
 }
