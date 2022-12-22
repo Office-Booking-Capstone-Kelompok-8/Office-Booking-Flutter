@@ -503,7 +503,9 @@ class _FormReservationPageState extends State<FormReservationPage> {
                                                             showNotification(
                                                                 context,
                                                                 result!);
-
+                                                            filter
+                                                                .changeDuration(
+                                                                    0);
                                                             Navigator
                                                                 .pushNamedAndRemoveUntil(
                                                                     context,

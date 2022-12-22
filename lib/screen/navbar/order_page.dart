@@ -5,12 +5,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:office_booking_app/provider/login_provider.dart';
 import 'package:office_booking_app/provider/reservation_provider.dart';
+import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:office_booking_app/screen/components/button_component.dart';
 import 'package:office_booking_app/screen/components/show_state.dart';
 import 'package:office_booking_app/screen/components/status_order_component.dart';
 import 'package:office_booking_app/screen/login/login_page.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
 import 'package:office_booking_app/utils/constant/helper.dart';
+import 'package:office_booking_app/utils/state/finite_state.dart';
 import 'package:provider/provider.dart';
 
 class OrderPage extends StatefulWidget {
@@ -45,13 +47,15 @@ class _OrderPageState extends State<OrderPage> {
   Widget build(BuildContext context) {
     final reservation = Provider.of<ReservationProvider>(context, listen: true);
     final data = Provider.of<SignInProvider>(context, listen: true);
+    final profile = Provider.of<UserProvider>(context, listen: false);
     showState(reservation, provider2: data);
     return SafeArea(
       child: Scaffold(
-        body: reservation.getUserReservation.isEmpty == true
-            ? data.dataUser?.accessToken == null
-                ? const LoginPage()
-                : Center(
+        body: profile.getUsers!.verified! == false
+            ? const LoginPage()
+            : reservation.getUserReservation.isEmpty == true &&
+                    reservation.myState != MyState.loading
+                ? Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -80,59 +84,64 @@ class _OrderPageState extends State<OrderPage> {
                       ],
                     ),
                   )
-            : Container(
-                padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 10.w),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Your Reservation',
-                        style: onboardTitle,
-                      ),
-                      SizedBox(height: 16.h),
-                      ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: reservation.getUserReservation.length,
-                        itemBuilder: (context, index) {
-                          final date = DateFormat("yyyy-MM-dd").parse(
-                              reservation.getUserReservation[index].startDate!);
-                          String dateParse =
-                              DateFormat('dd MMM yyyy').format(date);
-                          return InkWell(
-                            onTap: () async {
-                              await reservation.getDetailReservation(
-                                  reservation.getUserReservation[index].id!);
-
-                              Navigator.pushNamed(context, '/booking-detail');
-                            },
-                            child: StatusOrderComponent(
-                              monthDuration: reservation
-                                  .getUserReservation[index].duration!,
-                              price: Helper.convertToIdr(
+                : Container(
+                    padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 10.w),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Your Reservation',
+                            style: onboardTitle,
+                          ),
+                          SizedBox(height: 16.h),
+                          ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: reservation.getUserReservation.length,
+                            itemBuilder: (context, index) {
+                              final date = DateFormat("yyyy-MM-dd").parse(
+                                  reservation
+                                      .getUserReservation[index].startDate!);
+                              String dateParse =
+                                  DateFormat('dd MMM yyyy').format(date);
+                              return InkWell(
+                                onTap: () async {
+                                  await reservation.getDetailReservation(
                                       reservation
-                                          .getUserReservation[index].amount!,
-                                      0,
-                                      true)
-                                  .toString(),
-                              companyName: reservation
-                                  .getUserReservation[index].companyName!,
-                              dateStart: dateParse,
-                              imgUrl: reservation
-                                  .getUserReservation[index].building!.picture!,
-                              roomName: reservation
-                                  .getUserReservation[index].building!.name!,
-                              statusId: reservation
-                                  .getUserReservation[index].status!.id!,
-                            ),
-                          );
-                        },
+                                          .getUserReservation[index].id!);
+
+                                  Navigator.pushNamed(
+                                      context, '/booking-detail');
+                                },
+                                child: StatusOrderComponent(
+                                  monthDuration: reservation
+                                      .getUserReservation[index].duration!,
+                                  price: Helper.convertToIdr(
+                                          reservation.getUserReservation[index]
+                                              .amount!,
+                                          0,
+                                          true)
+                                      .toString(),
+                                  companyName: reservation
+                                      .getUserReservation[index].companyName!,
+                                  dateStart: dateParse,
+                                  imgUrl: reservation.getUserReservation[index]
+                                      .building!.picture!,
+                                  roomName: reservation
+                                      .getUserReservation[index]
+                                      .building!
+                                      .name!,
+                                  statusId: reservation
+                                      .getUserReservation[index].status!.id!,
+                                ),
+                              );
+                            },
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
       ),
     );
   }

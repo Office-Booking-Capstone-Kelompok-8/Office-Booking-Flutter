@@ -438,6 +438,7 @@ class _BookingDetailState extends State<BookingDetail> {
                                   await value.getPaymentBank(filter.duration!);
 
                               if (value.getPaymentBankData?.id != null) {
+                                filter.changeDuration(0);
                                 Navigator.pushNamed(context, '/payment-detail');
                               } else if (result != null) {
                                 showNotification(context, result);

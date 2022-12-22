@@ -54,6 +54,7 @@ class ReservationProvider extends ChangeNotifier {
     try {
       myState = MyState.loading;
       notifyListeners();
+      _reservation.clear();
       final response = await service.getReservation();
       response.sort(
         (a, b) => b.createdAt!.compareTo(a.createdAt!),
