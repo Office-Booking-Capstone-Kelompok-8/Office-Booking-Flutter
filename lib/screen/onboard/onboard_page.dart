@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:office_booking_app/provider/onboard_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -66,53 +65,37 @@ class _OnboardPageState extends State<OnboardPage> {
                       value.pageIndex == 2
                           ? Column(
                               children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    ButtonComponent(
-                                        onPress: () {
-                                          Navigator.pushNamedAndRemoveUntil(
-                                              context,
-                                              '/register',
-                                              (route) => false);
-                                        },
-                                        textButton: 'Register',
-                                        buttonHeight: 40.h,
-                                        buttonWidth: 108.w),
-                                    ButtonComponent(
-                                        onPress: () {
-                                          Navigator.pushNamedAndRemoveUntil(
-                                              context,
-                                              '/login',
-                                              (route) => false);
-                                        },
-                                        textButton: 'Login',
-                                        buttonHeight: 40.h,
-                                        buttonWidth: 108.w),
-                                  ],
-                                ),
+                                ButtonComponent(
+                                    onPress: () {
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context, '/login', (route) => false);
+                                    },
+                                    textButton: 'Join Now',
+                                    buttonHeight: 40.h,
+                                    buttonWidth: double.infinity),
                                 SizedBox(
                                   height: 12.h,
                                 ),
-                                TextButton(
-                                    style: TextButton.styleFrom(
-                                      splashFactory: NoSplash.splashFactory,
-                                    ),
-                                    onPressed: () async {
-                                      SmartDialog.showLoading(
-                                          animationType:
-                                              SmartAnimationType.scale);
-                                      await Future.delayed(
-                                          Duration(seconds: 2));
-                                      SmartDialog.dismiss();
-                                      Navigator.pushNamedAndRemoveUntil(
-                                          context, '/navbar', (route) => false);
-                                    },
-                                    child: Text(
-                                      'Skip for now',
-                                      style: onboardSkip,
-                                    ))
+                                Consumer<OnboardProvider>(
+                                  builder: (context, onboard, child) =>
+                                      TextButton(
+                                          style: TextButton.styleFrom(
+                                            splashFactory:
+                                                NoSplash.splashFactory,
+                                          ),
+                                          onPressed: () async {
+                                            onboard.userStatus = true;
+
+                                            Navigator.pushNamedAndRemoveUntil(
+                                                context,
+                                                '/navbar',
+                                                (route) => false);
+                                          },
+                                          child: Text(
+                                            'Skip for now',
+                                            style: onboardSkip,
+                                          )),
+                                )
                               ],
                             )
                           : Row(
@@ -127,7 +110,7 @@ class _OnboardPageState extends State<OnboardPage> {
                                     },
                                     child: Text(
                                       'Skip',
-                                      style: onboardSkip,
+                                      style: onboardSkipGrey,
                                     )),
                                 TextButton(
                                     style: TextButton.styleFrom(

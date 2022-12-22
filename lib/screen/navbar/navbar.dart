@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:office_booking_app/provider/reservation_provider.dart';
+import 'package:office_booking_app/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/navbar_provider.dart';
@@ -13,6 +15,18 @@ class Navbar extends StatefulWidget {
 }
 
 class _NavbarState extends State<Navbar> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero).then((value) async {
+      await Provider.of<UserProvider>(context, listen: false).getUsersDetail();
+    });
+    Future.delayed(Duration.zero).then((value) async {
+      await Provider.of<ReservationProvider>(context, listen: false)
+          .getReservation();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -45,8 +59,18 @@ class _NavbarState extends State<Navbar> {
             currentIndex: value.currentTab,
             iconSize: 24.sm,
             selectedItemColor: AppColors.primary4,
-            onTap: (index) {
-              value.currentTab = index;
+            onTap: (index) async {
+              if (index == 1 || index == 2) {
+                final data = Provider.of<UserProvider>(context, listen: false);
+                if (data.getUsers == null) {
+                  if (mounted) {}
+                  Navigator.pushNamed(context, '/login');
+                } else {
+                  value.currentTab = index;
+                }
+              } else {
+                value.currentTab = index;
+              }
             },
           ),
         ),

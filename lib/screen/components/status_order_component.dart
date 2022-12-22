@@ -5,35 +5,71 @@ import 'package:office_booking_app/utils/constant/app_text_style.dart';
 import '../../utils/constant/app_colors.dart';
 
 class StatusOrderComponent extends StatelessWidget {
-  const StatusOrderComponent({super.key, required this.statusId});
+  const StatusOrderComponent(
+      {super.key,
+      required this.statusId,
+      required this.roomName,
+      required this.dateStart,
+      required this.price,
+      required this.imgUrl,
+      required this.companyName,
+      required this.monthDuration});
   final int statusId;
+  final String roomName;
+  final String dateStart;
+  final String price;
+  final String companyName;
+  final String imgUrl;
+  final int monthDuration;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 8.h),
+      padding: EdgeInsets.all(8.h),
       margin: EdgeInsets.only(bottom: 8.h),
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.dividerColor),
+        borderRadius: BorderRadius.all(Radius.circular(8.r)),
+      ),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Lily Meeting Room',
-                    style: titleReservation,
+              Expanded(
+                child: SizedBox(
+                  width: 160.w,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        roomName,
+                        style: titleReservation,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(
+                        height: 2.h,
+                      ),
+                      Text(
+                        dateStart,
+                        style: formTop,
+                      ),
+                    ],
                   ),
-                  Text(
-                    'Menteng (Jak-sel)',
-                    style: formTop,
-                  ),
-                ],
+                ),
               ),
-              SizedBox(
-                height: 35.h,
-                width: 94.w,
+              Container(
+                color: statusId == 1
+                    ? const Color(0xFFFFF2DF)
+                    : statusId == 2 || statusId == 3
+                        ? const Color(0xFFFFE4E2)
+                        : statusId == 4
+                            ? const Color(0xFFE1EEFF)
+                            : const Color(0xFFDFFFF0),
+                height: 24.h,
+                width: statusId == 4 ? 145.w : 94.w,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -43,32 +79,99 @@ class StatusOrderComponent extends StatelessWidget {
                             size: 16.sm,
                             color: AppColors.warning4,
                           )
-                        : Icon(
-                            Icons.receipt_long_outlined,
-                            size: 16.sm,
-                            color: AppColors.success4,
-                          ),
+                        : statusId == 2
+                            ? Icon(
+                                Icons.cancel_outlined,
+                                size: 16.sm,
+                                color: AppColors.error4,
+                              )
+                            : statusId == 3
+                                ? Icon(
+                                    Icons.cancel_outlined,
+                                    size: 16.sm,
+                                    color: AppColors.error4,
+                                  )
+                                : statusId == 4
+                                    ? Icon(
+                                        Icons.attach_money_outlined,
+                                        size: 16.sm,
+                                        color: AppColors.primary4,
+                                      )
+                                    : statusId == 5
+                                        ? Icon(
+                                            Icons.visibility_outlined,
+                                            size: 16.sm,
+                                            color: AppColors.success4,
+                                          )
+                                        : Icon(
+                                            Icons.check_circle_outline,
+                                            size: 16.sm,
+                                            color: AppColors.success4,
+                                          ),
                     statusId == 1
                         ? Text(
-                            'pending',
+                            'Pending',
                             style: TextStyle(
                               color: AppColors.warning4,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w500,
                             ),
                           )
-                        : Text(
-                            'success',
-                            style: TextStyle(
-                              color: AppColors.success4,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
+                        : statusId == 2
+                            ? Text(
+                                'Rejected',
+                                style: TextStyle(
+                                  color: AppColors.error4,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              )
+                            : statusId == 3
+                                ? Text(
+                                    'Canceled',
+                                    style: TextStyle(
+                                      color: AppColors.error4,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  )
+                                : statusId == 4
+                                    ? Text(
+                                        'Awaiting Payment',
+                                        style: TextStyle(
+                                          color: AppColors.primary4,
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      )
+                                    : statusId == 5
+                                        ? Text(
+                                            'Active',
+                                            style: TextStyle(
+                                              color: AppColors.success4,
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          )
+                                        : Text(
+                                            'Completed',
+                                            style: TextStyle(
+                                              color: AppColors.success4,
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
                   ],
                 ),
               ),
             ],
+          ),
+          SizedBox(
+            height: 8.h,
+          ),
+          const Divider(
+            color: AppColors.dividerColor,
+            thickness: 1,
           ),
           SizedBox(
             height: 8.h,
@@ -82,8 +185,7 @@ class StatusOrderComponent extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.r),
                     child: FittedBox(
                       fit: BoxFit.fill,
-                      child: Image.network(
-                          'https://img.freepik.com/premium-photo/modern-office-with-office-supplies-table-with-office-environment-background_67155-5307.jpg?w=2000'),
+                      child: Image.network(imgUrl),
                     ),
                   )),
               SizedBox(
@@ -96,14 +198,23 @@ class StatusOrderComponent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text('Mr. Robert', style: personReservation),
+                      Text(companyName, style: personReservation),
                       Text(
-                        '16 Nov 2022\t\t\t -\t\t\t 16 Dec 2022',
+                        // 'Start $dateStart\t \u0387\ ${monthDuration.toString()} Month',
+                        'Start $dateStart\t · 1 Month',
                         style: dateReservation,
                       ),
-                      Text(
-                        'Rp 1.500.000',
-                        style: titleReservation,
+                      Row(
+                        children: [
+                          Text(
+                            'Total ',
+                            style: personReservation,
+                          ),
+                          Text(
+                            price,
+                            style: onboardSkip,
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -112,11 +223,7 @@ class StatusOrderComponent extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: 16.h,
-          ),
-          const Divider(
-            color: AppColors.neutral5,
-            thickness: 1,
+            height: 8.h,
           ),
         ],
       ),

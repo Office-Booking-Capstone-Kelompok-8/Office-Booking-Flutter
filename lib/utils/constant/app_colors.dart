@@ -4,12 +4,15 @@ class AppColors {
   // warna
   static const Color primary3 = Color(0xFF3583EF);
   static const Color primary4 = Color(0xFF0D6AEC);
+  static const Color primary5 = Color(0xFF0b58c5);
+  static const Color primary6 = Color(0xFF09479D);
   static const Color primary7 = Color(0xFF073576);
-  static const Color borderButton = Color(0xFF0012B0);
+  static const Color borderButton = Color(0xFF0D6AEC);
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
   static const Color neutral2 = Color(0xFFFAFAFA);
   static const Color neutral3 = Color(0xFFF5F5F5);
+  static const Color neutral4 = Color(0xFFF0F0F0);
   static const Color neutral5 = Color(0xFFD9D9D9);
   static const Color neutral7 = Color(0xFF8C8C8C);
   static const Color neutral8 = Color(0xFF595959);
@@ -18,8 +21,13 @@ class AppColors {
   static const Color neutral11 = Color(0xFF1F1F1F);
   static const Color success4 = Color(0xFF4CAF52);
   static const Color warning4 = Color(0xFFFF9602);
+  static const Color error4 = Color(0xFFCE362B);
   static const Color error5 = Color(0xFFCE362B);
   static const Color text1 = Color(0xFF7D8797);
   static const Color bg1 = Color(0xFFD9D9D9);
   static const Color dividerColor = Color(0xFFDFDFDF);
+  static const Color shadowColor = Color(0x267090B0);
+  static const Color greyPayment = Color(0xFF777777);
+  static const Color blackPayment = Color(0xFF1D1D1D);
+  static const Color info1 = Color(0xFF91CAFA);
 }
