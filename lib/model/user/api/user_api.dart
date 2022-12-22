@@ -24,7 +24,8 @@ class UserApi {
         },
         onError: (error, handler) async {
           final helper = await SharedPreferences.getInstance();
-          if (error.response?.statusCode == 401) {
+          if (error.response?.statusCode == 401 &&
+              error.response?.data['message'] == 'invalid or expired JWT') {
             final refreshToken = helper.getString('refreshToken');
             if (refreshToken != null) {
               await refreshTokenApi();
