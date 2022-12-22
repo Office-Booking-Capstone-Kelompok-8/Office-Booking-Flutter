@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:office_booking_app/model/reservation/api/reservation_api.dart';
@@ -163,6 +165,27 @@ class ReservationProvider extends ChangeNotifier {
       _paymentBuildingData = response;
       myState = MyState.loaded;
       notifyListeners();
+    } catch (e) {
+      if (e is DioError) {
+        if (e.response != null) {
+          return e.response!.data['message'];
+        }
+      }
+      myState = MyState.failed;
+      notifyListeners();
+      return null;
+    }
+  }
+
+  postProofPayment(String reservationId, File file, int methodId) async {
+    try {
+      myState = MyState.loading;
+      notifyListeners();
+      final response =
+          await service.postProofPayment(reservationId, file, methodId);
+      myState = MyState.loaded;
+      notifyListeners();
+      return response;
     } catch (e) {
       if (e is DioError) {
         if (e.response != null) {

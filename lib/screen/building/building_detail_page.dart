@@ -199,7 +199,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
                   thickness: 1,
                 ),
                 detail.getDetailBuilding.review?.count != null
-                    ? SizedBox()
+                    ? const SizedBox()
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -253,7 +253,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
                   height: 5.h,
                 ),
                 detail.getDetailBuilding.review?.count != null
-                    ? SizedBox()
+                    ? const SizedBox()
                     : const Divider(
                         color: AppColors.dividerColor,
                         thickness: 1,
