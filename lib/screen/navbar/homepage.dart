@@ -63,6 +63,7 @@ class _HomepageState extends State<Homepage> {
                           ? 3
                           : bRating.getBuildingByRating.length,
                       itemBuilder: (context, index) => InkWell(
+                            splashFactory: NoSplash.splashFactory,
                             onTap: () async {
                               await bRating
                                   .getDetail(bRating.getBuilding[index].id!);
@@ -109,6 +110,7 @@ class _HomepageState extends State<Homepage> {
                   itemCount: building.getBuilding.length,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) => InkWell(
+                    splashFactory: NoSplash.splashFactory,
                     onTap: () async {
                       await building.getDetail(building.getBuilding[index].id!);
 
