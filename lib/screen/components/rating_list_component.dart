@@ -39,10 +39,10 @@ class RatingComponent extends StatelessWidget {
             ),
             title: Text(
               name,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             subtitle: Text(dateParse),
-            trailing: Container(
+            trailing: SizedBox(
               width: 80.w,
               child: RatingBarIndicator(
                 rating: rating,
