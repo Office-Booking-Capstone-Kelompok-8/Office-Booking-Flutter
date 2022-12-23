@@ -23,17 +23,6 @@ class BuildingDetail extends StatefulWidget {
 }
 
 class _BuildingDetailState extends State<BuildingDetail> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-  //     Map<String, dynamic> argsDetail =
-  //         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-  //     String id = argsDetail['id'];
-  //     Provider.of<BuildingProvider>(context, listen: false).getDetail(id);
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     final detail = Provider.of<BuildingProvider>(context, listen: false);
@@ -64,7 +53,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
                                   fit: StackFit.expand,
                                   children: [
                                     FittedBox(
-                                      fit: BoxFit.fill,
+                                      fit: BoxFit.cover,
                                       child: Image.network(detail
                                           .getDetailBuilding
                                           .pictures![index]
@@ -315,9 +304,9 @@ class _BuildingDetailState extends State<BuildingDetail> {
                 ),
                 SizedBox(
                   height: detail.getDetailBuilding.facilities!.length < 5
-                      ? 40.h
+                      ? 50.h
                       : detail.getDetailBuilding.facilities!.length < 9
-                          ? 80.h
+                          ? 100.h
                           : detail.getDetailBuilding.facilities!.length < 13
                               ? 120.h
                               : 160.h,
@@ -336,8 +325,12 @@ class _BuildingDetailState extends State<BuildingDetail> {
                             height: 20.h,
                             color: AppColors.primary4,
                           ),
-                          Text(detail
-                              .getDetailBuilding.facilities![index].name!),
+                          Expanded(
+                            child: Text(
+                              detail.getDetailBuilding.facilities![index].name!,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                         ],
                       );
                     },
