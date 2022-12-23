@@ -10,7 +10,6 @@ class Api {
   static const String userDetail = 'users';
   static const String changePassword = 'users/change-password';
   static const String building = 'buildings';
-  // endpointnya kayanya typo
   static const String buildingFacilities = 'buildings/faclities/category';
   static const String payment = 'payments';
   static const String picture = 'users/picture';
