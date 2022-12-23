@@ -247,8 +247,8 @@ class District {
 }
 
 class Geo {
-  int? long;
-  int? lat;
+  double? long;
+  double? lat;
 
   Geo({this.long, this.lat});
 
