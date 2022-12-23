@@ -98,44 +98,46 @@ class _SearchResultState extends State<SearchResult> {
                   child: Text('Empty Result'),
                 )
               else
-                Padding(
-                  padding: EdgeInsets.all(16.w),
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 160.w / 220.w,
-                        mainAxisSpacing: 8.w,
-                        crossAxisSpacing: 8.w),
-                    shrinkWrap: true,
-                    itemCount: provider.getBuilding.length,
-                    itemBuilder: (context, index) {
-                      return BuildingGridComponent(
-                        onPress: () async {
-                          final result = await provider
-                              .getDetail(provider.getBuilding[index].id!);
-                          if (result == "successfull") {
-                            if (mounted) {}
-
-                            await helper
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.all(16.w),
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 160.w / 220.w,
+                          mainAxisSpacing: 8.w,
+                          crossAxisSpacing: 8.w),
+                      shrinkWrap: true,
+                      itemCount: provider.getBuilding.length,
+                      itemBuilder: (context, index) {
+                        return BuildingGridComponent(
+                          onPress: () async {
+                            final result = await provider
                                 .getDetail(provider.getBuilding[index].id!);
-                            if (mounted) {}
-                            Navigator.pushNamed(
-                              context,
-                              '/building-detail',
-                            );
-                          }
-                        },
-                        url: provider.getBuilding[index].pictures!,
-                        buildingName: provider.getBuilding[index].name!,
-                        buildingLoc:
-                            '${provider.getBuilding[index].location!.city!} - ${provider.getBuilding[index].location!.district!}',
-                        buildingPrice: Helper.convertToIdr(
-                            provider.getBuilding[index].price!.monthly!,
-                            0,
-                            false),
-                        rating: provider.getBuilding[index].rating,
-                      );
-                    },
+                            if (result == "successfull") {
+                              if (mounted) {}
+
+                              await helper
+                                  .getDetail(provider.getBuilding[index].id!);
+                              if (mounted) {}
+                              Navigator.pushNamed(
+                                context,
+                                '/building-detail',
+                              );
+                            }
+                          },
+                          url: provider.getBuilding[index].pictures!,
+                          buildingName: provider.getBuilding[index].name!,
+                          buildingLoc:
+                              '${provider.getBuilding[index].location!.city!} - ${provider.getBuilding[index].location!.district!}',
+                          buildingPrice: Helper.convertToIdr(
+                              provider.getBuilding[index].price!.monthly!,
+                              0,
+                              false),
+                          rating: provider.getBuilding[index].rating,
+                        );
+                      },
+                    ),
                   ),
                 ),
             ],
