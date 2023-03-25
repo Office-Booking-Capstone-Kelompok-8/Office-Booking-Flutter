@@ -46,7 +46,11 @@ class _HomepageState extends State<Homepage> {
                     'Popular building by rating',
                     style: detailFormStyle,
                   ),
-                  TextButton(onPressed: () {}, child: const Text('View All'))
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/allrating');
+                      },
+                      child: const Text('View All'))
                 ],
               ),
               SizedBox(

@@ -24,6 +24,7 @@ import 'package:office_booking_app/screen/navbar/order_page.dart';
 import 'package:office_booking_app/screen/onboard/onboard_page.dart';
 import 'package:office_booking_app/screen/profile_tile_page/help_center_page.dart';
 import 'package:office_booking_app/screen/profile_tile_page/verify_otp_email.dart';
+import 'package:office_booking_app/screen/search/popular_building.dart';
 import 'package:office_booking_app/screen/search/search_page.dart';
 import 'package:office_booking_app/screen/search/search_result.dart';
 import 'provider/onboard_provider.dart';
@@ -116,7 +117,6 @@ class MyApp extends StatelessWidget {
                         return const FormReservationPage();
                       case '/register':
                         return const RegisterPage();
-
                       case '/onboard':
                         return const OnboardPage();
                       case '/edit-profile':
@@ -153,6 +153,8 @@ class MyApp extends StatelessWidget {
                         return const RatingBuilding();
                       case '/post-review':
                         return const PostReview();
+                      case '/allrating':
+                        return const PopularBuildingAll();
                       default:
                         return const Navbar();
                     }

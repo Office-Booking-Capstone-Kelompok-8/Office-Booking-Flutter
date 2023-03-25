@@ -126,10 +126,12 @@ class UserApi {
 
   Future<Response<dynamic>?> retry(RequestOptions requestOptions) async {
     final helper = await SharedPreferences.getInstance();
+    final accessToken = helper.getString('accessToken');
     final options = Options(
       method: requestOptions.method,
       headers: requestOptions.headers,
     );
+    options.headers!['Authorization'] = 'Bearer $accessToken';
     try {
       final result = await _dio.request<dynamic>(requestOptions.path,
           data: requestOptions.data,

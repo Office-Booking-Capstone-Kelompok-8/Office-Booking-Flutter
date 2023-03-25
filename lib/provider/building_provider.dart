@@ -60,7 +60,7 @@ class BuildingProvider extends ChangeNotifier {
     }
   }
 
-  getDetail(String id) async {
+  Future<String> getDetail(String id) async {
     try {
       myState = MyState.loading;
       notifyListeners();
@@ -68,15 +68,17 @@ class BuildingProvider extends ChangeNotifier {
       _detailBuilding = response;
       myState = MyState.loaded;
       notifyListeners();
+      return 'successfull';
     } catch (e) {
       if (e is DioError) {
         /// If want to check status code from service error
         e.response!.statusCode;
+        return 'something wrong';
       }
 
       myState = MyState.failed;
       notifyListeners();
-      return null;
+      return 'something wrong';
     }
   }
 
