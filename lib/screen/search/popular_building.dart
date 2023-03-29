@@ -26,47 +26,51 @@ class _PopularBuildingAllState extends State<PopularBuildingAll> {
             title: 'Popular Building',
             elevation: 0,
           ),
-          body: Column(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.all(16.w),
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 160.w / 220.w,
-                        mainAxisSpacing: 8.w,
-                        crossAxisSpacing: 8.w),
-                    shrinkWrap: true,
-                    itemCount: provider.getBuildingByRating.length,
-                    itemBuilder: (context, index) {
-                      return BuildingGridComponent(
-                        onPress: () async {
-                          final result = await provider.getDetail(
-                              provider.getBuildingByRating[index].id!);
-                          if (result == "successfull") {
-                            if (mounted) {}
-                            Navigator.pushNamed(
-                              context,
-                              '/building-detail',
-                            );
-                          }
-                        },
-                        url: provider.getBuildingByRating[index].pictures!,
-                        buildingName: provider.getBuildingByRating[index].name!,
-                        buildingLoc:
-                            '${provider.getBuildingByRating[index].location!.city!} - ${provider.getBuildingByRating[index].location!.district!}',
-                        buildingPrice: Helper.convertToIdr(
-                            provider.getBuildingByRating[index].price!.monthly!,
-                            0,
-                            false),
-                        rating: provider.getBuildingByRating[index].rating,
+          body: Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.white,
+                Color(0xFFe9edf9),
+                Color(0xFFe9edf9),
+              ],
+            )),
+            padding: EdgeInsets.all(16.w),
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 160.w / 220.w,
+                  mainAxisSpacing: 8.w,
+                  crossAxisSpacing: 8.w),
+              shrinkWrap: true,
+              itemCount: provider.getBuildingByRating.length,
+              itemBuilder: (context, index) {
+                return BuildingGridComponent(
+                  onPress: () async {
+                    final result = await provider
+                        .getDetail(provider.getBuildingByRating[index].id!);
+                    if (result == "successfull") {
+                      if (mounted) {}
+                      Navigator.pushNamed(
+                        context,
+                        '/building-detail',
                       );
-                    },
-                  ),
-                ),
-              ),
-            ],
+                    }
+                  },
+                  url: provider.getBuildingByRating[index].pictures!,
+                  buildingName: provider.getBuildingByRating[index].name!,
+                  buildingLoc:
+                      '${provider.getBuildingByRating[index].location!.city!} - ${provider.getBuildingByRating[index].location!.district!}',
+                  buildingPrice: Helper.convertToIdr(
+                      provider.getBuildingByRating[index].price!.monthly!,
+                      0,
+                      false),
+                  rating: provider.getBuildingByRating[index].rating,
+                );
+              },
+            ),
           ),
         );
       },

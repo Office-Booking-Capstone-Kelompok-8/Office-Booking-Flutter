@@ -99,7 +99,17 @@ class _SearchResultState extends State<SearchResult> {
                 )
               else
                 Expanded(
-                  child: Padding(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.white,
+                        Color(0xFFe9edf9),
+                        Color(0xFFe9edf9),
+                      ],
+                    )),
                     padding: EdgeInsets.all(16.w),
                     child: GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

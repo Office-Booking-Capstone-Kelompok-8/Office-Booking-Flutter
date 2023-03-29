@@ -24,8 +24,8 @@ class RatingComponent extends StatelessWidget {
     final dateTry = DateFormat("yyyy-MM-dd").parse(date);
     String dateParse = DateFormat('dd/MM/yyyy').format(dateTry);
     return Card(
-      elevation: 0,
-      color: AppColors.neutral4,
+      elevation: 2,
+      color: AppColors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

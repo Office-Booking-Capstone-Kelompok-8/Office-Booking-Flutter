@@ -9,6 +9,7 @@ import 'package:office_booking_app/model/reservation/payment_building_model.dart
 import 'package:office_booking_app/model/reservation/rating_model.dart';
 import 'package:office_booking_app/model/reservation/reservation_detail_model.dart';
 import 'package:office_booking_app/model/reservation/reservation_model.dart';
+import 'package:office_booking_app/model/reservation/review_model.dart';
 import 'package:office_booking_app/utils/constant/api_constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -70,6 +71,16 @@ class ReservationApi {
     }
   }
 
+  Future<ReviewModel> getReviewReservation(String id) async {
+    try {
+      final response =
+          await _dio.get('${Api.baseUrl}${Api.reservation}/$id/reviews');
+      return ReviewModel.fromJson(response.data['data']);
+    } on DioError catch (_) {
+      rethrow;
+    }
+  }
+
   Future<String> postReservation(String buildingId, String companyName,
       String startDate, int duration) async {
     try {
@@ -101,7 +112,7 @@ class ReservationApi {
       final response = await _dio
           .post('${Api.baseUrl}${Api.reservation}/$id/${Api.review}', data: {
         "rating": rating,
-        "comment": comment,
+        "message": comment,
       });
       return response.data['message'];
     } on DioError catch (_) {
@@ -205,10 +216,12 @@ class ReservationApi {
 
   Future<Response<dynamic>?> retry(RequestOptions requestOptions) async {
     final helper = await SharedPreferences.getInstance();
+    final accessToken = helper.getString('accessToken');
     final options = Options(
       method: requestOptions.method,
       headers: requestOptions.headers,
     );
+    options.headers!['Authorization'] = 'Bearer $accessToken';
     try {
       final result = await _dio.request<dynamic>(requestOptions.path,
           data: requestOptions.data,

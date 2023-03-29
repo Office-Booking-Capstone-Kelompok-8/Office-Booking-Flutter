@@ -2,6 +2,7 @@
 
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:office_booking_app/provider/filter_provider.dart';
@@ -34,7 +35,7 @@ class _BookingDetailState extends State<BookingDetail> {
 
   @override
   Widget build(BuildContext context) {
-    final detail = Provider.of<ReservationProvider>(context, listen: false);
+    final detail = Provider.of<ReservationProvider>(context, listen: true);
     final int statusId = detail.getUserDetailReservation!.status!.id!;
     final dateBook = DateFormat("yyyy-MM-dd")
         .parse(detail.getUserDetailReservation!.createdAt!);
@@ -43,10 +44,12 @@ class _BookingDetailState extends State<BookingDetail> {
     final bookingDate = DateFormat('dd MMMM yyyy').format(dateBook);
     final startDate = DateFormat('dd MMMM yyyy').format(dateStart);
 
-    return SafeArea(
-        child: Scaffold(
-      appBar: const AppbarComponent(title: 'Booking Detail'),
-      body: Padding(
+    return Scaffold(
+      appBar: const AppbarComponent(
+        title: 'Booking Detail',
+        elevation: 0,
+      ),
+      body: Container(
         padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
         child: SingleChildScrollView(
           child: Column(
@@ -97,7 +100,7 @@ class _BookingDetailState extends State<BookingDetail> {
                               style: detailFormStyle,
                             ),
                             Text(
-                              'Pancoran - South Jakarta',
+                              "${detail.getUserDetailReservation!.building!.district!}-${detail.getUserDetailReservation!.building!.city}",
                               overflow: TextOverflow.ellipsis,
                               maxLines: 3,
                               style: detailFormGrey,
@@ -350,120 +353,184 @@ class _BookingDetailState extends State<BookingDetail> {
                       ),
                     )
                   : const SizedBox(),
+              if (detail.commentReviewed != null)
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    Text('Review', style: blackBooking),
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    BookingDetailTile(
+                      leading: 'Posted',
+                      trailing: detail.commentReviewed!.createdAt!.toString(),
+                    ),
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('Rating'),
+                        Row(
+                          children: [
+                            RatingBarIndicator(
+                              rating:
+                                  detail.commentReviewed!.review!.toDouble(),
+                              itemBuilder: (context, index) => const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              itemCount: 5,
+                              itemSize: 14.0,
+                              direction: Axis.horizontal,
+                            ),
+                            Text(
+                                '(${detail.commentReviewed!.review!.toString()})')
+                          ],
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    BookingDetailTile(
+                      leading: 'Comment',
+                      trailing: detail.commentReviewed!.comment! == ""
+                          ? '---'
+                          : detail.commentReviewed!.comment!,
+                    ),
+                  ],
+                ),
             ],
           ),
         ),
       ),
       bottomNavigationBar: Consumer2<ReservationProvider, FilterProvider>(
-        builder: (context, value, filter, _) => Container(
-          height: 37.h,
-          margin: EdgeInsets.symmetric(vertical: 20.h, horizontal: 16.w),
-          //status pending
-          child: statusId == 1
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ButtonComponent(
-                        onPress: () async {
-                          showDialogApp(
-                            context: context,
-                            title: 'Cancel Reservation',
-                            subtitle:
-                                'Are you sure you want to cancel this reservation? This acction cannot be undone',
-                            buttonTextRight: 'Keep Booking',
-                            redLeft: true,
-                            onPressLeft: () async {
-                              try {
-                                final result = await value.cancelReservation(
-                                    value.getUserDetailReservation!.id!);
-                                if (result ==
-                                    'Reservation canceled successfully') {
-                                  showNotification(context, result!);
-                                } else if (result != null) {
-                                  showNotification(context, result);
-                                }
-                                Navigator.popAndPushNamed(context, '/navbar');
-                              } catch (e) {
-                                showNotification(context, e.toString());
-                              }
-                            },
-                          );
-                        },
-                        isRed: true,
-                        isWhite: false,
-                        textButton: 'cancel',
-                        buttonHeight: 37.h,
-                        buttonWidth: 156.w),
-                    ButtonComponent(
-                        onPress: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, '/navbar', (route) => false);
-                        },
-                        textButton: 'Back to home',
-                        buttonHeight: 37.h,
-                        buttonWidth: 156.w),
-                  ],
-                )
-              //status rejected & canceled
-              : statusId == 2 || statusId == 3
+        builder: (context, value, filter, _) {
+          if (value.commentReviewed == null) {
+            return Container(
+              height: 37.h,
+              margin: EdgeInsets.symmetric(vertical: 20.h, horizontal: 16.w),
+              //status pending
+              child: statusId == 1
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        ButtonComponent(
+                            onPress: () async {
+                              showDialogApp(
+                                context: context,
+                                title: 'Cancel Reservation',
+                                subtitle:
+                                    'Are you sure you want to cancel this reservation? This acction cannot be undone',
+                                buttonTextRight: 'Keep Booking',
+                                redLeft: true,
+                                onPressLeft: () async {
+                                  try {
+                                    final result =
+                                        await value.cancelReservation(value
+                                            .getUserDetailReservation!.id!);
+                                    if (result ==
+                                        'Reservation canceled successfully') {
+                                      showNotification(context, result!);
+                                    } else if (result != null) {
+                                      showNotification(context, result);
+                                    }
+                                    Navigator.popAndPushNamed(
+                                        context, '/navbar');
+                                  } catch (e) {
+                                    showNotification(context, e.toString());
+                                  }
+                                },
+                              );
+                            },
+                            isRed: true,
+                            isWhite: false,
+                            textButton: 'cancel',
+                            buttonHeight: 37.h,
+                            buttonWidth: 156.w),
                         ButtonComponent(
                             onPress: () {
                               Navigator.pushNamedAndRemoveUntil(
                                   context, '/navbar', (route) => false);
                             },
-                            isRed: false,
-                            isWhite: true,
-                            textButton: 'Back to Home',
-                            buttonHeight: 37.h,
-                            buttonWidth: 156.w),
-                        ButtonComponent(
-                            onPress: () {
-                              Navigator.pushNamed(context, '/search');
-                            },
-                            textButton: 'Order Again',
+                            textButton: 'Back to home',
                             buttonHeight: 37.h,
                             buttonWidth: 156.w),
                       ],
                     )
+                  //status rejected & canceled
+                  : statusId == 2 || statusId == 3
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ButtonComponent(
+                                onPress: () {
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context, '/navbar', (route) => false);
+                                },
+                                isRed: false,
+                                isWhite: true,
+                                textButton: 'Back to Home',
+                                buttonHeight: 37.h,
+                                buttonWidth: 156.w),
+                            ButtonComponent(
+                                onPress: () {
+                                  Navigator.pushNamed(context, '/search');
+                                },
+                                textButton: 'Order Again',
+                                buttonHeight: 37.h,
+                                buttonWidth: 156.w),
+                          ],
+                        )
 
-                  //status awaiting payment
-                  : statusId == 4
-                      ? ButtonComponent(
-                          onPress: () async {
-                            try {
-                              final result =
-                                  await value.getPaymentBank(filter.duration!);
+                      //status awaiting payment
+                      : statusId == 4
+                          ? ButtonComponent(
+                              onPress: () async {
+                                try {
+                                  final result = await value
+                                      .getPaymentBank(filter.duration!);
 
-                              if (value.getPaymentBankData?.id != null) {
-                                filter.changeDuration(0);
-                                Navigator.pushNamed(context, '/payment-detail');
-                              } else if (result != null) {
-                                showNotification(context, result);
-                              } else {
-                                showNotification(
-                                    context, 'Choose Payment Method');
-                              }
-                            } catch (e) {
-                              showNotification(context, e.toString());
-                            }
-                          },
-                          textButton: 'Complete Payment',
-                          buttonHeight: 37.h,
-                          buttonWidth: double.infinity)
-                      : //status active & complete
-                      ButtonComponent(
-                          onPress: () {
-                            Navigator.pushNamed(context, '/post-review');
-                          },
-                          textButton: 'Give Review',
-                          buttonHeight: 37.h,
-                          buttonWidth: double.infinity),
-        ),
+                                  if (value.getPaymentBankData?.id != null) {
+                                    filter.changeDuration(0);
+                                    Navigator.pushNamed(
+                                        context, '/payment-detail');
+                                  } else if (result != null) {
+                                    showNotification(context, result);
+                                  } else {
+                                    showNotification(
+                                        context, 'Choose Payment Method');
+                                  }
+                                } catch (e) {
+                                  showNotification(context, e.toString());
+                                }
+                              },
+                              textButton: 'Complete Payment',
+                              buttonHeight: 37.h,
+                              buttonWidth: double.infinity)
+                          : //status active & complete
+                          ButtonComponent(
+                              onPress: () {
+                                Navigator.pushNamed(context, '/post-review');
+                              },
+                              textButton: 'Give Review',
+                              buttonHeight: 37.h,
+                              buttonWidth: double.infinity),
+            );
+          } else {
+            return const SizedBox(
+              height: 1,
+            );
+          }
+        },
       ),
-    ));
+    );
   }
 }
 

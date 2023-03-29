@@ -29,52 +29,59 @@ class _NavbarState extends State<Navbar> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Consumer<NavbarProvider>(
-      builder: (context, value, child) => Scaffold(
-        body: value.currentScreen,
-        bottomNavigationBar: Container(
-          decoration: const BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(20), topLeft: Radius.circular(20))),
-          height: 60.h,
-          child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.article_outlined),
-                label: 'Booking',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person_outlined),
-                label: 'Profile',
-              ),
-            ],
-            backgroundColor: AppColors.white,
-            currentIndex: value.currentTab,
-            iconSize: 24.sm,
-            selectedItemColor: AppColors.primary4,
-            onTap: (index) async {
-              if (index == 1 || index == 2) {
-                final data = Provider.of<UserProvider>(context, listen: false);
-                if (data.getUsers == null) {
-                  if (mounted) {}
-                  Navigator.pushNamed(context, '/login');
-                } else {
-                  value.currentTab = index;
-                }
-              } else {
-                value.currentTab = index;
-              }
-            },
-          ),
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColors.white,
+          toolbarHeight: 0,
+          toolbarOpacity: 0,
         ),
-      ),
-    ));
+        body: Consumer<NavbarProvider>(
+          builder: (context, value, child) => Scaffold(
+            body: value.currentScreen,
+            bottomNavigationBar: Container(
+              decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20))),
+              height: 60.h,
+              child: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home_outlined),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.article_outlined),
+                    label: 'Booking',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.person_outlined),
+                    label: 'Profile',
+                  ),
+                ],
+                backgroundColor: AppColors.white,
+                currentIndex: value.currentTab,
+                iconSize: 24.sm,
+                selectedItemColor: AppColors.primary4,
+                onTap: (index) async {
+                  if (index == 1 || index == 2) {
+                    final data =
+                        Provider.of<UserProvider>(context, listen: false);
+                    if (data.getUsers == null) {
+                      if (mounted) {}
+                      Navigator.pushNamed(context, '/login');
+                    } else {
+                      value.currentTab = index;
+                    }
+                  } else {
+                    value.currentTab = index;
+                  }
+                },
+              ),
+            ),
+          ),
+        ));
   }
 }

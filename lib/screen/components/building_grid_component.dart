@@ -29,43 +29,51 @@ class BuildingGridComponent extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              alignment: Alignment.topRight,
-              children: [
-                SizedBox(
-                  height: 110.w,
-                  width: 180.w,
-                  child: ClipRRect(
+            SizedBox(
+              height: 110.w,
+              width: 180.w,
+              child: Stack(
+                // alignment: Alignment.topRight,
+                fit: StackFit.loose,
+                children: [
+                  ClipRRect(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10.r),
                         topRight: Radius.circular(10.r)),
-                    child: Image.network(
-                      url,
+                    child: FittedBox(
                       fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                if (rating!.toStringAsFixed(0) != '0')
-                  Container(
-                    height: 20.w,
-                    width: 35.w,
-                    margin: EdgeInsets.all(8.w),
-                    alignment: Alignment.center,
-                    padding:
-                        EdgeInsets.symmetric(vertical: 2.h, horizontal: 6.w),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary4,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(6.r),
+                      child: SizedBox(
+                        height: 110.w,
+                        width: 180.w,
+                        child: Image.network(
+                          url,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                    child: Text(
-                      rating!.toStringAsFixed(1),
-                      style:
-                          TextStyle(fontSize: 12.sp, color: AppColors.neutral2),
-                    ),
                   ),
-              ],
+                  if (rating!.toStringAsFixed(0) != '0')
+                    Container(
+                      height: 20.w,
+                      width: 35.w,
+                      margin: EdgeInsets.all(8.w),
+                      alignment: Alignment.center,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 2.h, horizontal: 6.w),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary4,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(6.r),
+                        ),
+                      ),
+                      child: Text(
+                        rating!.toStringAsFixed(1),
+                        style: TextStyle(
+                            fontSize: 12.sp, color: AppColors.neutral2),
+                      ),
+                    ),
+                ],
+              ),
             ),
             Expanded(
               child: Container(

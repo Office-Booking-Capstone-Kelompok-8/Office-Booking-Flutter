@@ -8,6 +8,7 @@ import 'package:office_booking_app/model/reservation/payment_bank_model.dart';
 import 'package:office_booking_app/model/reservation/payment_building_model.dart';
 import 'package:office_booking_app/model/reservation/reservation_detail_model.dart';
 import 'package:office_booking_app/model/reservation/reservation_model.dart';
+import 'package:office_booking_app/model/reservation/review_model.dart';
 import 'package:office_booking_app/utils/state/finite_state.dart';
 
 class ReservationProvider extends ChangeNotifier {
@@ -27,6 +28,8 @@ class ReservationProvider extends ChangeNotifier {
   int get ratingValue => _ratingValue;
   String _commentReview = '';
   String get commentReview => _commentReview;
+  ReviewModel? _commentReviewed;
+  ReviewModel? get commentReviewed => _commentReviewed;
 
   Future<String?> postReservation(String buildingId, String companyName,
       String startDate, int duration) async {
@@ -85,6 +88,30 @@ class ReservationProvider extends ChangeNotifier {
       notifyListeners();
       final response = await service.getDetailReservation(id);
       _detailReservation = response;
+      myState = MyState.loaded;
+      notifyListeners();
+    } catch (e) {
+      if (e is DioError) {
+        if (e.response != null) {
+          myState = MyState.loaded;
+          notifyListeners();
+          return e.response!.data['message'];
+        }
+      }
+
+      myState = MyState.failed;
+      notifyListeners();
+      return null;
+    }
+  }
+
+  getReviewReservation(String id) async {
+    try {
+      myState = MyState.loading;
+      _commentReviewed = null;
+      notifyListeners();
+      final response1 = await service.getReviewReservation(id);
+      _commentReviewed = response1;
       myState = MyState.loaded;
       notifyListeners();
     } catch (e) {

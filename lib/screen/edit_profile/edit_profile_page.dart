@@ -64,8 +64,9 @@ class _EditProfileState extends State<EditProfile> {
                             await profile.editPicture(file: value);
                         if (responseImage != null) {
                           await profile.getUsersDetail();
-                          if (mounted) {}
                         }
+                        showNotification(context, response);
+                        Navigator.popAndPushNamed(context, '/navbar');
                       }
                       showNotification(context, response);
                       Navigator.popAndPushNamed(context, '/navbar');

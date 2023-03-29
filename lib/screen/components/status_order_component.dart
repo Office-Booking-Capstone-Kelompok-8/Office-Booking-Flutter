@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:office_booking_app/utils/constant/app_text_style.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 
 import '../../utils/constant/app_colors.dart';
 
@@ -28,6 +29,7 @@ class StatusOrderComponent extends StatelessWidget {
       padding: EdgeInsets.all(8.h),
       margin: EdgeInsets.only(bottom: 8.h),
       decoration: BoxDecoration(
+        color: AppColors.white,
         border: Border.all(color: AppColors.dividerColor),
         borderRadius: BorderRadius.all(Radius.circular(8.r)),
       ),
@@ -179,15 +181,32 @@ class StatusOrderComponent extends StatelessWidget {
           Row(
             children: [
               SizedBox(
-                  height: 82.h,
-                  width: 82.w,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.r),
-                    child: FittedBox(
-                      fit: BoxFit.fill,
-                      child: Image.network(imgUrl),
-                    ),
-                  )),
+                height: 82.h,
+                width: 82.w,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: OptimizedCacheImage(
+                    imageUrl: imgUrl,
+                    filterQuality: FilterQuality.high,
+                    height: 500,
+                    width: 80,
+                    fit: BoxFit.cover,
+                    imageBuilder: (context, imageProvider) => Transform.scale(
+                        filterQuality: FilterQuality.high,
+                        scale: 1.2,
+                        child: Container(
+                            decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: imageProvider,
+                          ),
+                        ))),
+                    placeholder: (context, url) => const SizedBox(height: 100),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  ),
+                ),
+              ),
               SizedBox(
                 width: 8.w,
               ),

@@ -22,7 +22,7 @@ class PostReview extends StatefulWidget {
 class _PostReviewState extends State<PostReview> {
   @override
   Widget build(BuildContext context) {
-    final detail = Provider.of<ReservationProvider>(context, listen: false);
+    final detail = Provider.of<ReservationProvider>(context, listen: true);
 
     return Scaffold(
       appBar: const AppbarComponent(title: 'Submit Review'),
@@ -182,9 +182,10 @@ class _PostReviewState extends State<PostReview> {
                 detail.getUserDetailReservation!.id!,
                 detail.ratingValue,
                 detail.commentReview);
-            if (result == 'Review created successfully') {
+            if (result == 'review created successfully') {
               showNotification(context, result!);
-              Navigator.pop(context);
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/navbar", (route) => false);
             } else if (result != null) {
               showNotification(context, result);
             }

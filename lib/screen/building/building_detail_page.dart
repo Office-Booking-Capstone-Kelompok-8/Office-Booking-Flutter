@@ -29,27 +29,31 @@ class _BuildingDetailState extends State<BuildingDetail> {
     final token = Provider.of<SignInProvider>(context, listen: false);
     final profile = Provider.of<UserProvider>(context, listen: false);
     NumberFormat formater = NumberFormat('#,##,000');
-    return SafeArea(
-      child: Scaffold(
-        appBar: const AppbarComponent(title: 'Detail Building'),
-        body: Container(
-          padding: EdgeInsets.fromLTRB(15.w, 0.h, 15.w, 0.h),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 24.h,
-                ),
-                Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(4.r),
-                      child: SizedBox(
-                        height: 220.h,
-                        width: double.infinity,
-                        child: PageView.builder(
-                            itemBuilder: (context, index) => Stack(
+    return Scaffold(
+      appBar: const AppbarComponent(
+        title: 'Detail Building',
+        elevation: 0,
+      ),
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(15.w, 0.h, 15.w, 0.h),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 24.h,
+              ),
+              Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(4.r),
+                    child: SizedBox(
+                      height: 220.h,
+                      width: double.infinity,
+                      child: PageView.builder(
+                          itemBuilder: (context, index) => InkWell(
+                                onTap: () {},
+                                child: Stack(
                                   fit: StackFit.expand,
                                   children: [
                                     FittedBox(
@@ -77,366 +81,364 @@ class _BuildingDetailState extends State<BuildingDetail> {
                                     )
                                   ],
                                 ),
-                            itemCount:
-                                detail.getDetailBuilding.pictures!.length),
+                              ),
+                          itemCount: detail.getDetailBuilding.pictures!.length),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              Text(
+                detail.getDetailBuilding.name!,
+                style: buildingName,
+              ),
+              SizedBox(
+                height: 12.h,
+              ),
+              const Divider(
+                color: AppColors.dividerColor,
+                thickness: 1,
+              ),
+              SizedBox(
+                height: 12.h,
+              ),
+              Text(
+                'Start ${Helper.convertToIdr(detail.getDetailBuilding.price!.monthly!, 0, true)}',
+                style: blueDetailPageLarge,
+              ),
+              SizedBox(
+                height: 12.h,
+              ),
+              SizedBox(
+                height: 57.h,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        width: 109.w,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Capacity',
+                              style: blueDetailPage,
+                            ),
+                            SizedBox(
+                              height: 4.h,
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.people_alt,
+                                  size: 16.sm,
+                                  color: AppColors.primary4,
+                                ),
+                                SizedBox(
+                                  width: 4.w,
+                                ),
+                                Text(
+                                  '${formater.format(detail.getDetailBuilding.capacity).toString()} People',
+                                  style: blueDetailPage,
+                                  maxLines: 2,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        width: 109.w,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Size',
+                              style: blueDetailPage,
+                            ),
+                            SizedBox(
+                              height: 4.h,
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.zoom_out_map,
+                                  size: 16.sm,
+                                  color: AppColors.primary4,
+                                ),
+                                SizedBox(
+                                  width: 4.w,
+                                ),
+                                Text(
+                                  '${detail.getDetailBuilding.size.toString()} m2',
+                                  style: blueDetailPage,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 16.h,
-                ),
-                Text(
-                  detail.getDetailBuilding.name!,
-                  style: buildingName,
-                ),
-                SizedBox(
-                  height: 12.h,
-                ),
-                const Divider(
-                  color: AppColors.dividerColor,
-                  thickness: 1,
-                ),
-                SizedBox(
-                  height: 12.h,
-                ),
-                Text(
-                  'Start ${Helper.convertToIdr(detail.getDetailBuilding.price!.monthly!, 0, true)}',
-                  style: blueDetailPageLarge,
-                ),
-                SizedBox(
-                  height: 12.h,
-                ),
-                SizedBox(
-                  height: 57.h,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: SizedBox(
-                          width: 109.w,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Capacity',
-                                style: blueDetailPage,
+              ),
+              const Divider(
+                color: AppColors.dividerColor,
+                thickness: 1,
+              ),
+              detail.getDetailBuilding.review?.count == 0
+                  ? const SizedBox()
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.r),
+                                color: AppColors.primary3,
                               ),
-                              SizedBox(
-                                height: 4.h,
+                              height: 22.h,
+                              width: 30.w,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 2.h, horizontal: 3.w),
+                              child: Text(
+                                detail.getDetailBuilding.review!.rating!
+                                    .toStringAsFixed(1),
+                                textAlign: TextAlign.center,
+                                style: ratingStyle,
                               ),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.people_alt,
-                                    size: 16.sm,
-                                    color: AppColors.primary4,
-                                  ),
-                                  SizedBox(
-                                    width: 4.w,
-                                  ),
-                                  Text(
-                                    '${formater.format(detail.getDetailBuilding.capacity).toString()} People',
-                                    style: blueDetailPage,
-                                    maxLines: 2,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(
+                              width: 8.w,
+                            ),
+                            Text(
+                                '(${detail.getDetailBuilding.review!.count!.toString()} Review)'),
+                          ],
                         ),
-                      ),
-                      Expanded(
-                        child: SizedBox(
-                          width: 109.w,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Size',
-                                style: blueDetailPage,
-                              ),
-                              SizedBox(
-                                height: 4.h,
-                              ),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.zoom_out_map,
-                                    size: 16.sm,
-                                    color: AppColors.primary4,
-                                  ),
-                                  SizedBox(
-                                    width: 4.w,
-                                  ),
-                                  Text(
-                                    '${detail.getDetailBuilding.size.toString()} m2',
-                                    style: blueDetailPage,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Divider(
-                  color: AppColors.dividerColor,
-                  thickness: 1,
-                ),
-                detail.getDetailBuilding.review?.count == 0
-                    ? const SizedBox()
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5.r),
-                                  color: AppColors.primary3,
-                                ),
-                                height: 22.h,
-                                width: 30.w,
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 2.h, horizontal: 3.w),
-                                child: Text(
-                                  detail.getDetailBuilding.review!.rating!
-                                      .toStringAsFixed(1),
-                                  textAlign: TextAlign.center,
-                                  style: ratingStyle,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Text(
-                                  '(${detail.getDetailBuilding.review!.count!.toString()} Review)'),
-                            ],
-                          ),
-                          TextButton(
-                            onPressed: () async {
-                              final result = await detail.getBuildingRating(
-                                  detail.getDetailBuilding.id!);
-                              if (result == 'seccessfull') {
-                                if (mounted) {}
-                                Navigator.pushNamed(context, '/rating');
-                              } else if (result != null) {
-                                if (mounted) {}
-                                showNotification(context, result);
-                              }
+                        TextButton(
+                          onPressed: () async {
+                            final result = await detail.getBuildingRating(
+                                detail.getDetailBuilding.id!);
+                            if (result ==
+                                'building reviews fetched successfully') {
                               if (mounted) {}
                               Navigator.pushNamed(context, '/rating');
-                            },
-                            style: TextButton.styleFrom(
-                              splashFactory: NoSplash.splashFactory,
-                            ),
-                            child: const Text('View More'),
+                            } else if (result != null) {
+                              if (mounted) {}
+                              showNotification(context, result);
+                            }
+                          },
+                          style: TextButton.styleFrom(
+                            splashFactory: NoSplash.splashFactory,
                           ),
-                        ],
-                      ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                detail.getDetailBuilding.review?.count == 0
-                    ? const SizedBox()
-                    : const Divider(
-                        color: AppColors.dividerColor,
-                        thickness: 1,
-                      ),
-                SizedBox(
-                  height: 16.h,
-                ),
-                Text(
-                  'Location',
-                  style: detailFormStyle,
-                ),
-                SizedBox(
-                  height: 8.h,
-                ),
-                Text(
-                  '${detail.getDetailBuilding.location!.address!}, ${detail.getDetailBuilding.location!.district!.name!}, ${detail.getDetailBuilding.location!.city!.name!}',
-                  maxLines: 5,
-                  overflow: TextOverflow.ellipsis,
-                  style: detailBuilidingStyle,
-                ),
-                SizedBox(
-                  height: 16.h,
-                ),
-                const Divider(
-                  color: AppColors.dividerColor,
-                  thickness: 1,
-                ),
-                SizedBox(
-                  height: 16.h,
-                ),
-                Text(
-                  'Description',
-                  style: detailFormStyle,
-                ),
-                SizedBox(
-                  height: 8.h,
-                ),
-                Text(
-                  detail.getDetailBuilding.description!,
-                  maxLines: 5,
-                  style: detailBuilidingStyle,
-                ),
-                SizedBox(
-                  height: 16.h,
-                ),
-                const Divider(
-                  color: AppColors.dividerColor,
-                  thickness: 1,
-                ),
-                SizedBox(
-                  height: 16.h,
-                ),
-                Text(
-                  'Facility',
-                  style: detailFormStyle,
-                ),
-                SizedBox(
-                  height: 16.h,
-                ),
-                SizedBox(
-                  height: detail.getDetailBuilding.facilities!.length < 5
-                      ? 50.h
-                      : detail.getDetailBuilding.facilities!.length < 9
-                          ? 100.h
-                          : detail.getDetailBuilding.facilities!.length < 13
-                              ? 120.h
-                              : 160.h,
-                  child: GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        mainAxisSpacing: 8.h,
-                        crossAxisSpacing: 21.w,
-                        childAspectRatio: 1.77),
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          SvgPicture.network(
-                            detail.getDetailBuilding.facilities![index].icon!,
-                            height: 20.h,
-                            color: AppColors.primary4,
-                          ),
-                          Expanded(
-                            child: Text(
-                              detail.getDetailBuilding.facilities![index].name!,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                    itemCount: detail.getDetailBuilding.facilities!.length,
-                  ),
-                ),
-                SizedBox(
-                  height: 16.h,
-                ),
-                const Divider(
-                  color: AppColors.dividerColor,
-                  thickness: 1,
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-              ],
-            ),
-          ),
-        ),
-        bottomNavigationBar: Container(
-          margin: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
-          height: 40.h,
-          child: Row(
-            children: [
-              Material(
-                  type: MaterialType.transparency,
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.primary4, width: 1.w),
-                      color: Colors.transparent,
-                      shape: BoxShape.circle,
+                          child: const Text('View More'),
+                        ),
+                      ],
                     ),
-                    child: SizedBox(
-                      height: 40.h,
-                      width: 40.w,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(1000.0),
-                        onTap: () async {
-                          final url = Uri.parse(
-                              'whatsapp://send?phone=${detail.getDetailBuilding.agent!.phone}&text=test');
-                          final urlFailed = Uri.parse(
-                              'https://play.google.com/store/apps/details?id=com.whatsapp');
-
-                          await canLaunchUrl(url)
-                              ? launchUrl(url)
-                              : launchUrl(urlFailed);
-                        },
-                        child: Icon(
-                          Icons.chat,
-                          size: 24.sm,
+              SizedBox(
+                height: 5.h,
+              ),
+              detail.getDetailBuilding.review?.count == 0
+                  ? const SizedBox()
+                  : const Divider(
+                      color: AppColors.dividerColor,
+                      thickness: 1,
+                    ),
+              SizedBox(
+                height: 16.h,
+              ),
+              Text(
+                'Location',
+                style: detailFormStyle,
+              ),
+              SizedBox(
+                height: 8.h,
+              ),
+              Text(
+                '${detail.getDetailBuilding.location!.address!}, ${detail.getDetailBuilding.location!.district!.name!}, ${detail.getDetailBuilding.location!.city!.name!}',
+                maxLines: 5,
+                overflow: TextOverflow.ellipsis,
+                style: detailBuilidingStyle,
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              const Divider(
+                color: AppColors.dividerColor,
+                thickness: 1,
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              Text(
+                'Description',
+                style: detailFormStyle,
+              ),
+              SizedBox(
+                height: 8.h,
+              ),
+              Text(
+                detail.getDetailBuilding.description!,
+                maxLines: 5,
+                style: detailBuilidingStyle,
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              const Divider(
+                color: AppColors.dividerColor,
+                thickness: 1,
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              Text(
+                'Facility',
+                style: detailFormStyle,
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              SizedBox(
+                height: detail.getDetailBuilding.facilities!.length < 5
+                    ? 50.h
+                    : detail.getDetailBuilding.facilities!.length < 9
+                        ? 100.h
+                        : detail.getDetailBuilding.facilities!.length < 13
+                            ? 120.h
+                            : 160.h,
+                child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      mainAxisSpacing: 8.h,
+                      crossAxisSpacing: 21.w,
+                      childAspectRatio: 1.77),
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        SvgPicture.network(
+                          detail.getDetailBuilding.facilities![index].icon!,
+                          height: 20.h,
                           color: AppColors.primary4,
                         ),
-                      ),
-                    ),
-                  )),
-              SizedBox(
-                width: 12.w,
-              ),
-              ButtonComponent(
-                  onPress: () {
-                    token.dataUser?.accessToken == null
-                        ? Navigator.pushNamed(context, '/login')
-                        : profile.getUsers?.verified == false
-                            ? showDialogApp(
-                                context: context,
-                                title: 'Send OTP Code',
-                                subtitle:
-                                    'Account not yet verified, verify now? ',
-                                buttonTextRight: 'Verify',
-                                redLeft: true,
-                                onPressRight: () async {
-                                  final result = await profile.sendOtp(
-                                      email: profile.getUsers!.email!);
-                                  if (result == 'otp sent successfully') {
-                                    if (mounted) {}
-                                    showNotification(context, result!);
-                                    Navigator.pushNamed(
-                                        context, '/verify-otp-email',
-                                        arguments: profile.getUsers!.email!);
-                                  } else if (result != null) {
-                                    if (mounted) {}
-                                    showNotification(context, result);
-                                  }
-                                },
-                              )
-                            : Navigator.pushNamed(context, '/form-page',
-                                arguments: {
-                                    'building-image': detail
-                                        .getDetailBuilding.pictures!.first.url!,
-                                    'building-id': detail.getDetailBuilding.id,
-                                    'building-name':
-                                        detail.getDetailBuilding.name,
-                                    'building-address':
-                                        '${detail.getDetailBuilding.location!.district!.name!} - ${detail.getDetailBuilding.location!.city!.name!}',
-                                    'building-price': Helper.convertToIdr(
-                                        detail.getDetailBuilding.price!.monthly,
-                                        0,
-                                        true)
-                                  });
+                        Expanded(
+                          child: Text(
+                            detail.getDetailBuilding.facilities![index].name!,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    );
                   },
-                  textButton: 'Book Now',
-                  buttonHeight: 37.h,
-                  buttonWidth: 274.w),
+                  itemCount: detail.getDetailBuilding.facilities!.length,
+                ),
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              const Divider(
+                color: AppColors.dividerColor,
+                thickness: 1,
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
+        height: 40.h,
+        child: Row(
+          children: [
+            Material(
+                type: MaterialType.transparency,
+                child: Ink(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.primary4, width: 1.w),
+                    color: Colors.transparent,
+                    shape: BoxShape.circle,
+                  ),
+                  child: SizedBox(
+                    height: 40.h,
+                    width: 40.w,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(1000.0),
+                      onTap: () async {
+                        final url = Uri.parse(
+                            'whatsapp://send?phone=${detail.getDetailBuilding.agent!.phone}&text=test');
+                        final urlFailed = Uri.parse(
+                            'https://play.google.com/store/apps/details?id=com.whatsapp');
+
+                        await canLaunchUrl(url)
+                            ? launchUrl(url)
+                            : launchUrl(urlFailed);
+                      },
+                      child: Icon(
+                        Icons.chat,
+                        size: 24.sm,
+                        color: AppColors.primary4,
+                      ),
+                    ),
+                  ),
+                )),
+            SizedBox(
+              width: 12.w,
+            ),
+            ButtonComponent(
+                onPress: () {
+                  token.dataUser?.accessToken == null
+                      ? Navigator.pushNamed(context, '/login')
+                      : profile.getUsers?.verified == false
+                          ? showDialogApp(
+                              context: context,
+                              title: 'Send OTP Code',
+                              subtitle:
+                                  'Account not yet verified, verify now? ',
+                              buttonTextRight: 'Verify',
+                              redLeft: true,
+                              onPressRight: () async {
+                                final result = await profile.sendOtp(
+                                    email: profile.getUsers!.email!);
+                                if (result == 'otp sent successfully') {
+                                  if (mounted) {}
+                                  showNotification(context, result!);
+                                  Navigator.pushNamed(
+                                      context, '/verify-otp-email',
+                                      arguments: profile.getUsers!.email!);
+                                } else if (result != null) {
+                                  if (mounted) {}
+                                  showNotification(context, result);
+                                }
+                              },
+                            )
+                          : Navigator.pushNamed(context, '/form-page',
+                              arguments: {
+                                  'building-image': detail
+                                      .getDetailBuilding.pictures!.first.url!,
+                                  'building-id': detail.getDetailBuilding.id,
+                                  'building-name':
+                                      detail.getDetailBuilding.name,
+                                  'building-address':
+                                      '${detail.getDetailBuilding.location!.district!.name!} - ${detail.getDetailBuilding.location!.city!.name!}',
+                                  'building-price': Helper.convertToIdr(
+                                      detail.getDetailBuilding.price!.monthly,
+                                      0,
+                                      true)
+                                });
+                },
+                textButton: 'Book Now',
+                buttonHeight: 37.h,
+                buttonWidth: 274.w),
+          ],
         ),
       ),
     );

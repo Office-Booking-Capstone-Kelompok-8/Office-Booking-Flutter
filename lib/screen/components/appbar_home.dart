@@ -15,7 +15,7 @@ class AppbarHome extends StatelessWidget with PreferredSizeWidget {
         style: buildingName,
       ),
       backgroundColor: AppColors.white,
-      elevation: 1,
+      elevation: 0,
       centerTitle: false,
       bottom: PreferredSize(
         preferredSize: preferredSize,

@@ -32,79 +32,86 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppbarHome(),
-      body: SafeArea(
-          child: Container(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.white,
+              Color(0xFFe9edf9),
+              Color(0xFFe9edf9),
+              Colors.white,
+            ],
+          ),
+        ),
         padding: EdgeInsets.fromLTRB(16.w, 18.h, 16.w, 18.h),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Popular building by rating',
-                    style: detailFormStyle,
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/allrating');
-                      },
-                      child: const Text('View All'))
-                ],
-              ),
-              SizedBox(
-                height: 16.h,
-              ),
-              Consumer<BuildingProvider>(
-                builder: (context, bRating, _) => SizedBox(
-                  height: 103.h,
-                  width: 300.w,
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: bRating.getBuildingByRating.length > 3
-                          ? 3
-                          : bRating.getBuildingByRating.length,
-                      itemBuilder: (context, index) => InkWell(
-                            splashFactory: NoSplash.splashFactory,
-                            onTap: () async {
-                              await bRating
-                                  .getDetail(bRating.getBuilding[index].id!);
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Popular building by rating',
+                  style: detailFormStyle,
+                ),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/allrating');
+                    },
+                    child: const Text('View All'))
+              ],
+            ),
+            SizedBox(
+              height: 16.h,
+            ),
+            Consumer<BuildingProvider>(
+              builder: (context, bRating, _) => SizedBox(
+                height: 110.h,
+                width: double.infinity,
+                child: ListView.builder(
+                  // shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: bRating.getBuildingByRating.length > 3
+                      ? 3
+                      : bRating.getBuildingByRating.length,
+                  itemBuilder: (context, index) => InkWell(
+                    // splashFactory: NoSplash.splashFactory,
+                    onTap: () async {
+                      await bRating.getDetail(bRating.getBuilding[index].id!);
 
-                              Navigator.pushNamed(
-                                context,
-                                '/building-detail',
-                              );
-                            },
-                            child: PopularBuildingComponent(
-                              buildingName:
-                                  bRating.getBuildingByRating[index].name!,
-                              city: bRating
-                                  .getBuildingByRating[index].location!.city!,
-                              imgUrl:
-                                  bRating.getBuildingByRating[index].pictures!,
-                              buildingPrice: Helper.convertToIdr(
-                                  bRating.getBuildingByRating[index].price!
-                                      .monthly!,
-                                  0,
-                                  false),
-                            ),
-                          )),
+                      Navigator.pushNamed(
+                        context,
+                        '/building-detail',
+                      );
+                    },
+                    child: PopularBuildingComponent(
+                      buildingName: bRating.getBuildingByRating[index].name!,
+                      city: bRating.getBuildingByRating[index].location!.city!,
+                      imgUrl: bRating.getBuildingByRating[index].pictures!,
+                      buildingPrice: Helper.convertToIdr(
+                          bRating.getBuildingByRating[index].price!.monthly!,
+                          0,
+                          false),
+                    ),
+                  ),
                 ),
               ),
-              SizedBox(
-                height: 24.h,
-              ),
-              Text(
-                'All Building in Jakarta',
-                style: detailFormStyle,
-              ),
-              SizedBox(
-                height: 16.h,
-              ),
-              Consumer<BuildingProvider>(
-                builder: (context, building, _) => GridView.builder(
+            ),
+            SizedBox(
+              height: 24.h,
+            ),
+            Text(
+              'All Building in Jakarta',
+              style: detailFormStyle,
+            ),
+            SizedBox(
+              height: 16.h,
+            ),
+            Consumer<BuildingProvider>(
+              builder: (context, building, _) => Expanded(
+                child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 160.w / 220.w,
@@ -112,7 +119,6 @@ class _HomepageState extends State<Homepage> {
                       crossAxisSpacing: 8.w),
                   shrinkWrap: true,
                   itemCount: building.getBuilding.length,
-                  physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) => InkWell(
                     splashFactory: NoSplash.splashFactory,
                     onTap: () async {
@@ -136,11 +142,11 @@ class _HomepageState extends State<Homepage> {
                     ),
                   ),
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
-      )),
+      ),
     );
   }
 }

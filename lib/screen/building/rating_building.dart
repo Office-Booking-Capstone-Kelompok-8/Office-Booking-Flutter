@@ -20,7 +20,10 @@ class RatingBuilding extends StatelessWidget {
     NumberFormat formater = NumberFormat('#,##,000');
     final provider = Provider.of<BuildingProvider>(context, listen: true);
     return Scaffold(
-      appBar: const AppbarComponent(title: 'Reviews'),
+      appBar: const AppbarComponent(
+        title: 'Reviews',
+        elevation: 0,
+      ),
       bottomNavigationBar: Container(
         margin: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
         height: 40.h,
@@ -85,7 +88,20 @@ class RatingBuilding extends StatelessWidget {
         ),
       ),
       body: provider.buildingsRating.isNotEmpty
-          ? Padding(
+          ? Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.white,
+                    Color(0xFFe9edf9),
+                    Color(0xFFe9edf9),
+                    Color(0xFFe9edf9),
+                    Colors.white,
+                  ],
+                ),
+              ),
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Column(
                 children: [
