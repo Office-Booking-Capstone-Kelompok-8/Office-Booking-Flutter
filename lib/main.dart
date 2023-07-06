@@ -13,6 +13,7 @@ import 'package:office_booking_app/screen/booking/booking_success_page.dart';
 import 'package:office_booking_app/screen/booking/post_review.dart';
 import 'package:office_booking_app/screen/building/building_detail_page.dart';
 import 'package:office_booking_app/screen/building/rating_building.dart';
+import 'package:office_booking_app/screen/navbar/inbox_page.dart';
 import 'package:office_booking_app/screen/payment/payment_detail_page.dart';
 import 'package:office_booking_app/screen/payment/transaction_detail_page.dart';
 import 'package:office_booking_app/screen/profile_tile_page/change_password_page.dart';
@@ -155,6 +156,8 @@ class MyApp extends StatelessWidget {
                         return const PostReview();
                       case '/allrating':
                         return const PopularBuildingAll();
+                      case '/message':
+                        return const InboxPage();
                       default:
                         return const Navbar();
                     }

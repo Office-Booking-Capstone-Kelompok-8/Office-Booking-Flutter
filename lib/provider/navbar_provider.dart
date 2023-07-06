@@ -8,6 +8,7 @@ class NavbarProvider extends ChangeNotifier {
   final List<Widget> _screens = [
     const Homepage(),
     const OrderPage(),
+    // const InboxPage(),
     const ProfilePage(),
   ];
 

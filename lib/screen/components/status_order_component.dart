@@ -63,13 +63,16 @@ class StatusOrderComponent extends StatelessWidget {
                 ),
               ),
               Container(
-                color: statusId == 1
-                    ? const Color(0xFFFFF2DF)
-                    : statusId == 2 || statusId == 3
-                        ? const Color(0xFFFFE4E2)
-                        : statusId == 4
-                            ? const Color(0xFFE1EEFF)
-                            : const Color(0xFFDFFFF0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6.r),
+                  color: statusId == 1
+                      ? const Color(0xFFFFF2DF)
+                      : statusId == 2 || statusId == 3
+                          ? const Color(0xFFFFE4E2)
+                          : statusId == 4
+                              ? const Color(0xFFE1EEFF)
+                              : const Color(0xFFDFFFF0),
+                ),
                 height: 24.h,
                 width: statusId == 4 ? 145.w : 94.w,
                 child: Row(
@@ -192,15 +195,17 @@ class StatusOrderComponent extends StatelessWidget {
                     width: 80,
                     fit: BoxFit.cover,
                     imageBuilder: (context, imageProvider) => Transform.scale(
-                        filterQuality: FilterQuality.high,
-                        scale: 1.2,
-                        child: Container(
-                            decoration: BoxDecoration(
+                      filterQuality: FilterQuality.high,
+                      scale: 1.4,
+                      child: Container(
+                        decoration: BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.cover,
                             image: imageProvider,
                           ),
-                        ))),
+                        ),
+                      ),
+                    ),
                     placeholder: (context, url) => const SizedBox(height: 100),
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),

@@ -31,12 +31,12 @@ class PopularBuildingComponent extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(6.r)),
               child: OptimizedCacheImage(
                 imageUrl: imgUrl,
-                filterQuality: FilterQuality.low,
+                // filterQuality: FilterQuality.low,
                 height: 100,
-                width: 80,
+                width: 100,
                 fit: BoxFit.cover,
                 imageBuilder: (context, imageProvider) => Transform.scale(
-                    scale: 1.4,
+                    scale: 1.3,
                     child: Container(
                         decoration: BoxDecoration(
                       image: DecorationImage(
@@ -59,7 +59,7 @@ class PopularBuildingComponent extends StatelessWidget {
                   style: TextStyle(fontSize: 14.sp, color: AppColors.neutral9),
                 ),
                 SizedBox(
-                  height: 8.w,
+                  height: 6.w,
                 ),
                 Row(
                   children: [
@@ -67,7 +67,7 @@ class PopularBuildingComponent extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 12.sp, color: AppColors.neutral8)),
                     SizedBox(
-                      width: 8.w,
+                      width: 6.w,
                     ),
                   ],
                 ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:office_booking_app/provider/building_provider.dart';
 import 'package:office_booking_app/provider/login_provider.dart';
@@ -52,7 +54,40 @@ class _BuildingDetailState extends State<BuildingDetail> {
                       width: double.infinity,
                       child: PageView.builder(
                           itemBuilder: (context, index) => InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  SmartDialog.show(
+                                    builder: (ctx) {
+                                      return SizedBox(
+                                        height: double.infinity,
+                                        width: double.infinity,
+                                        child: Stack(
+                                          alignment: Alignment.topRight,
+                                          children: [
+                                            PhotoView(
+                                              imageProvider: NetworkImage(detail
+                                                  .getDetailBuilding
+                                                  .pictures![index]
+                                                  .url!),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 50, right: 16),
+                                              child: IconButton(
+                                                onPressed: () {
+                                                  SmartDialog.dismiss();
+                                                },
+                                                icon: const Icon(
+                                                  Icons.close,
+                                                  color: AppColors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
                                 child: Stack(
                                   fit: StackFit.expand,
                                   children: [

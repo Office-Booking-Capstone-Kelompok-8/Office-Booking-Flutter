@@ -353,6 +353,10 @@ class _BookingDetailState extends State<BookingDetail> {
                       ),
                     )
                   : const SizedBox(),
+              SizedBox(
+                height: 16.h,
+              ),
+              const Divider(),
               if (detail.commentReviewed != null)
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,

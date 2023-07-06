@@ -77,7 +77,10 @@ class _EditProfileState extends State<EditProfile> {
                   buttonWidth: double.infinity);
             }),
       ),
-      appBar: const AppbarComponent(title: 'Edit Profile'),
+      appBar: const AppbarComponent(
+        title: 'Edit Profile',
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
           child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),

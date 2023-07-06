@@ -37,7 +37,10 @@ class _ChangePasswordState extends State<ChangePassword> {
     final profile = Provider.of<UserProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
-        appBar: const AppbarComponent(title: 'Change Password'),
+        appBar: const AppbarComponent(
+          title: 'Change Password',
+          elevation: 0,
+        ),
         body: Container(
           padding: EdgeInsets.symmetric(horizontal: 19.w),
           child: SingleChildScrollView(

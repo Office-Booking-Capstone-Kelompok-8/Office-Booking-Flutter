@@ -68,7 +68,7 @@ class _HomepageState extends State<Homepage> {
             ),
             Consumer<BuildingProvider>(
               builder: (context, bRating, _) => SizedBox(
-                height: 110.h,
+                height: 90.w,
                 width: double.infinity,
                 child: ListView.builder(
                   // shrinkWrap: true,

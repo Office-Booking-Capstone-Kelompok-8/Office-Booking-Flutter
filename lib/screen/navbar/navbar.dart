@@ -56,6 +56,10 @@ class _NavbarState extends State<Navbar> {
                     icon: Icon(Icons.article_outlined),
                     label: 'Booking',
                   ),
+                  // BottomNavigationBarItem(
+                  //   icon: Icon(Icons.message_outlined),
+                  //   label: 'Message',
+                  // ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.person_outlined),
                     label: 'Profile',

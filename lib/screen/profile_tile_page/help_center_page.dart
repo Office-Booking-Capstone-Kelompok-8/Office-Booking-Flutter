@@ -16,7 +16,10 @@ class _HelpCenterState extends State<HelpCenter> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: const AppbarComponent(title: 'Help Center'),
+        appBar: const AppbarComponent(
+          title: 'Help Center',
+          elevation: 0,
+        ),
         body: Container(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: SingleChildScrollView(

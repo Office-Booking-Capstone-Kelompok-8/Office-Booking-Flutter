@@ -26,6 +26,9 @@ class BuildingGridComponent extends StatelessWidget {
     return InkWell(
       onTap: onPress,
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.r),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

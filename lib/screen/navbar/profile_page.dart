@@ -100,19 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   const SizedBox(
                     height: 4,
                   ),
-                  Container(
-                    decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.white,
-                        Color(0xFFe9edf9),
-                        Color(0xFFe9edf9),
-                        Color(0xFFe9edf9),
-                        Colors.white,
-                      ],
-                    )),
+                  Padding(
                     padding: EdgeInsets.all(8.h),
                     child: Column(
                       children: [
