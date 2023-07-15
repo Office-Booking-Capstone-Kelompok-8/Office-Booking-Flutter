@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:office_booking_app/model/building/building_detail_model.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:office_booking_app/provider/building_provider.dart';
@@ -31,6 +32,7 @@ class _BuildingDetailState extends State<BuildingDetail> {
     final token = Provider.of<SignInProvider>(context, listen: false);
     final profile = Provider.of<UserProvider>(context, listen: false);
     NumberFormat formater = NumberFormat('#,##,000');
+    List<ReservationList>? reservation = detail.getDetailBuilding.reservation;
     return Scaffold(
       appBar: const AppbarComponent(
         title: 'Detail Building',
@@ -385,6 +387,28 @@ class _BuildingDetailState extends State<BuildingDetail> {
               SizedBox(
                 height: 20.h,
               ),
+              if (reservation != null)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Building already Booked",
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.amber),
+                    ),
+                    SizedBox(
+                      height: 16.w,
+                    ),
+                    Row(
+                      children: List.generate(
+                          reservation.length,
+                          (index) => Text(
+                              "${index + 1}. from ${reservation[index].startDate} to ${reservation[index].endDate}")),
+                    ),
+                  ],
+                )
             ],
           ),
         ),
@@ -455,20 +479,52 @@ class _BuildingDetailState extends State<BuildingDetail> {
                                 }
                               },
                             )
-                          : Navigator.pushNamed(context, '/form-page',
-                              arguments: {
-                                  'building-image': detail
-                                      .getDetailBuilding.pictures!.first.url!,
-                                  'building-id': detail.getDetailBuilding.id,
-                                  'building-name':
-                                      detail.getDetailBuilding.name,
-                                  'building-address':
-                                      '${detail.getDetailBuilding.location!.district!.name!} - ${detail.getDetailBuilding.location!.city!.name!}',
-                                  'building-price': Helper.convertToIdr(
-                                      detail.getDetailBuilding.price!.monthly,
-                                      0,
-                                      true)
-                                });
+                          : reservation != null
+                              ? showDialogApp(
+                                  context: context,
+                                  title: 'Building Already Booked',
+                                  subtitle:
+                                      'Are you sure you want to create with different date?',
+                                  buttonTextLeft: 'Yes',
+                                  redRigh: true,
+                                  onPressLeft: () async {
+                                    Navigator.pushNamed(context, '/form-page',
+                                        arguments: {
+                                          'building-image': detail
+                                              .getDetailBuilding
+                                              .pictures!
+                                              .first
+                                              .url!,
+                                          'building-id':
+                                              detail.getDetailBuilding.id,
+                                          'building-name':
+                                              detail.getDetailBuilding.name,
+                                          'building-address':
+                                              '${detail.getDetailBuilding.location!.district!.name!} - ${detail.getDetailBuilding.location!.city!.name!}',
+                                          'building-price': Helper.convertToIdr(
+                                              detail.getDetailBuilding.price!
+                                                  .monthly,
+                                              0,
+                                              true)
+                                        });
+                                  },
+                                )
+                              : Navigator.pushNamed(context, '/form-page',
+                                  arguments: {
+                                      'building-image': detail.getDetailBuilding
+                                          .pictures!.first.url!,
+                                      'building-id':
+                                          detail.getDetailBuilding.id,
+                                      'building-name':
+                                          detail.getDetailBuilding.name,
+                                      'building-address':
+                                          '${detail.getDetailBuilding.location!.district!.name!} - ${detail.getDetailBuilding.location!.city!.name!}',
+                                      'building-price': Helper.convertToIdr(
+                                          detail
+                                              .getDetailBuilding.price!.monthly,
+                                          0,
+                                          true)
+                                    });
                 },
                 textButton: 'Book Now',
                 buttonHeight: 37.h,

@@ -11,6 +11,7 @@ class BuildingDetailModel {
   String? owner;
   Location? location;
   Agent? agent;
+  List<ReservationList>? reservation;
 
   BuildingDetailModel(
       {this.id,
@@ -24,7 +25,8 @@ class BuildingDetailModel {
       this.price,
       this.owner,
       this.location,
-      this.agent});
+      this.agent,
+      this.reservation});
 
   BuildingDetailModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -50,6 +52,13 @@ class BuildingDetailModel {
     location =
         json['location'] != null ? Location.fromJson(json['location']) : null;
     agent = json['agent'] != null ? Agent.fromJson(json['agent']) : null;
+
+    if (json['reservations'] != null) {
+      reservation = <ReservationList>[];
+      json['reservations'].forEach((v) {
+        reservation!.add(ReservationList.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -289,6 +298,25 @@ class Agent {
     data['email'] = email;
     data['phone'] = phone;
     data['picture'] = picture;
+    return data;
+  }
+}
+
+class ReservationList {
+  String? startDate;
+  String? endDate;
+
+  ReservationList({this.startDate, this.endDate});
+
+  ReservationList.fromJson(Map<String, dynamic> json) {
+    startDate = json['startDate'];
+    endDate = json['endDate'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['startDate'] = startDate;
+    data['endDate'] = endDate;
     return data;
   }
 }
